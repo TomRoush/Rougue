@@ -7,11 +7,12 @@ public class TileMapData1
 	public int sizeY; 
 	public int nRooms;
 	
-	public int[,] mapData;
+	public int[,] mapData;//creates an array to store ints with map data (key above on lines 14-22)
 	
 	List<RoomData> rooms;
 	
 	/*
+	 * key for map data
 	 * 0=unknown
 	 * 1=floor
 	 * 2=wall
@@ -20,18 +21,21 @@ public class TileMapData1
 	 * 5=goal
 	 * */
 	
-	protected class RoomData
+	protected class RoomData//RoomData objects hold the data for a single room
 	{
+		//left, bottom, width and height are needed to create a room
 		public int left;
 		public int bottom;
 		public int width;
 		public int height;
 		public int roomNum;
-		public List<RoomData> connectedWith = new List<RoomData>();
+		public List<RoomData> connectedWith = new List<RoomData>();//keeps a list of rooms connected with this room 
+													// used to make sure all of them are eventually connected to the spawn
 
-		public bool isConnected = false;
+		public bool isConnected = false;//will be true when connected with the spawn room
 
-		public int right 
+		//right, and top are used to help with finding overlapping rooms
+		public int right
 		{
 			get{return left + width - 1;}
 		}
@@ -40,7 +44,8 @@ public class TileMapData1
 		{
 			get{return bottom + height - 1;}
 		}
-		
+
+		//centerX and centerY help to connect rooms
 		public int centerX
 		{
 			get{return left + width/2 - 1;}
@@ -50,8 +55,8 @@ public class TileMapData1
 		{
 			get{return bottom + height/2 - 1;}
 		}
-		
-		public bool CollidesWith(RoomData other) 
+
+		public bool CollidesWith(RoomData other)//returns true if the room will collide with another room
 		{
 			if(left > other.right || right < other.left-1 || bottom > other.top || top < other.bottom-1)
 				return false;
@@ -60,7 +65,7 @@ public class TileMapData1
 		}
 	}
 	
-	public TileMapData1(int sizeX, int sizeY, int nRooms) 
+	public TileMapData1(int sizeX, int sizeY, int nRooms) //holds the data for the entire map
 	{
 		RoomData r;
 		this.sizeX = sizeX;
@@ -73,34 +78,36 @@ public class TileMapData1
 		{
 			for(int y=0; y<sizeY; y++)
 			{
-				mapData[x,y] = 3;
+				mapData[x,y] = 3;//initializes the entire array with filler tiles
 			}
 		}
 		
 		rooms = new List<RoomData>();
 		
-		int maxFails = 20;
+		int maxFails = 20;//will stop an infinite loop from trying to create rooms that won't physically fit in the map
 		while(rooms.Count<nRooms)
 		{
-			int roomSizeX = Random.Range (7,12);
-			int roomSizeY = Random.Range (7,12);
-			
+			int roomSizeX = Random.Range (7,12);//width will be b/n these numbers
+			int roomSizeY = Random.Range (7,12);//height will be b/n these numbers
+
+			//creates new room
 			r = new RoomData();
 			r.left = Random.Range(1,sizeX-roomSizeX);
 			r.bottom = Random.Range(1,sizeY-roomSizeY);
 			r.width = roomSizeX;
 			r.height = roomSizeY;
-			r.roomNum = rooms.Count+1;
+
+			r.roomNum = rooms.Count+1;//used to choose spawn/goal and for debugging
 			
-			if(!RoomCollides(r))
+			if(!RoomCollides(r))//makes sure the room won't collide with the existing list of rooms
 			{
 				rooms.Add(r);
 				MakeRoom (r);
-				if(r.roomNum==1)
+				if(r.roomNum==1)//creates the spawn if this is the first room
 				{
 					MakeSpawn(r);
 				}
-				if(rooms.Count==3)
+				if(rooms.Count==3)//creates the goal if this is the third room
 				{
 					MakeGoal(r);
 				}
@@ -112,9 +119,11 @@ public class TileMapData1
 					break;
 			}
 		}
+
 		//make the corridors
 		for(int i=0; i < rooms.Count; i++) 
 		{
+			//(i + j) % rooms.Count
 			/* if i=0, numRooms = 4, j = 1(min)
 			 * makecorridor b/n room index 0(spawn), and room 1%4 = 1 (one more than i)
 			 * if i = 7, numRooms = 10, j = 9(max)
@@ -122,16 +131,14 @@ public class TileMapData1
 			 * */
 			//if(!rooms[i].isConnected) 
 			{
-				while(!rooms[i].isConnected)
+				while(!rooms[i].isConnected)//repeat untill the room is connected to the spawn
 				{
 					int j = Random.Range(1, rooms.Count);
-					MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);
+					MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);//(i + j) % rooms.Count will choose a room to connect to excluding room i (proven above)
 				}
 			}
 		}
-		
 		MakeWalls ();
-		
 	}
 	
 	bool RoomCollides(RoomData r)
@@ -157,63 +164,61 @@ public class TileMapData1
 		{
 			for(int y = 0; y < r.height; y++)
 			{
-				if(x == r.width-1 || y == r.height-1)
-					mapData[r.left+x,r.bottom+y] = 3;
+				if(x == r.width-1 || y == r.height-1)//checks if this is the outermost tile of the room
+					mapData[r.left+x,r.bottom+y] = 3;//makes a wall tile
 				else
-				mapData[r.left+x,r.bottom+y] = 1;
+				mapData[r.left+x,r.bottom+y] = 1;//makes a floor tile
 			}
 		}
 	}
 	
-	void MakeCorridor(RoomData r1, RoomData r2)//moves in y first then x direction eventually make other corridor types
+	void MakeCorridor(RoomData r1, RoomData r2)//moves in x first then y direction eventually will make other corridor types
 	{
 		int x = r1.centerX;
 		int y = r1.centerY;
 		
-		while(x!=r2.centerX)
+		while(x!=r2.centerX)//creates the corridor by moving the x coordinate from the center of room r1 to the center of r2
 		{
-			//if(mapData[x,y] != 4 && mapData[x,y] != 5 && mapData[x,y+1] != 4 && mapData[x,y+1] != 5)
+			if(x<r2.centerX && mapData[x+2,y] != 4 && mapData[x+2,y] != 5 && mapData[x+2,y+1] != 4 && mapData[x+2,y+1] != 5)//makes sure this tile isn't the player or exit
 			{
-				if(x<r2.centerX && mapData[x+2,y] != 4 && mapData[x+2,y] != 5 && mapData[x+2,y+1] != 4 && mapData[x+2,y+1] != 5)
-				{
-					mapData[x+2,y] = 1;
-					mapData[x+2,y+1] = 1;
-				}
-				else if (mapData[x-1,y] != 4 && mapData[x-1,y] != 5 && mapData[x-1,y+1] != 4 && mapData[x-1,y+1] != 5)
-				{
-					mapData[x-1,y] = 1;
-					mapData[x-1,y+1] = 1;
-				}
+				mapData[x+2,y] = 1;//these are the floor tiles of the corridors same for the code below (lines 189-190, 201-202, etc)
+				mapData[x+2,y+1] = 1;
+			}
+			else if (mapData[x-1,y] != 4 && mapData[x-1,y] != 5 && mapData[x-1,y+1] != 4 && mapData[x-1,y+1] != 5)
+			{
+				mapData[x-1,y] = 1;
+				mapData[x-1,y+1] = 1;
 			}
 			if(x<r2.centerX)
 				x++;
 			else 			
 				x--;			
 		}
-		while(y!=r2.centerY)
+		while(y!=r2.centerY)//creates the corridor by moving the y coordinate from the center of room r1 to the center of r2
 		{
 			if(mapData[x,y+1] != 4 && mapData[x,y+1] != 5 && mapData[x+1,y+1] != 4 && mapData[x+1,y+1] != 5)//will not put tiles over the player spawn or goal
 			{
 				mapData[x,y+1] = 1;
 				mapData[x+1,y+1] = 1;
 			}
-			//if(x>r2.centerX) //90% sure this wasn't supposed to be here
+			if(mapData[x,y+2] != 4 && mapData[x,y+2] != 5 && mapData[x,y-1] != 4 && mapData[x,y-1] != 5)
 			{
-				if(mapData[x,y+2] != 4 && mapData[x,y+2] != 5 && mapData[x,y-1] != 4 && mapData[x,y-1] != 5)
-				{
-					if(y<r2.centerY)
-						mapData[x,y+2] = 1;
-					else
-						mapData[x,y-1] = 1;
-				}
+				if(y<r2.centerY)
+					mapData[x,y+2] = 1;
+				else
+					mapData[x,y-1] = 1;
 			}
 			if(y<r2.centerY)
 				y++;
 			else 
 				y--;
 		}
-		if(r1.roomNum == 1 || r2.roomNum == 1 || r1.isConnected || r2.isConnected)
+
+		//make sure the room is connected 
+		//uncomment debug statements to see the process for setting isConnected
+		if(r1.roomNum == 1 || r2.roomNum == 1 || r1.isConnected || r2.isConnected)//if one of these rooms is #1(spawn room) or is connected to the spawn room
 		{
+			//set both rooms to connected and add them to each others connectedWith list
 			r1.isConnected = true;
 			r1.connectedWith.Add(r2);
 			//Debug.Log ("Added room " + r1.connectedWith[(r1.connectedWith.Count-1)].roomNum + " to the list for room" + r1.roomNum);
@@ -224,7 +229,7 @@ public class TileMapData1
 			//Debug.Log ("Room " + r2.roomNum + " isConnected = true");
 			if(r1.connectedWith.Count>0)
 			{
-				for(int i = 0; i<r1.connectedWith.Count; i++)
+				for(int i = 0; i<r1.connectedWith.Count; i++)//runs through the list of rooms connected with this one and sets isConnected to true
 				{
 					r1.connectedWith[i].isConnected = true;
 					//Debug.Log ("Room " + r1.connectedWith[i].roomNum + " isConnected = true");
@@ -232,7 +237,7 @@ public class TileMapData1
 			}
 			if(r2.connectedWith.Count>0)
 			{
-				for(int i = 0; i<r2.connectedWith.Count; i++)
+				for(int i = 0; i<r2.connectedWith.Count; i++)//same as above
 				{
 					r2.connectedWith[i].isConnected = true;
 					//Debug.Log ("Room " + r2.connectedWith[i].roomNum + " isConnected = true");
@@ -240,7 +245,9 @@ public class TileMapData1
 			}
 		}
 	}
-	
+
+	//MakeWalls() finds all filler tiles (darker gray) next to floor tiles and makes them wall tiles
+	//I found this to be better than making them as you make the corridors/rooms so you don't block off certain areas
 	void MakeWalls()
 	{
 		for(int x=0; x < sizeX; x++)
@@ -255,7 +262,7 @@ public class TileMapData1
 		}
 	}
 	
-	bool HasAdjacentFloors(int x, int y)
+	bool HasAdjacentFloors(int x, int y)// used in the MakeWall() method to determine if a certain filler tile has a floor adjacent to it (includes diagonals)
 	{
 		if(x>0 && (mapData[x-1,y] == 1 || mapData[x-1,y] == 4 || mapData[x-1,y] == 5))
 			return true;
@@ -265,7 +272,8 @@ public class TileMapData1
 			return true;
 		if(y<sizeY-1 && (mapData[x,y+1] == 1 || mapData[x,y+1] == 4 || mapData[x,y+1] == 5))
 			return true;
-		
+
+		//diagonals
 		if(x>0 && y>0 && (mapData[x-1, y-1] == 1 || mapData[x-1, y-1] == 4 || mapData[x-1, y-1] == 5))
 			return true;
 		if(x<sizeX-1 && y>0 && (mapData[x+1, y-1] == 1 || mapData[x+1, y-1] == 4 || mapData[x+1, y-1] == 5))
@@ -274,18 +282,17 @@ public class TileMapData1
 			return true;
 		if(x<sizeX-1 && y<sizeY-1 && (mapData[x+1, y+1] == 1 || mapData[x+1, y+1] == 4 || mapData[x+1, y+1] == 5))
 			return true;
-		
 		return false;
 	}
 	
-	void MakeSpawn(RoomData r)
+	void MakeSpawn(RoomData r)//chooses a random location in the spawn room to spawn the player
 	{
 		int x = Random.Range (r.left+1, r.left+r.width-1);
 		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
 		mapData[x, y] = 4;
 	}
 	
-	void MakeGoal(RoomData r)
+	void MakeGoal(RoomData r)//chooses a random location in the goal room for the exit
 	{
 		int x = Random.Range (r.left+1, r.left+r.width-1);
 		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
