@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TileMapData1 : MonoBehaviour 
+public class TileMapData1 
 {
 	public int sizeX;
 	public int sizeY; 
