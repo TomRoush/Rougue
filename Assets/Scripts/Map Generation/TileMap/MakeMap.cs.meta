@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7078da2d949618f499818d72db986fbd
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Unknown: {instanceID: 0}
+  - Floor: {instanceID: 0}
+  - Wall: {instanceID: 0}
+  - Filler: {instanceID: 0}
+  - Player: {instanceID: 0}
+  - Goal: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
