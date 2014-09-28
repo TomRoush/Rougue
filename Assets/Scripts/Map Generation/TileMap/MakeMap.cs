@@ -15,12 +15,13 @@ public class MakeMap : MonoBehaviour
 	
 	void Start () 
 	{
-		Invoke ("GenMap", 0f);
+		Invoke ("PlaceMap", 0f);
 	}
 
-	void GenMap()
+	void PlaceMap()
 	{
-		TileMapData1 map = new TileMapData1(xMax,yMax, nRooms);
+		TileMapData map = new TileMapData();
+        map.GenClassic(xMax,yMax,nRooms);
 
 		for(int y=0; y<map.sizeY; y++)
 		{
