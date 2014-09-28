@@ -21,7 +21,11 @@ public class MakeMap : MonoBehaviour
 	void PlaceMap()
 	{
 		TileMapData map = new TileMapData();
-        map.GenClassic(xMax,yMax,nRooms);
+
+        if(Random.Range(0.0f,2.0f) > 1.0)
+            map.GenCave(xMax,yMax);
+        else
+            map.GenClassic(xMax,yMax, nRooms);
 
 		for(int y=0; y<map.sizeY; y++)
 		{

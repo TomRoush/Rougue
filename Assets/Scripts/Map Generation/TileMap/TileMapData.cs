@@ -59,11 +59,22 @@ public partial class TileMapData
 				return true;
 		}
 	}
-
+    
+    
 
     public int GetTileAt(int x, int y)
     {
         return mapData[x,y];
+    }
+
+    private int[,] createFilledMapArray(int Filler = 3)
+    {
+        int[,] tmp = new int[this.sizeX,this.sizeY];
+        for(int i = 0; i < sizeX; i++)
+            for(int j = 0; j < sizeY; j++)
+                tmp[i,j] = Filler;
+
+        return tmp;
     }
 } 
 

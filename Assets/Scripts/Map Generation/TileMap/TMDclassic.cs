@@ -10,15 +10,8 @@ public partial class TileMapData
 		this.sizeY = sizeY;
 		this.nRooms = nRooms;
 		
-		mapData = new int[sizeX, sizeY];
+		mapData = createFilledMapArray();;
 		
-		for(int x=0; x<sizeX; x++)
-		{
-			for(int y=0; y<sizeY; y++)
-			{
-				mapData[x,y] = 3;
-			}
-		}
 		
 		rooms = new List<RoomData>();
 		
