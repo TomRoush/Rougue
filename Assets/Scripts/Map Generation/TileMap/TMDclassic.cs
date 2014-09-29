@@ -1,81 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TileMapData1 : MonoBehaviour 
+public partial class TileMapData
 {
-	public int sizeX;
-	public int sizeY; 
-	public int nRooms;
-	
-	public int[,] mapData;
-	
-	List<RoomData> rooms;
-	
-	/*
-	 * 0=unknown
-	 * 1=floor
-	 * 2=wall
-	 * 3=filler
-	 * 4=playerspawn
-	 * 5=goal
-	 * */
-	
-	protected class RoomData
-	{
-		public int left;
-		public int bottom;
-		public int width;
-		public int height;
-		public int roomNum;
-		public List<RoomData> connectedWith = new List<RoomData>();
-
-		public bool isConnected = false;
-
-		public int right 
-		{
-			get{return left + width - 1;}
-		}
-		
-		public int top
-		{
-			get{return bottom + height - 1;}
-		}
-		
-		public int centerX
-		{
-			get{return left + width/2 - 1;}
-		}
-		
-		public int centerY
-		{
-			get{return bottom + height/2 - 1;}
-		}
-		
-		public bool CollidesWith(RoomData other) 
-		{
-			if(left > other.right || right < other.left-1 || bottom > other.top || top < other.bottom-1)
-				return false;
-			else 
-				return true;
-		}
-	}
-	
-	public TileMapData1(int sizeX, int sizeY, int nRooms) 
+	public void GenClassic(int sizeX, int sizeY, int nRooms) 
 	{
 		RoomData r;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nRooms = nRooms;
 		
-		mapData = new int[sizeX, sizeY];
+		mapData = createFilledMapArray();;
 		
-		for(int x=0; x<sizeX; x++)
-		{
-			for(int y=0; y<sizeY; y++)
-			{
-				mapData[x,y] = 3;
-			}
-		}
 		
 		rooms = new List<RoomData>();
 		
@@ -146,10 +82,6 @@ public class TileMapData1 : MonoBehaviour
 		return false;
 	}
 	
-	public int GetTileAt(int x, int y)
-	{
-		return mapData[x,y];
-	}
 	
 	void MakeRoom(RoomData r)
 	{

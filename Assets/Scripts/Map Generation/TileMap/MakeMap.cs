@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MakeMap1 : MonoBehaviour 
+public class MakeMap : MonoBehaviour 
 {
 	public GameObject Unknown;
 	public GameObject Floor;
@@ -15,12 +15,17 @@ public class MakeMap1 : MonoBehaviour
 	
 	void Start () 
 	{
-		Invoke ("Test", 0f);
+		Invoke ("PlaceMap", 0f);
 	}
 
-	void Test()
+	void PlaceMap()
 	{
-		TileMapData1 map = new TileMapData1(xMax,yMax, nRooms);
+		TileMapData map = new TileMapData();
+
+        if(Random.Range(0.0f,2.0f) > 1.0)
+            map.GenCave(xMax,yMax);
+        else
+            map.GenClassic(xMax,yMax, nRooms);
 
 		for(int y=0; y<map.sizeY; y++)
 		{
