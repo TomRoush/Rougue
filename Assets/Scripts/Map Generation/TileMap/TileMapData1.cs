@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+//GIT TEST
 public class TileMapData1 
 {
 	public int sizeX;
