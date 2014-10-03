@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	public float speed;
+	public bool paused;
 	private Vector3 moveDirection;
 	public float turnSpeed;
 	void Start () {
