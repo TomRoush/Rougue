@@ -73,15 +73,6 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void UpdateGameState()
-	{
-		Time.timeScale = paused ? 0 : 1;
-//		if (paused) 
-//		{
-//			OnGUI ();
-//		}
-	}
-
 	public void Respawn(Vector3 spawnPt)
 	{
 		transform.position = spawnPt;
