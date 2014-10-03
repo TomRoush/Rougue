@@ -1,78 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-//GIT TEST
-public class TileMapData1 
+
+public partial class TileMapData
 {
-	public int sizeX;
-	public int sizeY; 
-	public int nRooms;
-	
-	public int[,] mapData;//creates an array to store ints with map data (key above on lines 14-22)
-	
-	List<RoomData> rooms;
-	
-	/*
-	 * key for map data
-	 * 0=unknown
-	 * 1=floor
-	 * 2=wall
-	 * 3=filler
-	 * 4=playerspawn
-	 * 5=goal
-	 * */
-	
-	protected class RoomData//RoomData objects hold the data for a single room
-	{
-		//left, bottom, width and height are needed to create a room
-		public int left;
-		public int bottom;
-		public int width;
-		public int height;
-		public int roomNum;
-		public List<RoomData> connectedWith = new List<RoomData>();//keeps a list of rooms connected with this room 
-													// used to make sure all of them are eventually connected to the spawn
-
-		public bool isConnected = false;//will be true when connected with the spawn room
-
-		//right, and top are used to help with finding overlapping rooms
-		public int right
-		{
-			get{return left + width - 1;}
-		}
-		
-		public int top
-		{
-			get{return bottom + height - 1;}
-		}
-
-		//centerX and centerY help to connect rooms
-		public int centerX
-		{
-			get{return left + width/2 - 1;}
-		}
-		
-		public int centerY
-		{
-			get{return bottom + height/2 - 1;}
-		}
-
-		public bool CollidesWith(RoomData other)//returns true if the room will collide with another room
-		{
-			if(left > other.right || right < other.left-1 || bottom > other.top || top < other.bottom-1)
-				return false;
-			else 
-				return true;
-		}
-	}
-	
-	public TileMapData1(int sizeX, int sizeY, int nRooms) //holds the data for the entire map
+	public void GenClassic(int sizeX, int sizeY, int nRooms) 
 	{
 		RoomData r;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.nRooms = nRooms;
 		
-		mapData = new int[sizeX, sizeY];
+		mapData = createFilledMapArray();;
 		
 		for(int x=0; x<sizeX; x++)
 		{
@@ -153,10 +91,6 @@ public class TileMapData1
 		return false;
 	}
 	
-	public int GetTileAt(int x, int y)
-	{
-		return mapData[x,y];
-	}
 	
 	void MakeRoom(RoomData r)
 	{
