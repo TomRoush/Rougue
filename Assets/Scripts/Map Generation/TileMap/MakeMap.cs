@@ -32,6 +32,7 @@ public class MakeMap : MonoBehaviour
 			for(int x=0; x<map.sizeX; x++)
 			{
 				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
+				//if logic instantiates the proper prefab
 				if(map.GetTileAt(x,y) == 0)
 					Instantiate(Unknown, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == 1)
@@ -42,7 +43,7 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Filler, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == 4)
 				{
-					Instantiate(Player, tilePos, Quaternion.identity);
+					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == 5)
