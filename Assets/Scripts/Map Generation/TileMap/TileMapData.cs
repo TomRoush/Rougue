@@ -76,5 +76,12 @@ public partial class TileMapData
 
         return tmp;
     }
+
+    public int[,] copyMapArray() //May be buggy, not fully tested
+    {
+        int[,] ret = (int[,]) mapData.Clone();
+        return ret;   
+
+    }
 } 
 

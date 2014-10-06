@@ -24,8 +24,6 @@ public partial class TileMapData
 	
         caveMakeSpawn();
         caveMakeGoal();
-
-	//	MakeWalls ();
 		
 	}
 	
@@ -108,6 +106,7 @@ public partial class TileMapData
             }
         return numWalls;
     }
+   
    
 
     void caveMakeSpawn()
