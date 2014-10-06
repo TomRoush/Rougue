@@ -7,7 +7,7 @@ public partial class TileMapData
 	public int sizeY; 
 	public int nRooms;
 	
-	public int[,] mapData;
+	private int[,] mapData;
 	
 	List<RoomData> rooms;
 	
@@ -77,7 +77,7 @@ public partial class TileMapData
         return tmp;
     }
 
-    public int[,] copyMapArray() //May be buggy, not fully tested
+    public int[,] copyMapArray() 
     {
         int[,] ret = (int[,]) mapData.Clone();
         return ret;   
