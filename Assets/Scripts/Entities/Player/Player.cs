@@ -3,10 +3,17 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
+
+	//public enumerator to easily communicate current game state
+	public enum GameState { PLAYING, PAUSED };
+	public static GameState gameState = GameState.PLAYING;
+
 	public float speed;
-	public bool paused;
-	private Vector3 moveDirection;
 	public float turnSpeed;
+	public static bool paused = false;
+
+	private Vector3 moveDirection;
+
 	void Start () {
 	
 	}
@@ -62,17 +69,16 @@ public class Player : MonoBehaviour
 		} 
 	}
 
+//	public static enum getGameState()
+//	{
+//		return gameState;
+//	}
+
 	void UpdateGameState()
 	{
 		Time.timeScale = paused ? 0 : 1;
-	}
 
-	void OnGUI()
-	{
-		if (paused) 
-		{
-			GUI.Label (new Rect (50, 50, 75, 75), "PAUSED");
-		}
+		gameState = paused ? GameState.PAUSED : GameState.PLAYING;
 	}
 
 	void OnTriggerEnter2D( Collider2D other )
