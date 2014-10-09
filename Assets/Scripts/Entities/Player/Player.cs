@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
 
 	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED };
+	public enum GameState { PLAYING, PAUSED, MENU };
 	public static GameState playerState = GameState.PLAYING;
 
 	public float speed;
@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 	private Vector3 moveDirection;
 
 	void Start () {
+
+		paused = false;
 	
 	}
 	
@@ -38,6 +40,9 @@ public class Player : MonoBehaviour
 			//transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
 		}
 		//*/
+
+		//consider taking out for less calls
+
 		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 		{
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
@@ -65,11 +70,11 @@ public class Player : MonoBehaviour
 				paused = true;
 			}
 
-			UpdateGameState();
-		} 
+		}
+		UpdateGameState();
 	}
 
-	//NEEDS TO BE CALLED WHENEVER PAUSE VALUE IS CHANGED
+	//NEEDS TO BE CALLED
 	
 	void UpdateGameState()
 	{
@@ -83,11 +88,15 @@ public class Player : MonoBehaviour
 	{
 		if (paused) 
 		{
-			if(GUI.Button (new Rect((Screen.width)/2, (Screen.height)/2, 150, 50), "CONTINUE BLEEDING")) 
+			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 75, 50), "MENU")) 
+			{
+				paused = true;
+				Application.LoadLevel("MainMenu");
+			}
+			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 75, 50), "CONTINUE")) 
 			{
 				paused = false;
-				UpdateGameState();
-//				Debug.Log("BUTTON HIT");
+				//	Debug.Log("BUTTON HIT");
 			}
 		}
 	}
@@ -97,6 +106,9 @@ public class Player : MonoBehaviour
 		if(other.CompareTag("goal")) 
 		{
 			Application.LoadLevel ("TileMapTester");
+		} else
+		{
+			Application.LoadLevel ("MainMenu");
 		}
 	}
 
