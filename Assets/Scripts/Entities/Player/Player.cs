@@ -3,11 +3,20 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
+
+	//public enumerator to easily communicate current game state
+	public enum GameState { PLAYING, PAUSED, MENU };
+	public static GameState playerState = GameState.PLAYING;
+
 	public float speed;
-	public bool paused;
-	private Vector3 moveDirection;
 	public float turnSpeed;
+	public static bool paused = false;
+
+	private Vector3 moveDirection;
+
 	void Start () {
+
+		paused = false;
 	
 	}
 	
@@ -31,19 +40,22 @@ public class Player : MonoBehaviour
 			//transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
 		}
 		//*/
-		if (Input.GetKey (KeyCode.W)) 
+
+		//consider taking out for less calls
+
+		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 		{
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.A)) 
+		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
 		{
 			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.S)) 
+		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
 		{
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.D)) 
+		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
 		{			
 			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
 		}
@@ -58,20 +70,34 @@ public class Player : MonoBehaviour
 				paused = true;
 			}
 
-			UpdateGameState();
-		} 
+		}
+		UpdateGameState();
 	}
 
+	//NEEDS TO BE CALLED
+	
 	void UpdateGameState()
 	{
 		Time.timeScale = paused ? 0 : 1;
+		
+		playerState = paused ? GameState.PAUSED : GameState.PLAYING;
+
 	}
 
-	void OnGUI()
+	void OnGUI() 
 	{
 		if (paused) 
 		{
-			GUI.Label (new Rect (50, 50, 75, 75), "PAUSED");
+			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 75, 50), "MENU")) 
+			{
+				paused = true;
+				Application.LoadLevel("MainMenu");
+			}
+			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 75, 50), "CONTINUE")) 
+			{
+				paused = false;
+				//	Debug.Log("BUTTON HIT");
+			}
 		}
 	}
 
@@ -80,6 +106,9 @@ public class Player : MonoBehaviour
 		if(other.CompareTag("goal")) 
 		{
 			Application.LoadLevel ("TileMapTester");
+		} else
+		{
+			Application.LoadLevel ("MainMenu");
 		}
 	}
 
