@@ -12,6 +12,9 @@ public class MakeMap : MonoBehaviour
 	public int xMax;
 	public int yMax;
 	public int nRooms;
+
+	public enum Tiles {Unknown, Floor, Wall, Filler, Player, Goal};
+
 	
 	void Start () 
 	{
@@ -32,20 +35,21 @@ public class MakeMap : MonoBehaviour
 			for(int x=0; x<map.sizeX; x++)
 			{
 				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
-				if(map.GetTileAt(x,y) == 0)
+				//if logic instantiates the proper prefab
+				if(map.GetTileAt(x,y) == (int)Tiles.Unknown)
 					Instantiate(Unknown, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 1)
+				else if(map.GetTileAt(x,y) == (int)Tiles.Floor)
 					Instantiate(Floor, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 2)
+				else if(map.GetTileAt(x,y) == (int)Tiles.Wall)
 					Instantiate(Wall, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 3)
+				else if(map.GetTileAt(x,y) == (int)Tiles.Filler)
 					Instantiate(Filler, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 4)
+				else if(map.GetTileAt(x,y) == (int)Tiles.Player)
 				{
-					Instantiate(Player, tilePos, Quaternion.identity);
+					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
-				else if(map.GetTileAt(x,y) == 5)
+				else if(map.GetTileAt(x,y) == (int)Tiles.Goal)
 				{
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}

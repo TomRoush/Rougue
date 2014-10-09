@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	public float speed;
+	public bool paused;
 	private Vector3 moveDirection;
 	public float turnSpeed;
 	void Start () {
@@ -45,6 +46,32 @@ public class Player : MonoBehaviour
 		if (Input.GetKey (KeyCode.D)) 
 		{			
 			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
+		}
+		if(Input.GetKeyDown (KeyCode.Escape)) 
+		{
+			if(paused)
+			{
+				paused = false;
+			}
+			else
+			{
+				paused = true;
+			}
+
+			UpdateGameState();
+		} 
+	}
+
+	void UpdateGameState()
+	{
+		Time.timeScale = paused ? 0 : 1;
+	}
+
+	void OnGUI()
+	{
+		if (paused) 
+		{
+			GUI.Label (new Rect (50, 50, 75, 75), "PAUSED");
 		}
 	}
 
