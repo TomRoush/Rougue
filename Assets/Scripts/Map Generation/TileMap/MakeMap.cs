@@ -61,9 +61,10 @@ public class MakeMap : MonoBehaviour
 		int countEnemies = 0;
 		while(countEnemies != numEnemies)
 		{
-			Vector3 tilePos = new Vector3(Random.Range (0,xMax), Random.Range (0,yMax), Floor.transform.position.z);
+			int x = Random.Range (0,xMax), y = Random.Range (0,yMax);
+			Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
 				if(countEnemies == numEnemies) break;
-				if(map.GetTileAt[x,y] == (int)Tiles.Floor)
+				if(map.GetTileAt(x,y) == (int)Tiles.Floor)
 					Instantiate (Enemy, tilePos, Quaternion.identity);
 		}
 	}
