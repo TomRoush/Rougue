@@ -91,9 +91,9 @@ public partial class TileMapData
 			for(int y = 0; y < r.height; y++)
 			{
 				if(x == r.width-1 || y == r.height-1)//checks if this is the outermost tile of the room
-					mapData[r.left+x,r.bottom+y] = 3;//makes a wall tile
+					mapData[r.left+x,r.bottom+y] = eTile.Wall;//makes a wall tile
 				else
-				mapData[r.left+x,r.bottom+y] = 1;//makes a floor tile
+				mapData[r.left+x,r.bottom+y] = eTile.Floor;//makes a floor tile
 			}
 		}
 	}
@@ -105,15 +105,15 @@ public partial class TileMapData
 		
 		while(x!=r2.centerX)//creates the corridor by moving the x coordinate from the center of room r1 to the center of r2
 		{
-			if(x<r2.centerX && mapData[x+2,y] != 4 && mapData[x+2,y] != 5 && mapData[x+2,y+1] != 4 && mapData[x+2,y+1] != 5)//makes sure this tile isn't the player or exit
+			if(x<r2.centerX && mapData[x+2,y] != eTile.Player && mapData[x+2,y] != eTile.Goal && mapData[x+2,y+1] != eTile.Player && mapData[x+2,y+1] != eTile.Goal)//makes sure this tile isn't the player or exit
 			{
-				mapData[x+2,y] = 1;//these are the floor tiles of the corridors same for the code below (lines 189-190, 201-202, etc)
-				mapData[x+2,y+1] = 1;
+				mapData[x+2,y] = eTile.Floor;//these are the floor tiles of the corridors same for the code below (lines 189-190, 201-202, etc)
+				mapData[x+2,y+1] = eTile.Floor;
 			}
-			else if (mapData[x-1,y] != 4 && mapData[x-1,y] != 5 && mapData[x-1,y+1] != 4 && mapData[x-1,y+1] != 5)
+			else if (mapData[x-1,y] != eTile.Player && mapData[x-1,y] != eTile.Goal && mapData[x-1,y+1] != eTile.Player && mapData[x-1,y+1] != eTile.Goal)
 			{
-				mapData[x-1,y] = 1;
-				mapData[x-1,y+1] = 1;
+				mapData[x-1,y] = eTile.Floor;
+				mapData[x-1,y+1] = eTile.Floor;
 			}
 			if(x<r2.centerX)
 				x++;
@@ -122,17 +122,17 @@ public partial class TileMapData
 		}
 		while(y!=r2.centerY)//creates the corridor by moving the y coordinate from the center of room r1 to the center of r2
 		{
-			if(mapData[x,y+1] != 4 && mapData[x,y+1] != 5 && mapData[x+1,y+1] != 4 && mapData[x+1,y+1] != 5)//will not put tiles over the player spawn or goal
+			if(mapData[x,y+1] != eTile.Player && mapData[x,y+1] != eTile.Goal && mapData[x+1,y+1] != eTile.Player && mapData[x+1,y+1] != eTile.Goal)//will not put tiles over the player spawn or goal
 			{
-				mapData[x,y+1] = 1;
-				mapData[x+1,y+1] = 1;
+				mapData[x,y+1] = eTile.Floor;
+				mapData[x+1,y+1] = eTile.Floor;
 			}
-			if(mapData[x,y+2] != 4 && mapData[x,y+2] != 5 && mapData[x,y-1] != 4 && mapData[x,y-1] != 5)
+			if(mapData[x,y+2] != eTile.Player && mapData[x,y+2] != eTile.Goal && mapData[x,y-1] != eTile.Player && mapData[x,y-1] != eTile.Goal)
 			{
 				if(y<r2.centerY)
-					mapData[x,y+2] = 1;
+					mapData[x,y+2] = eTile.Floor;
 				else
-					mapData[x,y-1] = 1;
+					mapData[x,y-1] = eTile.Floor;
 			}
 			if(y<r2.centerY)
 				y++;
@@ -180,9 +180,9 @@ public partial class TileMapData
 		{
 			for(int y=0; y < sizeY; y++)
 			{
-				if(mapData[x,y] == 3 && HasAdjacentFloors(x,y))
+				if(mapData[x,y] == eTile.Filler && HasAdjacentFloors(x,y))
 				{
-					mapData[x,y] = 2;
+					mapData[x,y] = eTile.Wall;
 				}	
 			}
 		}
@@ -190,23 +190,23 @@ public partial class TileMapData
 	
 	bool HasAdjacentFloors(int x, int y)// used in the MakeWall() method to determine if a certain filler tile has a floor adjacent to it (includes diagonals)
 	{
-		if(x>0 && (mapData[x-1,y] == 1 || mapData[x-1,y] == 4 || mapData[x-1,y] == 5))
+		if(x>0 && (mapData[x-1,y] == eTile.Floor || mapData[x-1,y] == eTile.Player || mapData[x-1,y] == eTile.Goal))
 			return true;
-		if(x<sizeX-1 && (mapData[x+1,y] == 1 || mapData[x+1,y] == 4 || mapData[x+1,y] == 5))
+		if(x<sizeX-1 && (mapData[x+1,y] == eTile.Floor || mapData[x+1,y] == eTile.Player || mapData[x+1,y] == eTile.Goal))
 			return true;
-		if(y>0 && (mapData[x,y-1] == 1 || mapData[x,y-1] == 4 || mapData[x,y-1] == 5))
+		if(y>0 && (mapData[x,y-1] == eTile.Floor || mapData[x,y-1] == eTile.Player || mapData[x,y-1] == eTile.Goal))
 			return true;
-		if(y<sizeY-1 && (mapData[x,y+1] == 1 || mapData[x,y+1] == 4 || mapData[x,y+1] == 5))
+		if(y<sizeY-1 && (mapData[x,y+1] == eTile.Floor || mapData[x,y+1] == eTile.Player || mapData[x,y+1] == eTile.Goal))
 			return true;
 
 		//diagonals
-		if(x>0 && y>0 && (mapData[x-1, y-1] == 1 || mapData[x-1, y-1] == 4 || mapData[x-1, y-1] == 5))
+		if(x>0 && y>0 && (mapData[x-1, y-1] == eTile.Floor || mapData[x-1, y-1] == eTile.Player || mapData[x-1, y-1] == eTile.Goal))
 			return true;
-		if(x<sizeX-1 && y>0 && (mapData[x+1, y-1] == 1 || mapData[x+1, y-1] == 4 || mapData[x+1, y-1] == 5))
+		if(x<sizeX-1 && y>0 && (mapData[x+1, y-1] == eTile.Floor || mapData[x+1, y-1] == eTile.Player || mapData[x+1, y-1] == eTile.Goal))
 			return true;
-		if(x>0 && y<sizeY-1 && (mapData[x-1, y+1] == 1 || mapData[x-1, y+1] == 4 || mapData[x-1, y+1] == 5))
+		if(x>0 && y<sizeY-1 && (mapData[x-1, y+1] == eTile.Floor || mapData[x-1, y+1] == eTile.Player || mapData[x-1, y+1] == eTile.Goal))
 			return true;
-		if(x<sizeX-1 && y<sizeY-1 && (mapData[x+1, y+1] == 1 || mapData[x+1, y+1] == 4 || mapData[x+1, y+1] == 5))
+		if(x<sizeX-1 && y<sizeY-1 && (mapData[x+1, y+1] == eTile.Floor || mapData[x+1, y+1] == eTile.Player || mapData[x+1, y+1] == eTile.Goal))
 			return true;
 		return false;
 	}
@@ -215,13 +215,13 @@ public partial class TileMapData
 	{
 		int x = Random.Range (r.left+1, r.left+r.width-1);
 		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
-		mapData[x, y] = 4;
+		mapData[x, y] = eTile.Player;
 	}
 	
 	void MakeGoal(RoomData r)//chooses a random location in the goal room for the exit
 	{
 		int x = Random.Range (r.left+1, r.left+r.width-1);
 		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
-		mapData[x, y] = 5;
+		mapData[x, y] = eTile.Goal;
 	}
 }
