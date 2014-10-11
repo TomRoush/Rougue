@@ -15,6 +15,7 @@ public class MakeMap : MonoBehaviour
 	public int xMax;
 	public int yMax;
 	public int nRooms;
+	public int numEnemies;
 
 
 	
@@ -50,14 +51,24 @@ public class MakeMap : MonoBehaviour
 				{
 					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
-
-					Vector3 enemyPos = new Vector3(x+1, y+1, Floor.transform.position.z);
-					Instantiate (Enemy, enemyPos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}
+			}
+		}
+
+		int countEnemies = 0;
+		while(countEnemies < numEnemies)
+		{
+			int x = Random.Range (0,xMax), y = Random.Range (0,yMax);
+			Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
+			//if(countEnemies == numEnemies) break;
+			if(map.GetTileAt(x,y).Equals(eTile.Floor))
+			{
+				Instantiate (Enemy, tilePos, Quaternion.identity);
+				countEnemies++;
 			}
 		}
 	}
