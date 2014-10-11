@@ -9,9 +9,11 @@ public class MakeMap : MonoBehaviour
 	public GameObject Filler;
 	public GameObject Player;
 	public GameObject Goal;
+	public GameObject Enemy;
 	public int xMax;
 	public int yMax;
 	public int nRooms;
+	public int numEnemies;
 
 	public enum Tiles {Unknown, Floor, Wall, Filler, Player, Goal};
 
@@ -25,7 +27,7 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-        if(Random.Range(0.0f,2.0f) > 1.0)
+        if(false)//Random.Range(0.0f,2.0f) > 1.0)
             map.GenCave(xMax,yMax);
         else
             map.GenClassic(xMax,yMax, nRooms);
@@ -54,6 +56,15 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}
 			}
+		}
+
+		int countEnemies = 0;
+		while(countEnemies != numEnemies)
+		{
+			Vector3 tilePos = new Vector3(Random.Range (0,xMax), Random.Range (0,yMax), Floor.transform.position.z);
+				if(countEnemies == numEnemies) break;
+				if(map.GetTileAt[x,y] == (int)Tiles.Floor)
+					Instantiate (Enemy, tilePos, Quaternion.identity);
 		}
 	}
 }

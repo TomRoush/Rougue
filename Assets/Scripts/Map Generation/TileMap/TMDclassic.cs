@@ -59,9 +59,9 @@ public partial class TileMapData
 			 * if i = 7, numRooms = 10, j = 9(max)
 			 * makeCorridor b/n room index 7, and room 7+9=16%10 = 6 (one less than i)
 			 * */
-			//if(!rooms[i].isConnected) 
+			if(!rooms[i].isConnected) 
 			{
-				while(!rooms[i].isConnected)//repeat untill the room is connected to the spawn
+			//	while(!rooms[i].isConnected)//repeat untill the room is connected to the spawn
 				{
 					int j = Random.Range(1, rooms.Count);
 					MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);//(i + j) % rooms.Count will choose a room to connect to excluding room i (proven above)
@@ -83,7 +83,6 @@ public partial class TileMapData
 		return false;
 	}
 	
-	
 	void MakeRoom(RoomData r)
 	{
 		for(int x=0; x< r.width; x++)
@@ -102,12 +101,12 @@ public partial class TileMapData
 	{
 		int x = r1.centerX;
 		int y = r1.centerY;
-		
+
 		while(x!=r2.centerX)//creates the corridor by moving the x coordinate from the center of room r1 to the center of r2
 		{
 			if(x<r2.centerX && mapData[x+2,y] != 4 && mapData[x+2,y] != 5 && mapData[x+2,y+1] != 4 && mapData[x+2,y+1] != 5)//makes sure this tile isn't the player or exit
 			{
-				mapData[x+2,y] = 1;//these are the floor tiles of the corridors same for the code below (lines 189-190, 201-202, etc)
+				mapData[x+2,y] = 1;//these are the floor tiles of the corridors same for the code below
 				mapData[x+2,y+1] = 1;
 			}
 			else if (mapData[x-1,y] != 4 && mapData[x-1,y] != 5 && mapData[x-1,y+1] != 4 && mapData[x-1,y+1] != 5)
@@ -117,8 +116,8 @@ public partial class TileMapData
 			}
 			if(x<r2.centerX)
 				x++;
-			else 			
-				x--;			
+			else		
+				x--;
 		}
 		while(y!=r2.centerY)//creates the corridor by moving the y coordinate from the center of room r1 to the center of r2
 		{
@@ -186,6 +185,11 @@ public partial class TileMapData
 				}	
 			}
 		}
+	}
+
+	bool IsFloor(int x, int y)
+	{
+		return mapData[x,y] == 1;
 	}
 	
 	bool HasAdjacentFloors(int x, int y)// used in the MakeWall() method to determine if a certain filler tile has a floor adjacent to it (includes diagonals)

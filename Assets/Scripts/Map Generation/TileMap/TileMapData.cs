@@ -80,8 +80,7 @@ public partial class TileMapData
     public int[,] copyMapArray() 
     {
         int[,] ret = (int[,]) mapData.Clone();
-        return ret;   
-
+        return ret;
     }
 } 
 
