@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal};
+
 public class MakeMap : MonoBehaviour 
 {
 	public GameObject Unknown;
@@ -13,7 +15,6 @@ public class MakeMap : MonoBehaviour
 	public int yMax;
 	public int nRooms;
 
-	public enum Tiles {Unknown, Floor, Wall, Filler, Player, Goal};
 
 	
 	void Start () 
@@ -36,20 +37,20 @@ public class MakeMap : MonoBehaviour
 			{
 				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
 				//if logic instantiates the proper prefab
-				if(map.GetTileAt(x,y) == (int)Tiles.Unknown)
+				if(map.GetTileAt(x,y) == eTile.Unknown)
 					Instantiate(Unknown, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == (int)Tiles.Floor)
+				else if(map.GetTileAt(x,y) == eTile.Floor)
 					Instantiate(Floor, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == (int)Tiles.Wall)
+				else if(map.GetTileAt(x,y) == eTile.Wall)
 					Instantiate(Wall, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == (int)Tiles.Filler)
+				else if(map.GetTileAt(x,y) == eTile.Filler)
 					Instantiate(Filler, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == (int)Tiles.Player)
+				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
 					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
-				else if(map.GetTileAt(x,y) == (int)Tiles.Goal)
+				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}

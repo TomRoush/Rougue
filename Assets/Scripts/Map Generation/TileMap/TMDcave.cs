@@ -20,7 +20,7 @@ public partial class TileMapData
         while(!good)
         {
         attempts++;
-        mapData = createFilledMapArray(2);
+        mapData = createFilledMapArray(eTile.Filler);
 
 
         caveInitWalls(initialWallProb);        
@@ -30,6 +30,7 @@ public partial class TileMapData
         caveMakeSpawn();
         caveMakeGoal();
         good = isGoodMap();
+        MakeWalls();
         }
         if( attempts > 2)
             Debug.Log("Took " + attempts + " to generate caves");
@@ -45,9 +46,9 @@ public partial class TileMapData
             for(int j = 3; j < (sizeY - 2); j++)
             {
                 if(Random.Range(0,100) < initialWallProb)
-                    mapData[i,j] = 2;
+                    mapData[i,j] = eTile.Filler;
                 else
-                    mapData[i,j] = 1;
+                    mapData[i,j] = eTile.Floor;
             }
     }   
 
@@ -55,15 +56,15 @@ public partial class TileMapData
     {
         for(int k = 0; k < generations; k++)
         {
-            int[,] newData = createFilledMapArray(2);
+            eTile[,] newData = createFilledMapArray(eTile.Filler);
 
             for(int i = 1; i < sizeX-1; i++)
                 for(int j = 1; j < sizeY-1; j++)
                 {
                     if(countWallsSquare(i,j,1) >= 5)
-                        newData[i,j] = 2;
+                        newData[i,j] = eTile.Filler;
                     else
-                        newData[i,j] = 1;
+                        newData[i,j] = eTile.Floor;
                 }
             mapData = newData;
         } 
@@ -73,15 +74,15 @@ public partial class TileMapData
     {
         for(int k = 0; k < generations; k++)
         {
-            int[,] newData = createFilledMapArray(2);
+            eTile[,] newData = createFilledMapArray(eTile.Filler);
 
             for(int i = 1; i < sizeX-1; i++)
                 for(int j = 1; j < sizeY-1; j++)
                 {
                     if(countWallsSquare(i,j,1) >= 5 || countWallsSquare(i,j,2) == 0 )
-                        newData[i,j] = 2;
+                        newData[i,j] = eTile.Filler;
                     else
-                        newData[i,j] = 1;
+                        newData[i,j] = eTile.Floor;
                 }
             mapData = newData;
         } 
@@ -109,11 +110,15 @@ public partial class TileMapData
             for( int j = -offset; j <= offset; j++)
             {
                 if( i+x >= 0 && i+x < sizeX && j+y >= 0 && j+y < sizeY)
-                    if(mapData[i+x,j+y] == 2)
+                    if(mapData[i+x,j+y] == eTile.Filler)
                         numWalls++;
             }
         return numWalls;
     }
+
+    
+
+    
 
     bool isGoodMap()
     {
@@ -121,7 +126,7 @@ public partial class TileMapData
         int y = -1;
         for(int i = 1; i < sizeX; i++)
             for(int j = 0; j < sizeY; j++)
-                if(mapData[i,j] == 4)
+                if(mapData[i,j] == eTile.Player)
                 {
                     x = i;
                     y = j;
@@ -130,19 +135,19 @@ public partial class TileMapData
         if(x == -1 || y == -1)
             return false;
 
-        int[,] tmp = copyMapArray();
+        eTile[,] tmp = copyMapArray();
         bool done = false;
         while (!done)
         {
-            tmp[x,y] = -1;
+            tmp[x,y] = eTile.Unknown;
 
-            if(tmp[x-1,y] == 1)
-                tmp[x-1,y] = -1;
-            if(tmp[x,y-1] == 1)
-                tmp[x,y-1] = -1;
-            if(tmp[x,y+1] == 1)
-                tmp[x,y+1] = -1;
-            if(tmp[x+1,y] == 1)
+            if(tmp[x-1,y] == eTile.Floor)
+                tmp[x-1,y] = eTile.Unknown;
+            if(tmp[x,y-1] == eTile.Floor)
+                tmp[x,y-1] = eTile.Unknown;
+            if(tmp[x,y+1] == eTile.Floor)
+                tmp[x,y+1] = eTile.Unknown;
+            if(tmp[x+1,y] == eTile.Floor)
                 x++;
             else
                 done = true;
@@ -154,36 +159,36 @@ public partial class TileMapData
           done = true;
           for(int i = 0; i < sizeX; i ++)
               for(int j = 0; j < sizeY; j++)
-                  if(tmp[i,j] == -1)
+                  if(tmp[i,j] == eTile.Unknown)
                   {
-                      if(tmp[i-1,j] == 1)
+                      if(tmp[i-1,j] == eTile.Floor)
                       {
                           done = false;
-                          tmp[i-1,j] = -1;
+                          tmp[i-1,j] = eTile.Unknown;
                       }
-                      if(tmp[i,j-1] == 1)
+                      if(tmp[i,j-1] == eTile.Floor)
                       {
                           done = false;
-                          tmp[i,j-1] = -1;
+                          tmp[i,j-1] = eTile.Unknown;
                       }
-                      if(tmp[i,j+1] == 1)
+                      if(tmp[i,j+1] == eTile.Floor)
                       {
                           done = false;
-                          tmp[i,j+1] = -1;
+                          tmp[i,j+1] = eTile.Unknown;
                       }
-                      if(tmp[i+1,j] == 1)
+                      if(tmp[i+1,j] == eTile.Floor)
                       {
                           done = false;
-                          tmp[i+1,j] = -1;
+                          tmp[i+1,j] = eTile.Unknown;
                       }
 
-                      if(tmp[i-1,j] == 5)
+                      if(tmp[i-1,j] == eTile.Goal)
                           return true;
-                      if(tmp[i,j-1] == 5)
+                      if(tmp[i,j-1] == eTile.Goal)
                           return true;
-                      if(tmp[i,j+1] == 5)
+                      if(tmp[i,j+1] == eTile.Goal)
                           return true;
-                      if(tmp[i+1,j] == 5)
+                      if(tmp[i+1,j] == eTile.Goal)
                           return true;
 
                   }
@@ -196,9 +201,9 @@ public partial class TileMapData
     {
         for(int i = 2; i < sizeX; i++)
             for(int j = 2; j < sizeY; j++)
-                if(mapData[i,j] == 1)
+                if(mapData[i,j] == eTile.Floor)
                 {
-                    mapData[i,j] = 4;
+                    mapData[i,j] = eTile.Player;
                     return;
                 }
     }    
@@ -207,9 +212,9 @@ public partial class TileMapData
     {
         for(int i = sizeX-1; i > 0; i--)
             for(int j = sizeX-1; j > 0; j--)
-                if(mapData[i,j] == 1)
+                if(mapData[i,j] == eTile.Floor)
                 {
-                    mapData[i,j] = 5;
+                    mapData[i,j] = eTile.Goal;
                     return;
                 }
     }    
