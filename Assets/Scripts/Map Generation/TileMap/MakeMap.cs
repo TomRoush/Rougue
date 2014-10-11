@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal};
+public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal, Enemy};
 
 public class MakeMap : MonoBehaviour 
 {
@@ -51,6 +51,9 @@ public class MakeMap : MonoBehaviour
 				{
 					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
+
+					Vector3 enemyPos = new Vector3(x+1, y+1, Floor.transform.position.z);
+					Instantiate (Enemy, enemyPos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
