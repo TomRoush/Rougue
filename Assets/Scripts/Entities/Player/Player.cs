@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour 
+public class Player : Entities 
 {
 
 	//public enumerator to easily communicate current game state
 	public enum GameState { PLAYING, PAUSED, MENU };
 	public static GameState playerState = GameState.PLAYING;
 
-	public float speed;
+	//replaced with Entities global speed
+	//public float speed;
 	public float turnSpeed;
 	public static bool paused = false;
 
@@ -71,6 +72,16 @@ public class Player : MonoBehaviour
 			}
 
 		}
+
+
+		if(health <= 0)
+		{
+			Die();		
+		}
+		
+		
+
+
 		UpdateGameState();
 	}
 
@@ -112,8 +123,17 @@ public class Player : MonoBehaviour
 		}
 	}
 
+
+
+
 	public void Respawn(Vector3 spawnPt)
 	{
 		transform.position = spawnPt;
+	}
+
+	public void Die()
+	{
+		print ("I've been killed");
+		Debug.Break ();
 	}
 }
