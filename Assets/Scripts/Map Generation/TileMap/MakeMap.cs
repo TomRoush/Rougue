@@ -28,7 +28,7 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-        if(false)//Random.Range(0.0f,2.0f) > 1.0)
+        if(Random.Range(0.0f,2.0f) > 1.0)
             map.GenCave(xMax,yMax);
         else
             map.GenClassic(xMax,yMax, nRooms);
@@ -51,9 +51,6 @@ public class MakeMap : MonoBehaviour
 				{
 					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
 					Instantiate(Floor, tilePos, Quaternion.identity);
-
-					Vector3 enemyPos = new Vector3(x+1, y+1, Floor.transform.position.z);
-					Instantiate (Enemy, enemyPos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
