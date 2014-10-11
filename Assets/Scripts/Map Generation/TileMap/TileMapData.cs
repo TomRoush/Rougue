@@ -7,7 +7,7 @@ public partial class TileMapData
 	public int sizeY; 
 	public int nRooms;
 	
-	private int[,] mapData;
+	private eTile[,] mapData;
 	
 	List<RoomData> rooms;
 	
@@ -62,14 +62,14 @@ public partial class TileMapData
     
     
 
-    public int GetTileAt(int x, int y)
+    public eTile GetTileAt(int x, int y)
     {
         return mapData[x,y];
     }
 
-    private int[,] createFilledMapArray(int Filler = 3)
+    private eTile[,] createFilledMapArray(eTile Filler = eTile.Filler)
     {
-        int[,] tmp = new int[this.sizeX,this.sizeY];
+        eTile[,] tmp = new eTile[this.sizeX,this.sizeY];
         for(int i = 0; i < sizeX; i++)
             for(int j = 0; j < sizeY; j++)
                 tmp[i,j] = Filler;
@@ -77,9 +77,9 @@ public partial class TileMapData
         return tmp;
     }
 
-    public int[,] copyMapArray() 
+    public eTile[,] copyMapArray() 
     {
-        int[,] ret = (int[,]) mapData.Clone();
+        eTile[,] ret = (eTile[,]) mapData.Clone();
         return ret;   
 
     }
