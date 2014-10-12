@@ -58,18 +58,7 @@ public class MakeMap : MonoBehaviour
 				}
 			}
 		}
-
-		int countEnemies = 0;
-		while(countEnemies < numEnemies)
-		{
-			int x = Random.Range (0,xMax), y = Random.Range (0,yMax);
-			Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
-			//if(countEnemies == numEnemies) break;
-			if(map.GetTileAt(x,y).Equals(eTile.Floor))
-			{
-				Instantiate (Enemy, tilePos, Quaternion.identity);
-				countEnemies++;
-			}
-		}
+		Spawning instance = new Spawning();
+		instance.SpawnEnemies(map, numEnemies, Enemy);
 	}
 }
