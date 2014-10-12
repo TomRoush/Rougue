@@ -3,11 +3,15 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
+
 	public float speed;
 	private Vector3 moveDirection;
 	public float turnSpeed;
+	public bool velocity;
+	Animator anim;
+
 	void Start () {
-	
+		anim = GetComponent<Animator> ();
 	}
 	
 	void Update () 
@@ -30,29 +34,38 @@ public class Player : MonoBehaviour
 			//transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
 		}
 		//*/
-		if (Input.GetKey (KeyCode.W)) 
+		//anim.SetBool("velocity", Input.GetKey (KeyCode.D));
+		if (Input.GetKey (KeyCode.D)) 
+		{		
+			anim.SetBool("velocity",true);
+			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
+		} 
+		else if (Input.GetKey (KeyCode.W)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.A)) 
+		else if (Input.GetKey (KeyCode.A)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.S)) 
+		else if (Input.GetKey (KeyCode.S)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.D)) 
-		{			
-			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
+		else{
+			anim.SetBool("velocity",false);
 		}
 	}
+
 
 	void OnTriggerEnter2D( Collider2D other )
 	{
 		if(other.CompareTag("goal")) 
 		{
-			Application.LoadLevel ("TileMapTester");
+			Application.LoadLevel ("AnimationOnMap");
 		}
 	}
 
