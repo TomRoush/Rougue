@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AttackingMob : Entities {
@@ -6,6 +6,8 @@ public class AttackingMob : Entities {
 	public GameObject attackingg;
 	public Entities attacking;
 	public int distance;
+	public int lowRangeDamage;
+	public int highRangeDamage;
 
 	private bool canAttack;
 
@@ -53,9 +55,10 @@ public class AttackingMob : Entities {
 	{
 
 	}
+
 	public void attackEntity()
 	{
-		int take = Random.Range (25, 75);
+		int take = Random.Range (lowRangeDamage, highRangeDamage);
 		attacking.takeHealth(take);
 	}
 
