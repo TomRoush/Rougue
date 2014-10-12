@@ -1,24 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : Entities 
+public class Player : MonoBehaviour 
 {
 
-	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED, MENU };
-	public static GameState playerState = GameState.PLAYING;
-
-	//replaced with Entities global speed
-	//public float speed;
-	public float turnSpeed;
-	public static bool paused = false;
-
+	public float speed;
 	private Vector3 moveDirection;
+	public float turnSpeed;
+	public bool velocity;
+	Animator anim;
 
 	void Start () {
-
-		paused = false;
-	
+		anim = GetComponent<Animator> ();
 	}
 	
 	void Update () 
@@ -41,99 +34,43 @@ public class Player : Entities
 			//transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
 		}
 		//*/
-
-		//consider taking out for less calls
-
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
+		//anim.SetBool("velocity", Input.GetKey (KeyCode.D));
+		if (Input.GetKey (KeyCode.D)) 
+		{		
+			anim.SetBool("velocity",true);
+			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
+		} 
+		else if (Input.GetKey (KeyCode.W)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
+		else if (Input.GetKey (KeyCode.A)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
+		else if (Input.GetKey (KeyCode.S)) 
 		{
+			anim.SetBool("velocity",true);
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
-		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
-		{			
-			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
-		}
-		if(Input.GetKeyDown (KeyCode.Escape)) 
-		{
-			if(paused)
-			{
-				paused = false;
-			}
-			else
-			{
-				paused = true;
-			}
-
-		}
-
-
-		if(health <= 0)
-		{
-			Die();		
-		}
-		
-		
-
-
-		UpdateGameState();
-	}
-
-	//NEEDS TO BE CALLED
-	
-	void UpdateGameState()
-	{
-		Time.timeScale = paused ? 0 : 1;
-		
-		playerState = paused ? GameState.PAUSED : GameState.PLAYING;
-
-	}
-
-	void OnGUI() 
-	{
-		if (paused) 
-		{
-			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
-			{
-				paused = false;
-				//	Debug.Log("BUTTON HIT");
-			}
-			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
-			{
-				paused = true;
-				Application.LoadLevel("MainMenu");
-			}
+		else{
+			anim.SetBool("velocity",false);
 		}
 	}
+
 
 	void OnTriggerEnter2D( Collider2D other )
 	{
 		if(other.CompareTag("goal")) 
 		{
-			Application.LoadLevel ("TileMapTester");
-		} else
-		{
-			Application.LoadLevel ("MainMenu");
+			Application.LoadLevel ("AnimationOnMap");
 		}
 	}
-
-
-
 
 	public void Respawn(Vector3 spawnPt)
 	{
 		transform.position = spawnPt;
-	}
-
-	public void Die()
-	{
-		print ("I've been killed");
-		Debug.Break ();
 	}
 }
