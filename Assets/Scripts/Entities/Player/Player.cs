@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
 	public float speed;
 	private Vector3 moveDirection;
 	public float turnSpeed;
-	public bool velocity;
+	public bool a;
+	public bool d;
+
 	Animator anim;
 
 	void Start () {
@@ -37,26 +39,30 @@ public class Player : MonoBehaviour
 		//anim.SetBool("velocity", Input.GetKey (KeyCode.D));
 		if (Input.GetKey (KeyCode.D)) 
 		{		
-			anim.SetBool("velocity",true);
+			anim.SetBool("d", true);
+			anim.SetBool("a", false);
 			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
 		} 
 		else if (Input.GetKey (KeyCode.W)) 
 		{
-			anim.SetBool("velocity",true);
+			anim.SetBool("d",true);
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
 		}
 		else if (Input.GetKey (KeyCode.A)) 
 		{
-			anim.SetBool("velocity",true);
+			anim.SetBool("a", true);
+			anim.SetBool("d", false);
 			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
 		}
 		else if (Input.GetKey (KeyCode.S)) 
 		{
-			anim.SetBool("velocity",true);
+			anim.SetBool("d",true);
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
 		else{
-			anim.SetBool("velocity",false);
+			anim.SetBool("d",false);
+			anim.SetBool("a", false);
+
 		}
 	}
 
