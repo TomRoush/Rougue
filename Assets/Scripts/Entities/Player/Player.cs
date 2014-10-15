@@ -5,7 +5,7 @@ public class Player : Entities
 {
 
 	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED, MENU };
+	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
 	//replaced with Entities global speed
@@ -62,7 +62,8 @@ public class Player : Entities
 		}
 		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
 		{
-			anim.SetBool("d",true);
+			if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
+				anim.SetBool("d",true);
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
 		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
