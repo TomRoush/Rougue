@@ -12,12 +12,17 @@ public class Player : Entities
 	//public float speed;
 	public float turnSpeed;
 	public static bool paused = false;
+	private bool a;
+	private bool d;
+	
+	Animator anim;
 
 	private Vector3 moveDirection;
 
 	void Start () {
 
 		paused = false;
+		anim = GetComponent<Animator> ();
 	
 	}
 	
@@ -46,20 +51,34 @@ public class Player : Entities
 
 		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 		{
+			anim.SetBool("d",true);
 			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
 		}
 		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
 		{
+			anim.SetBool("a", true);
+			anim.SetBool("d", false);
 			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
 		}
 		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
 		{
+			anim.SetBool("d",true);
 			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
 		}
 		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
 		{			
+			anim.SetBool("d", true);
+			anim.SetBool("a", false);
 			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
 		}
+
+		//if not moving
+		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
+		{
+			anim.SetBool("d",false);
+			anim.SetBool("a", false);
+		}
+
 		if(Input.GetKeyDown (KeyCode.Escape)) 
 		{
 			if(paused)
@@ -70,7 +89,6 @@ public class Player : Entities
 			{
 				paused = true;
 			}
-
 		}
 
 
@@ -78,8 +96,6 @@ public class Player : Entities
 		{
 			Die();		
 		}
-		
-		
 
 
 		UpdateGameState();
