@@ -43,7 +43,9 @@ public class MainMenu : MonoBehaviour {
 
 		} else if(scene == Menu.SETTINGS)
 		{
-			if (GUI.Button (new Rect ((Screen.width)/5+15, (Screen.height)/2+65, 100, 50), "BACK"))
+			GUI.HorizontalSlider (new Rect ((Screen.width)/5+15, (Screen.height)/2+20, 100, 50), 10, 0, 20);
+			GUI.Label (new Rect ((Screen.width)/5+10, (Screen.height)/2+45, 200, 100), "MASTER VOLUME");
+			if (GUI.Button (new Rect ((Screen.width)/5+15, (Screen.height)/2+80, 100, 50), "BACK"))
 			{
 				scene = Menu.MAIN;
 			}
