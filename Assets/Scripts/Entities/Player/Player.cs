@@ -5,7 +5,7 @@ public class Player : Entities
 {
 
 	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED, MENU };
+	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
 	//replaced with Entities global speed
