@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: eaf5af213daaaf54b912ffc0fb6cae03
+guid: 944338eaa4dfe174c869133003583123
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Floor
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +37,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 1024
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
