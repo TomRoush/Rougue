@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
 
 	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED, MENU };
+	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
 	public float speed;
