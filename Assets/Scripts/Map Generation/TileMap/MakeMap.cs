@@ -58,7 +58,6 @@ public class MakeMap : MonoBehaviour
 				}
 			}
 		}
-		Spawning instance = new Spawning();
-		instance.SpawnEnemies(map, numEnemies, Enemy);
+		Spawning.SpawnEnemies(map, numEnemies, Enemy);
 	}
 }
