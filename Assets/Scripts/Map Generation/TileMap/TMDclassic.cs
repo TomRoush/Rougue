@@ -59,13 +59,10 @@ public partial class TileMapData
 			 * if i = 7, numRooms = 10, j = 9(max)
 			 * makeCorridor b/n room index 7, and room 7+9=16%10 = 6 (one less than i)
 			 * */
-			if(!rooms[i].isConnected) 
+			while(!rooms[i].isConnected)//repeat untill the room is connected to the spawn
 			{
-			//	while(!rooms[i].isConnected)//repeat untill the room is connected to the spawn
-				{
-					int j = Random.Range(1, rooms.Count);
-					MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);//(i + j) % rooms.Count will choose a room to connect to excluding room i (proven above)
-				}
+				int j = Random.Range(1, rooms.Count);
+				MakeCorridor(rooms[i], rooms[(i + j) % rooms.Count]);//(i + j) % rooms.Count will choose a room to connect to excluding room i (proven above)
 			}
 		}
 		MakeWalls ();
