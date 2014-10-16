@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public float moveSpeed = 2;
+	//public float moveSpeed = 2;
 	private Vector3 moveDirection;
 	public float turnSpeed;
 
@@ -28,7 +28,10 @@ public class PlayerController : MonoBehaviour {
 			moveDirection.z = 0; 
 			moveDirection.Normalize();
 		}
-		Vector3 target = moveDirection * moveSpeed + currentPosition;
+		//if (!gameObject.GetComponent<Status>().isStunned
+		Vector3 target = moveDirection * gameObject.GetComponent<Status>().speed 
+			* gameObject.GetComponent<Status>().getSpeedx () 
+			+ currentPosition;
 		transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
 		float targetAngle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
 		transform.rotation = 
