@@ -7,4 +7,4 @@ Test README
 
 This game is awesome
 
-Kevin's thing is messed up yo
+Kevin's thing is OP yo
