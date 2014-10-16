@@ -43,22 +43,24 @@ public class Player : Entities
 		//*/
 
 		//consider taking out for less calls
+		if (!gameObject.GetComponent<Status> ().isStunned) {
 
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
-		{
-			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
-		{
-			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
-		{
-			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
-		{			
-			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
+			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) {
+					rigidbody2D.transform.position += Vector3.up * gameObject.GetComponent<Status> ().speed 
+							* gameObject.GetComponent<Status> ().getSpeedx () * Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) {
+					rigidbody2D.transform.position += Vector3.left * gameObject.GetComponent<Status> ().speed 
+							* gameObject.GetComponent<Status> ().getSpeedx () * Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) {
+					rigidbody2D.transform.position += Vector3.down * gameObject.GetComponent<Status> ().speed 
+							* gameObject.GetComponent<Status> ().getSpeedx () * Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) {			
+					rigidbody2D.transform.position += Vector3.right * gameObject.GetComponent<Status> ().speed 
+							* gameObject.GetComponent<Status> ().getSpeedx () * Time.deltaTime;
+			}
 		}
 		if(Input.GetKeyDown (KeyCode.Escape)) 
 		{
@@ -74,10 +76,10 @@ public class Player : Entities
 		}
 
 
-		if(health <= 0)
-		{
-			Die();		
-		}
+		//if(health <= 0)
+		//{
+		//	Die();		
+		//}
 		
 		
 
