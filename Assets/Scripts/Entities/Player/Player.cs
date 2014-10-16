@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Player : Entities 
@@ -36,7 +36,7 @@ public class Player : Entities
 		anim = GetComponent<Animator> ();
 		curHealth = health;
 		particle = transform.Find("Blood").GetComponent<ParticleSystem>();
-	
+
 	}
 	
 	void Update () 

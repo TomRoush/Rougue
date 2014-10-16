@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Spawning : MakeMap
 {
-	public  void SpawnEnemies(TileMapData map, int numEnemies, GameObject Enemy)
+	public static void SpawnEnemies(TileMapData map, int numEnemies, GameObject Enemy)
 	{
 		int countEnemies = 0;
 		while(countEnemies < numEnemies)
