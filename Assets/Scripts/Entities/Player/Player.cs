@@ -23,8 +23,8 @@ public class Player : Entities
 	// GUI
 	public Vector2 pos = new Vector2(20,40);
 	public Vector2 size = new Vector2(100,20);
-	//public Texture2D emptyTex; Not used
-	//public Texture2D fullTex; Not used
+	public Texture2D emptyTex;
+	public Texture2D fullTex;
 	private GUIStyle currentStyle = null;
 	
 	ParticleSystem particle;
@@ -152,11 +152,11 @@ public class Player : Entities
 		//draw the background:
 		InitStyles ();
 		GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y));
+		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
 		GUI.BeginGroup(new Rect(0,0, health, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y),currentStyle);
+		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
 		
