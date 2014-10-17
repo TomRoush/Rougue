@@ -169,7 +169,7 @@ public class Player : Entities
 	{
 		if(other.CompareTag("goal")) 
 		{
-			Application.LoadLevel ("TileMapTester");
+			Application.LoadLevel ("Game");
 		} else
 		{
 			Application.LoadLevel ("MainMenu");
