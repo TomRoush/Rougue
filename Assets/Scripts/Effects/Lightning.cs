@@ -9,7 +9,7 @@ public class Lightning : MonoBehaviour {
 	public float scale = 1.0f; // How much affect noise has
 	Perlin noise; // The noise generator;
 	private Particle[] particles; // Array of particles in the bolt
-	public GameObject renderer;
+	public GameObject lineRenderer;
 	LineRenderer[] renderers = new LineRenderer[segments - 1];
 	
 	public float x = 0.1365143f;
@@ -20,7 +20,7 @@ public class Lightning : MonoBehaviour {
 		noise = new Perlin();
 		Debug.Log(renderers.Length);
 		for(int i = 0; i < segments - 1; i++) {
-			GameObject rendererObject = GameObject.Instantiate(renderer, Vector3.zero, Quaternion.identity) as GameObject;
+			GameObject rendererObject = GameObject.Instantiate(lineRenderer, Vector3.zero, Quaternion.identity) as GameObject;
 			renderers[i] = rendererObject.GetComponent<LineRenderer>();
 		}
 		// Emit only what we need and store them to array

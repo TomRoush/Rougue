@@ -3,22 +3,16 @@ using System.Collections;
 
 public class Player : Entities 
 {
-
 	//public enumerator to easily communicate current game state
 	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
-	//replaced with Entities global speed
-	//public float speed;
-	//public float turnSpeed; Not used
 	public static bool paused = false;
 	private bool a;
 	private bool d;
 	public int curHealth;
 	
 	Animator anim;
-
-	//private Vector3 moveDirection; Used for mouse move
 	
 	// GUI
 	public Vector2 pos = new Vector2(20,40);
@@ -27,14 +21,14 @@ public class Player : Entities
 	public Texture2D fullTex;
 	private GUIStyle currentStyle = null;
 	
-	ParticleSystem particle;
+	ParticleSystem blood;
 
 	void Start () {
 
 		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;
-		particle = transform.Find("Blood").GetComponent<ParticleSystem>();
+		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
 	}
 	
@@ -109,7 +103,7 @@ public class Player : Entities
 	{
 		if(curHealth > health) {
 			curHealth = health;
-			particle.Play();
+			blood.Play();
 		}
 	}
 
