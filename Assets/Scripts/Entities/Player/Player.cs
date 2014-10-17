@@ -40,26 +40,6 @@ public class Player : Entities
 	
 	void Update () 
 	{
-		////Attempted mouse implementation
-		/*Vector3 currentPosition = transform.position;
-		Vector3 targetPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		//targetPosition.z = 0;
-		if (Input.GetButton("Fire1"))
-		{
-			Vector3 moveToward = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-			moveDirection = moveToward - currentPosition;
-			moveDirection.z = 0; 
-			moveDirection.Normalize();
-		}
-		//while(Input.GetButton ("Fire1"))
-		{
-			//Vector3 target = moveDirection * moveSpeed + currentPosition;
-			//if(!((targetPosition.x).Equals(this.rigidbody2D.position.x) && !(targetPosition.y).Equals(rigidbody2D.position.y)))
-			//transform.position = Vector3.Lerp( currentPosition, target, Time.deltaTime );
-		}
-		//*/
-
-		//consider taking out for less calls
 
 		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 		{
