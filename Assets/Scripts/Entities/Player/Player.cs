@@ -11,6 +11,10 @@ public class Player : Entities
 	private bool a;
 	private bool d;
 	public int curHealth;
+	public int stamina;
+	public int walkingSpeed;
+	public int runningSpeed;
+	public int staminaRegen;
 	
 	Animator anim;
 	
@@ -29,6 +33,8 @@ public class Player : Entities
 		anim = GetComponent<Animator> ();
 		curHealth = health;
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
+		runningSpeed = walkingSpeed * 2;
+		staminaRegen = 0;
 
 	}
 	
@@ -58,6 +64,29 @@ public class Player : Entities
 			anim.SetBool("a", false);
 			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
 		}
+
+		if (Input.GetKey (KeyCode.LeftShift) && stamina > 0) 
+		
+		{
+			speed = runningSpeed;
+
+				stamina = stamina - 1;
+				
+
+		} 
+	
+
+		else
+		{
+			speed = walkingSpeed;
+			staminaRegen++;
+			if(staminaRegen == 60)
+			{
+				staminaRegen = 0;
+				stamina++;
+			}
+		}
+
 
 		//if not moving
 		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
