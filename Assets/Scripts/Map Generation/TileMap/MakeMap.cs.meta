@@ -9,6 +9,8 @@ MonoImporter:
   - Filler: {instanceID: 0}
   - Player: {instanceID: 0}
   - Goal: {instanceID: 0}
+  - UpStairs: {instanceID: 0}
+  - Enemy: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
