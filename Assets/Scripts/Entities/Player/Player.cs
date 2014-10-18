@@ -10,7 +10,7 @@ public class Player : Entities
 	public static bool paused = false;
 	private bool a;
 	private bool d;
-	public int curHealth;
+	public float curHealth;
 	
 	Animator anim;
 	
@@ -21,44 +21,56 @@ public class Player : Entities
 	public Texture2D fullTex;
 	private GUIStyle currentStyle = null;
 	
-	ParticleSystem blood;
+	public ParticleSystem blood;//turned public
 
 	void Start () {
 
 		paused = false;
 		anim = GetComponent<Animator> ();
-		curHealth = health;
+		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
 	}
 	
 	void Update () 
 	{
-
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
-		{
-			anim.SetBool("d",true);
-			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
-		{
-			anim.SetBool("a", true);
-			anim.SetBool("d", false);
-			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
-		}
-		if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
-		{
-			if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
+		if (!gameObject.GetComponent<Status>().isStunned){
+			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
+			{
 				anim.SetBool("d",true);
-			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
+				rigidbody2D.transform.position += Vector3.up 
+					* gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx () 
+					* Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
+			{
+				anim.SetBool("a", true);
+				anim.SetBool("d", false);
+				rigidbody2D.transform.position += Vector3.left 
+					* gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx () 
+					* Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
+			{
+				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
+					anim.SetBool("d",true);
+				rigidbody2D.transform.position += Vector3.down 
+					* gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx () 
+					* Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
+			{			
+				anim.SetBool("d", true);
+				anim.SetBool("a", false);
+				rigidbody2D.transform.position += Vector3.right 
+					* gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx () 
+					* Time.deltaTime;
+			}
 		}
-		if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
-		{			
-			anim.SetBool("d", true);
-			anim.SetBool("a", false);
-			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
-		}
-
 		//if not moving
 		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
 		{
@@ -79,7 +91,7 @@ public class Player : Entities
 		}
 
 
-		if(health <= 0)
+		if(gameObject.GetComponent<Status> ().health <= 0)
 		{
 			Die();		
 		}
@@ -101,9 +113,9 @@ public class Player : Entities
 	
 	public void updateHealth()
 	{
-		if(curHealth > health) {
-			curHealth = health;
-			blood.Play();
+		if(curHealth > gameObject.GetComponent<Status> ().health) {
+			curHealth = gameObject.GetComponent<Status> ().health;
+			blood.Play();//moved to Status
 		}
 	}
 
@@ -129,12 +141,12 @@ public class Player : Entities
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, health, size.y));
+		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().health, size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
 		
-		if (health<=0.0f){
+		if (gameObject.GetComponent<Status> ().health<=0.0f){
 			GUI.Box (new Rect(Screen.width/2,Screen.height/2,100,50),"You died");
 		}
 	}
@@ -156,7 +168,7 @@ public class Player : Entities
 			currentStyle = new GUIStyle (GUI.skin.box);
 			currentStyle.normal.background = MakeTex (2, 2, new Color (0f, 1f, 0f, 1f));
 		}
-		if (health < 50.0f) {
+		if (gameObject.GetComponent<Status> ().health < 50.0f) {
 			currentStyle.normal.background = MakeTex (2, 2, new Color (1f, 0f, 0f, 1f));
 		}
 	}
