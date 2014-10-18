@@ -117,6 +117,7 @@ public class Status : MonoBehaviour {
 				collider.gameObject.GetComponent<Status> ().rage += damage1 * damagex
 					* collider.gameObject.GetComponent<Status> ().defense1 * 2;//gain twice rage as loss in hp
 			}
+			collider.gameObject.GetComponent<Player>().blood.Play();
 			attackTimer = 1/attackSpeed;
 		}
 	}

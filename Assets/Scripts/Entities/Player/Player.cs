@@ -21,7 +21,7 @@ public class Player : Entities
 	public Texture2D fullTex;
 	private GUIStyle currentStyle = null;
 	
-	ParticleSystem blood;
+	public ParticleSystem blood;//turned public
 
 	void Start () {
 
@@ -115,7 +115,7 @@ public class Player : Entities
 	{
 		if(curHealth > gameObject.GetComponent<Status> ().health) {
 			curHealth = gameObject.GetComponent<Status> ().health;
-			blood.Play();
+			blood.Play();//moved to Status
 		}
 	}
 
