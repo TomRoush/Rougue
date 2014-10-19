@@ -11,6 +11,7 @@ public class MakeMap : MonoBehaviour
 	public GameObject Filler;
 	public GameObject Player;
 	public GameObject Goal;
+    public GameObject UpStairs;
 	public GameObject Enemy;
 	public int xMax;
 	public int yMax;
@@ -50,7 +51,7 @@ public class MakeMap : MonoBehaviour
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
 					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
-					Instantiate(Floor, tilePos, Quaternion.identity);
+					Instantiate(UpStairs, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
