@@ -22,6 +22,15 @@ public class MainMenu : MonoBehaviour {
 
 	public void OnGUI()
 	{
+
+		// add background music
+
+		// pause menu background
+
+		// add settings to pause menu
+
+		// fade in to game from main menu
+
 		if(scene == Menu.MAIN) 
 		{
 			if (GUI.Button (new Rect ((Screen.width)/5+15, (Screen.height)/2+15, 100, 50), new_game, ""))
@@ -45,6 +54,7 @@ public class MainMenu : MonoBehaviour {
 		{
 			GUI.HorizontalSlider (new Rect ((Screen.width)/5+15, (Screen.height)/2+20, 100, 50), 10, 0, 20);
 			GUI.Label (new Rect ((Screen.width)/5+10, (Screen.height)/2+45, 200, 100), "MASTER VOLUME");
+
 			if (GUI.Button (new Rect ((Screen.width)/5+15, (Screen.height)/2+80, 100, 50), "BACK"))
 			{
 				scene = Menu.MAIN;

@@ -88,6 +88,7 @@ public class Player : MonoBehaviour
 	{
 		if (paused) 
 		{
+
 			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
 			{
 				paused = false;
