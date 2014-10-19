@@ -3,27 +3,27 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour
 {
-	public bool isMovingUp()
+	public static bool isMovingUp()
 	{
 		return Input.GetButton("Vertical") && Input.GetAxis("Vertical")>0;
 	}
 
-	public bool isMovingDown()
+	public static bool isMovingDown()
 	{
 		return Input.GetButton("Vertical") && Input.GetAxis("Vertical")<0;
 	}
 
-	public bool isMovingRight()
+	public static bool isMovingRight()
 	{
 		return Input.GetButton("Horizontal") && Input.GetAxis("Horizontal")>0;
 	}
 
-	public bool isMovingLeft()
+	public static bool isMovingLeft()
 	{
 		return Input.GetButton("Horizontal") && Input.GetAxis("Horizontal")<0;
 	}
 
-	public bool isMoving()
+	public static bool isMoving()
 	{
 		return (isMovingUp() || isMovingDown() || isMovingRight() || isMovingLeft());
 	}

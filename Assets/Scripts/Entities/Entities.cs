@@ -57,4 +57,21 @@ public abstract class Entities : MonoBehaviour {
 					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
 		}
 	}
+
+	public void moveDirection(Vector3 x, Vector3 y)
+	{
+		Vector3 dir = Vector3.Lerp(x, y, 0.5f); //average two vectors
+		rigidbody2D.transform.position += dir  
+			* gameObject.GetComponent<Status> ().speed 
+			* gameObject.GetComponent<Status> ().getSpeedx ()  
+			* Time.deltaTime;
+	}
+
+	public void moveDirection(Vector3 x)
+	{
+		rigidbody2D.transform.position += x  
+			* gameObject.GetComponent<Status> ().speed 
+			* gameObject.GetComponent<Status> ().getSpeedx ()  
+			* Time.deltaTime;
+	}
 }

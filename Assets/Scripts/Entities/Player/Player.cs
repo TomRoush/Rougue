@@ -41,31 +41,36 @@ public class Player : Entities
 	{
 		if (!gameObject.GetComponent<Status>().isStunned)
 		{
-			if (input.isMovingUp()) 
+			Vector3 v1 = Vector3.zero;
+			Vector3 v2 = Vector3.zero;
+			if (PlayerInput.isMovingUp()) 
 			{
 				anim.SetBool("d",true);
-				moveUp();
+				v1 = Vector3.up;
 			}
-			if (input.isMovingDown()) 
+			if (PlayerInput.isMovingDown()) 
 			{
 				anim.SetBool("d",true);
-				moveDown();
+				v1 = Vector3.down;
 			}
-			if (input.isMovingLeft()) 
+			if (PlayerInput.isMovingLeft()) 
 			{
 				anim.SetBool("d",false);
 				anim.SetBool("a",true);
-				moveLeft();
+				v2 = Vector3.left;
 			}
-			if (input.isMovingRight()) 
+			if (PlayerInput.isMovingRight()) 
 			{
 				anim.SetBool("d",true);
 				anim.SetBool("a",false);
-				moveRight();
+				v2 = Vector3.right;
 			}
+			if(v1!=Vector3.zero && v2!=Vector3.zero) moveDirection(v1, v2);
+			else if (v1!=Vector3.zero) moveDirection(v1);
+			else moveDirection(v2);
 		}
 		//if not moving
-		if(!input.isMoving() || gameObject.GetComponent<Status>().isStunned)//not moving or is stunned *possibly make a stun animation?
+		if(!PlayerInput.isMoving() || gameObject.GetComponent<Status>().isStunned)//not moving or is stunned *possibly make a stun animation?
 		{
 			anim.SetBool("d",false);
 			anim.SetBool("a", false);
