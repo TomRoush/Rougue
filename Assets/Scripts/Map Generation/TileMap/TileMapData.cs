@@ -7,7 +7,7 @@ public partial class TileMapData
 	public int sizeY; 
 	public int nRooms;
 	
-	private eTile[,] mapData;
+	public eTile[,] mapData;
 	
 	List<RoomData> rooms;
 	
