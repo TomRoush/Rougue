@@ -6,29 +6,37 @@ public partial class TileMapData
     //Note: Removed most refrences to "rooms". May cause bugs.
     //Credit goes to http://www.roguebasin.com/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels
     //for algorithm. Read it if you want to understand.
-	public void GenCave(int sizeX, int sizeY, float initialWallProb = 40) 
-	{
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
-	    
+    public void GenCave(int sizeX, int sizeY, float initialWallProb = 40) 
+    {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+
 
         if(sizeX < 10 || sizeY < 10)
             Debug.Log("Error! Map for GenCave is too small");
 
-		mapData = createFilledMapArray(2);
-		
-	    
+        int attempts = 0;
+        bool good = false;
+        while(!good)
+        {
+        attempts++;
+        mapData = createFilledMapArray(eTile.Filler);
+
+
         caveInitWalls(initialWallProb);        
         caveRunSmoothAutomata();
         caveRunFillGapsAutomata();
-	
+
         caveMakeSpawn();
         caveMakeGoal();
+        good = isGoodMap();
+        MakeWalls();
+        }
+        if( attempts > 2)
+            Debug.Log("Took " + attempts + " to generate caves");
 
-	//	MakeWalls ();
-		
-	}
-	
+    }
+
     private void caveInitWalls(float initialWallProb = 40)
     {
 
@@ -38,63 +46,63 @@ public partial class TileMapData
             for(int j = 3; j < (sizeY - 2); j++)
             {
                 if(Random.Range(0,100) < initialWallProb)
-                    mapData[i,j] = 2;
+                    mapData[i,j] = eTile.Filler;
                 else
-                    mapData[i,j] = 1;
+                    mapData[i,j] = eTile.Floor;
             }
     }   
 
-   private void caveRunSmoothAutomata(int generations = 3)
-   {
-       for(int k = 0; k < generations; k++)
-       {
-           int[,] newData = createFilledMapArray(2);
+    private void caveRunSmoothAutomata(int generations = 3)
+    {
+        for(int k = 0; k < generations; k++)
+        {
+            eTile[,] newData = createFilledMapArray(eTile.Filler);
 
-           for(int i = 1; i < sizeX-1; i++)
-               for(int j = 1; j < sizeY-1; j++)
-               {
-                   if(countWallsSquare(i,j,1) >= 5)
-                       newData[i,j] = 2;
-                   else
-                       newData[i,j] = 1;
-               }
-           mapData = newData;
-       } 
-   }
-   
-   private void caveRunFillGapsAutomata(int generations = 2)
-   {
-       for(int k = 0; k < generations; k++)
-       {
-           int[,] newData = createFilledMapArray(2);
+            for(int i = 1; i < sizeX-1; i++)
+                for(int j = 1; j < sizeY-1; j++)
+                {
+                    if(countWallsSquare(i,j,1) >= 5)
+                        newData[i,j] = eTile.Filler;
+                    else
+                        newData[i,j] = eTile.Floor;
+                }
+            mapData = newData;
+        } 
+    }
 
-           for(int i = 1; i < sizeX-1; i++)
-               for(int j = 1; j < sizeY-1; j++)
-               {
-                   if(countWallsSquare(i,j,1) >= 5 || countWallsSquare(i,j,2) == 0 )
-                       newData[i,j] = 2;
-                   else
-                       newData[i,j] = 1;
-               }
-           mapData = newData;
-       } 
-   }
-/*
-   private int countWallsSteps(int x, int y, int steps)
-   {
+    private void caveRunFillGapsAutomata(int generations = 2)
+    {
+        for(int k = 0; k < generations; k++)
+        {
+            eTile[,] newData = createFilledMapArray(eTile.Filler);
+
+            for(int i = 1; i < sizeX-1; i++)
+                for(int j = 1; j < sizeY-1; j++)
+                {
+                    if(countWallsSquare(i,j,1) >= 5 || countWallsSquare(i,j,2) == 0 )
+                        newData[i,j] = eTile.Filler;
+                    else
+                        newData[i,j] = eTile.Floor;
+                }
+            mapData = newData;
+        } 
+    }
+    /*
+       private int countWallsSteps(int x, int y, int steps)
+       {
        int numWalls = 0;
        for( int i = -steps; i <= steps; i++)
-            for( int j = -steps; j <= steps; j++)
-            {
-                if( i+x > 0 && i+x < sizeX && j+y > 0 && j+y < sizeY)
-                    if(Math.Abs(i) + Math.Abs(j) <= steps)
-                        if(mapData[i+x,j+y] == 2)
-                            numWalls++;
+       for( int j = -steps; j <= steps; j++)
+       {
+       if( i+x > 0 && i+x < sizeX && j+y > 0 && j+y < sizeY)
+       if(Math.Abs(i) + Math.Abs(j) <= steps)
+       if(mapData[i+x,j+y] == 2)
+       numWalls++;
 
-            }
-        return numWalls;
-    }
-*/
+       }
+       return numWalls;
+       }
+       */
     private int countWallsSquare(int x, int y, int offset)
     {
         int numWalls = 0;
@@ -102,53 +110,132 @@ public partial class TileMapData
             for( int j = -offset; j <= offset; j++)
             {
                 if( i+x >= 0 && i+x < sizeX && j+y >= 0 && j+y < sizeY)
-                    if(mapData[i+x,j+y] == 2)
+                    if(mapData[i+x,j+y] == eTile.Filler)
                         numWalls++;
-
             }
         return numWalls;
     }
-   
+
+    
+
+    
+
+    bool isGoodMap()
+    {
+        int x = -1;
+        int y = -1;
+        for(int i = 1; i < sizeX; i++)
+            for(int j = 0; j < sizeY; j++)
+                if(mapData[i,j] == eTile.Player)
+                {
+                    x = i;
+                    y = j;
+                }
+
+        if(x == -1 || y == -1)
+            return false;
+
+        eTile[,] tmp = copyMapArray();
+        bool done = false;
+        while (!done)
+        {
+            tmp[x,y] = eTile.Unknown;
+
+            if(tmp[x-1,y] == eTile.Floor)
+                tmp[x-1,y] = eTile.Unknown;
+            if(tmp[x,y-1] == eTile.Floor)
+                tmp[x,y-1] = eTile.Unknown;
+            if(tmp[x,y+1] == eTile.Floor)
+                tmp[x,y+1] = eTile.Unknown;
+            if(tmp[x+1,y] == eTile.Floor)
+                x++;
+            else
+                done = true;
+        }
+
+       done = false;
+      while(!done)
+      {
+          done = true;
+          for(int i = 0; i < sizeX; i ++)
+              for(int j = 0; j < sizeY; j++)
+                  if(tmp[i,j] == eTile.Unknown)
+                  {
+                      if(tmp[i-1,j] == eTile.Floor)
+                      {
+                          done = false;
+                          tmp[i-1,j] = eTile.Unknown;
+                      }
+                      if(tmp[i,j-1] == eTile.Floor)
+                      {
+                          done = false;
+                          tmp[i,j-1] = eTile.Unknown;
+                      }
+                      if(tmp[i,j+1] == eTile.Floor)
+                      {
+                          done = false;
+                          tmp[i,j+1] = eTile.Unknown;
+                      }
+                      if(tmp[i+1,j] == eTile.Floor)
+                      {
+                          done = false;
+                          tmp[i+1,j] = eTile.Unknown;
+                      }
+
+                      if(tmp[i-1,j] == eTile.Goal)
+                          return true;
+                      if(tmp[i,j-1] == eTile.Goal)
+                          return true;
+                      if(tmp[i,j+1] == eTile.Goal)
+                          return true;
+                      if(tmp[i+1,j] == eTile.Goal)
+                          return true;
+
+                  }
+      } 
+      return false;
+
+    }
 
     void caveMakeSpawn()
     {
         for(int i = 2; i < sizeX; i++)
             for(int j = 2; j < sizeY; j++)
-                if(mapData[i,j] == 1)
+                if(mapData[i,j] == eTile.Floor)
                 {
-                    mapData[i,j] = 4;
+                    mapData[i,j] = eTile.Player;
                     return;
                 }
     }    
-    
+
     void caveMakeGoal()
     {
         for(int i = sizeX-1; i > 0; i--)
             for(int j = sizeX-1; j > 0; j--)
-                if(mapData[i,j] == 1)
+                if(mapData[i,j] == eTile.Floor)
                 {
-                    mapData[i,j] = 5;
+                    mapData[i,j] = eTile.Goal;
                     return;
                 }
     }    
-//	void MakeCorridor(RoomData r1, RoomData r2)//moves in y first then x direction eventually make other corridor types
-	
-//	void MakeWalls()
-	
-//	bool HasAdjacentFloors(int x, int y)
-/*	
-	void MakeSpawn(RoomData r)
-	{
-		int x = Random.Range (r.left+1, r.left+r.width-1);
-		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
-		mapData[x, y] = 4;
-	}
-	
-	void MakeGoal(RoomData r)
-	{
-		int x = Random.Range (r.left+1, r.left+r.width-1);
-		int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
-		mapData[x, y] = 5;
-	}
-    */
+    //	void MakeCorridor(RoomData r1, RoomData r2)//moves in y first then x direction eventually make other corridor types
+
+    //	void MakeWalls()
+
+    //	bool HasAdjacentFloors(int x, int y)
+    /*	
+        void MakeSpawn(RoomData r)
+        {
+        int x = Random.Range (r.left+1, r.left+r.width-1);
+        int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
+        mapData[x, y] = 4;
+        }
+
+        void MakeGoal(RoomData r)
+        {
+        int x = Random.Range (r.left+1, r.left+r.width-1);
+        int y = Random.Range (r.bottom+1, r.bottom+r.height-1);
+        mapData[x, y] = 5;
+        }
+        */
 }

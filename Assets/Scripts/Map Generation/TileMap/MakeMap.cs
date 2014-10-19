@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal, Enemy};
+
 public class MakeMap : MonoBehaviour 
 {
 	public GameObject Unknown;
@@ -9,9 +11,14 @@ public class MakeMap : MonoBehaviour
 	public GameObject Filler;
 	public GameObject Player;
 	public GameObject Goal;
+    public GameObject UpStairs;
+	public GameObject Enemy;
 	public int xMax;
 	public int yMax;
 	public int nRooms;
+	public int numEnemies;
+
+
 	
 	void Start () 
 	{
@@ -32,24 +39,26 @@ public class MakeMap : MonoBehaviour
 			for(int x=0; x<map.sizeX; x++)
 			{
 				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
-				if(map.GetTileAt(x,y) == 0)
+				//if logic instantiates the proper prefab
+				if(map.GetTileAt(x,y) == eTile.Unknown)
 					Instantiate(Unknown, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 1)
+				else if(map.GetTileAt(x,y) == eTile.Floor)
 					Instantiate(Floor, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 2)
+				else if(map.GetTileAt(x,y) == eTile.Wall)
 					Instantiate(Wall, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 3)
+				else if(map.GetTileAt(x,y) == eTile.Filler)
 					Instantiate(Filler, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == 4)
+				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
-					Instantiate(Player, tilePos, Quaternion.identity);
-					Instantiate(Floor, tilePos, Quaternion.identity);
+					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
+					Instantiate(UpStairs, tilePos, Quaternion.identity);
 				}
-				else if(map.GetTileAt(x,y) == 5)
+				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}
 			}
 		}
+		Spawning.SpawnEnemies(map, numEnemies, Enemy);
 	}
 }
