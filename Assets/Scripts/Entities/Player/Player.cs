@@ -25,8 +25,6 @@ public class Player : Entities
 
     public MakeMap Dungeon;
 
-    public PlayerInput input; 
-
 	void Start () {
 
 		paused = false;
@@ -34,15 +32,14 @@ public class Player : Entities
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
-        input = new PlayerInput(); 
     }
 	
 	void Update () 
 	{
 		if (!gameObject.GetComponent<Status>().isStunned)
 		{
-			Vector3 v1 = Vector3.zero;
-			Vector3 v2 = Vector3.zero;
+			Vector3 v1 = Vector3.zero;//will change if move up/down is pressed
+			Vector3 v2 = Vector3.zero;//will change if move left/right is pressed
 			if (PlayerInput.isMovingUp()) 
 			{
 				anim.SetBool("d",true);
@@ -65,7 +62,7 @@ public class Player : Entities
 				anim.SetBool("a",false);
 				v2 = Vector3.right;
 			}
-			if(v1!=Vector3.zero && v2!=Vector3.zero) moveDirection(v1, v2);
+			if(v1!=Vector3.zero && v2!=Vector3.zero) moveDirection(v1, v2);//moves in an average of the two vectors directions with the same speed
 			else if (v1!=Vector3.zero) moveDirection(v1);
 			else moveDirection(v2);
 		}

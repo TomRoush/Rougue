@@ -58,7 +58,7 @@ public abstract class Entities : MonoBehaviour {
 		}
 	}
 
-	public void moveDirection(Vector3 x, Vector3 y)
+	public void moveDirection(Vector3 x, Vector3 y)//move in average direction of x and y
 	{
 		Vector3 dir = Vector3.Lerp(x, y, 0.5f); //average two vectors
 		rigidbody2D.transform.position += dir  
@@ -67,7 +67,7 @@ public abstract class Entities : MonoBehaviour {
 			* Time.deltaTime;
 	}
 
-	public void moveDirection(Vector3 x)
+	public void moveDirection(Vector3 x)//move in direction x
 	{
 		rigidbody2D.transform.position += x  
 			* gameObject.GetComponent<Status> ().speed 
