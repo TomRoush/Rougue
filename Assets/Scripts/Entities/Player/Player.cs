@@ -23,13 +23,15 @@ public class Player : Entities
 	
 	public ParticleSystem blood;//turned public
 
+    public MakeMap Dungeon;
+
 	void Start () {
 
 		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
-
+        Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
 	}
 	
 	void Update () 
@@ -155,7 +157,8 @@ public class Player : Entities
 	{
 		if(other.CompareTag("goal")) 
 		{
-			Application.LoadLevel ("Game");
+		    Dungeon.NextFloor();	
+            //Application.LoadLevel ("Game");
 		} else
 		{
 			Application.LoadLevel ("MainMenu");
