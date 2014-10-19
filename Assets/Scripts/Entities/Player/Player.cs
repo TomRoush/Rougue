@@ -44,40 +44,28 @@ public class Player : Entities
 			if (input.isMovingUp()) 
 			{
 				anim.SetBool("d",true);
-				rigidbody2D.transform.position += Vector3.up 
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+				moveUp();
 			}
 			if (input.isMovingDown()) 
 			{
 				anim.SetBool("d",true);
-				rigidbody2D.transform.position += Vector3.down
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+				moveDown();
 			}
 			if (input.isMovingLeft()) 
 			{
 				anim.SetBool("d",false);
 				anim.SetBool("a",true);
-								rigidbody2D.transform.position += Vector3.left
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+				moveLeft();
 			}
 			if (input.isMovingRight()) 
 			{
 				anim.SetBool("d",true);
 				anim.SetBool("a",false);
-				rigidbody2D.transform.position += Vector3.right
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+				moveRight();
 			}
 		}
 		//if not moving
-		if(!input.isMoving() || gameObject.GetComponent<Status>().isStunned)//not moving or is stunned *possible make a stun animation?
+		if(!input.isMoving() || gameObject.GetComponent<Status>().isStunned)//not moving or is stunned *possibly make a stun animation?
 		{
 			anim.SetBool("d",false);
 			anim.SetBool("a", false);

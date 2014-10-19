@@ -22,11 +22,39 @@ public abstract class Entities : MonoBehaviour {
 		health = health - amount;
 	}
 
+	public void moveUp()
+	{
+		if (!gameObject.GetComponent<Status>().isStunned)
+		{
+			rigidbody2D.transform.position += Vector3.up  * gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
+		}
+	}
+
+	public void moveDown()
+	{
+		if (!gameObject.GetComponent<Status>().isStunned)
+		{
+			rigidbody2D.transform.position += Vector3.down  * gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
+		}
+	}
+
+	public void moveLeft()
+	{
+		if (!gameObject.GetComponent<Status>().isStunned)
+		{
+			rigidbody2D.transform.position += Vector3.left  * gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
+		}
+	}
+
 	public void moveRight()
 	{
 		if (!gameObject.GetComponent<Status>().isStunned)
 		{
-		rigidbody2D.transform.position += Vector3.right  * speed * Time.deltaTime;
+			rigidbody2D.transform.position += Vector3.right  * gameObject.GetComponent<Status> ().speed 
+					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
 		}
 	}
 }
