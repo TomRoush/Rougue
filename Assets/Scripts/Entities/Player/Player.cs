@@ -25,6 +25,8 @@ public class Player : Entities
 
     public MakeMap Dungeon;
 
+    public PlayerInput input; 
+
 	void Start () {
 
 		paused = false;
@@ -32,12 +34,14 @@ public class Player : Entities
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
-	}
+        input = new PlayerInput(); 
+    }
 	
 	void Update () 
 	{
-		if (!gameObject.GetComponent<Status>().isStunned){
-			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
+		if (!gameObject.GetComponent<Status>().isStunned)
+		{
+			if (input.isMovingUp()) 
 			{
 				anim.SetBool("d",true);
 				rigidbody2D.transform.position += Vector3.up 
@@ -45,36 +49,35 @@ public class Player : Entities
 					* gameObject.GetComponent<Status> ().getSpeedx () 
 					* Time.deltaTime;
 			}
-			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
+			if (input.isMovingDown()) 
 			{
-				anim.SetBool("a", true);
-				anim.SetBool("d", false);
-				rigidbody2D.transform.position += Vector3.left 
+				anim.SetBool("d",true);
+				rigidbody2D.transform.position += Vector3.down
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
 					* Time.deltaTime;
 			}
-			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
+			if (input.isMovingLeft()) 
 			{
-				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
-					anim.SetBool("d",true);
-				rigidbody2D.transform.position += Vector3.down 
+				anim.SetBool("d",false);
+				anim.SetBool("a",true);
+								rigidbody2D.transform.position += Vector3.left
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
 					* Time.deltaTime;
 			}
-			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
-			{			
-				anim.SetBool("d", true);
-				anim.SetBool("a", false);
-				rigidbody2D.transform.position += Vector3.right 
+			if (input.isMovingRight()) 
+			{
+				anim.SetBool("d",true);
+				anim.SetBool("a",false);
+				rigidbody2D.transform.position += Vector3.right
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
 					* Time.deltaTime;
 			}
 		}
 		//if not moving
-		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
+		if(!input.isMoving() || gameObject.GetComponent<Status>().isStunned)//not moving or is stunned *possible make a stun animation?
 		{
 			anim.SetBool("d",false);
 			anim.SetBool("a", false);
