@@ -31,6 +31,7 @@ public class Status : MonoBehaviour {
 	public float defense2;
 	
 	public bool isStunned;
+	public bool isSlowed;
 
 	public float money1;
 	public float money2;
@@ -44,7 +45,7 @@ public class Status : MonoBehaviour {
 		levelUp = false;
 		floor = 1;
 
-		speed = 8f;
+		speed = 5f;
 		speedx = 1f;//speed-buff or slow-debuff
 		agility = 180f;
 		agilityx = 1f;
@@ -66,6 +67,9 @@ public class Status : MonoBehaviour {
 		
 		damagex = 1f;
 		damage1 = 20f;//type 1
+		//if (gameObject.tag == "Player") {
+		//	damage1 = 25f; 
+		//}
 		defense1 = 0.5f;//type 1 only defends against type1
 		damage2 = 50f;
 		defense2 = 0.5f;
@@ -119,6 +123,10 @@ public class Status : MonoBehaviour {
 		if (attackTimer > 0) {
 			attackTimer -= Time.deltaTime;
 		}
+
+		if (isSlowed) {
+			isSlowed=false;
+		}
 	}
 	
 	void OnCollisionStay2D (Collision2D collider){
@@ -145,7 +153,17 @@ public class Status : MonoBehaviour {
 			attackTimer = 1/attackSpeed;
 		}
 	}
-	
+
+//	public void buff(float duration, float startTime, float repeatTime){
+//		if (repeatTime>0){
+//			duration-=Time.deltaTime;
+//			if (duration==0){
+//				return;
+//			}
+//		}
+//
+//	}
+
 	public float getSpeedx(){
 		return speedx;
 	}
