@@ -150,6 +150,7 @@ public class Player : Entities
 	{
 		if(other.CompareTag("goal")) 
 		{
+			gameObject.GetComponent<Status>().floor++;
 		    Dungeon.NextFloor();	
             //Application.LoadLevel ("Game");
 		} else

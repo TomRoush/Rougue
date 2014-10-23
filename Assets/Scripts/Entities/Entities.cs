@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Entities : MonoBehaviour {
 
-
+	private float sqrt2 = 1.41421356237f;
 	public float speed;
 	public float health;
 
@@ -62,7 +62,7 @@ public abstract class Entities : MonoBehaviour {
 	{
 		Vector3 dir = Vector3.Lerp(x, y, 0.5f); //average two vectors
 		rigidbody2D.transform.position += dir  
-			* gameObject.GetComponent<Status> ().speed 
+			* gameObject.GetComponent<Status> ().speed * sqrt2
 			* gameObject.GetComponent<Status> ().getSpeedx ()  
 			* Time.deltaTime;
 	}
