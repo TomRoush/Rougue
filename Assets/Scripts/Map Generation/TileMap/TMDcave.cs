@@ -29,7 +29,7 @@ public partial class TileMapData
 
         caveMakeSpawn();
         caveMakeGoal();
-        good = isGoodMap();
+			good = MapUtilities.isGoodMap (mapData, sizeX, sizeY);//MapUtilities.connectsToGoal (mapData, MapUtilities.findPlayerX(mapData, sizeX, sizeY),MapUtilities.findPlayerY(mapData, sizeX, sizeY), sizeX, sizeY);
         MakeWalls();
         }
         if( attempts > 2)
@@ -118,8 +118,10 @@ public partial class TileMapData
 
     
 
-    
 
+
+    //this method's function was moved to MapUtilities
+	/*
     bool isGoodMap()
     {
         int x = -1;
@@ -196,6 +198,7 @@ public partial class TileMapData
       return false;
 
     }
+*/
 
     void caveMakeSpawn()
     {
