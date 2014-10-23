@@ -11,6 +11,7 @@ public class MakeMap : MonoBehaviour
 	public GameObject Filler;
 	public GameObject Player;
 	public GameObject Goal;
+    public GameObject UpStairs;
 	public GameObject Enemy;
 	public int xMax;
 	public int yMax;
@@ -18,9 +19,18 @@ public class MakeMap : MonoBehaviour
 	public int numEnemies;
 
 
+    public int DungeonFloor;
+    GameObject PlayerInstance;
+    //Events to Handle Map clearings
+    public delegate void DeleteTiles();
+    public static event DeleteTiles OnDelete;
+
+
 	
 	void Start () 
 	{
+        DungeonFloor = 0;
+        PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
 
@@ -49,8 +59,8 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Filler, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
-					Instantiate(Player, tilePos, Quaternion.identity);//Instantiate Player first or the player will be invisible when spawned
-					Instantiate(Floor, tilePos, Quaternion.identity);
+					PlayerInstance.transform.position =   tilePos;
+					Instantiate(UpStairs, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
@@ -60,4 +70,21 @@ public class MakeMap : MonoBehaviour
 		}
 		Spawning.SpawnEnemies(map, numEnemies, Enemy);
 	}
+
+    public void NextFloor()
+    {
+        PlayerInstance.SetActive(false);
+        DungeonFloor++;
+        ClearMap();
+        PlaceMap();
+        PlayerInstance.SetActive(true);
+
+    }
+
+    void ClearMap()
+    {
+        if(OnDelete != null)
+            OnDelete();
+
+    }
 }
