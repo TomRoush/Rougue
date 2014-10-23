@@ -13,6 +13,8 @@ public class Player : Entities
 	public float curHealth;
 	
 	Animator anim;
+
+	Transform weapon;
 	
 	// GUI
 	public Vector2 pos = new Vector2(20,40);
@@ -20,19 +22,19 @@ public class Player : Entities
 	public Texture2D emptyTex;
 	public Texture2D fullTex;
 	private GUIStyle currentStyle = null;
-	
+
 	public ParticleSystem blood;//turned public
 
 	void Start () {
-
 		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
+		weapon = transform.Find ("Weapon");
 	}
-	
-	void Update () 
+
+	void FixedUpdate () 
 	{
 		if (!gameObject.GetComponent<Status>().isStunned){
 			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
@@ -45,8 +47,14 @@ public class Player : Entities
 			}
 			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
 			{
-				anim.SetBool("a", true);
-				anim.SetBool("d", false);
+				//anim.SetBool("a", true);
+				//anim.SetBool("d", false);
+				Vector3 theScale = transform.localScale;
+				theScale.x = -1;
+				transform.localScale = theScale;
+
+				anim.SetBool("d", true);
+				anim.SetBool("a", false);
 				rigidbody2D.transform.position += Vector3.left 
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
@@ -63,6 +71,10 @@ public class Player : Entities
 			}
 			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
 			{			
+				Vector3 theScale = transform.localScale;
+				theScale.x = 1;
+				transform.localScale = theScale;
+
 				anim.SetBool("d", true);
 				anim.SetBool("a", false);
 				rigidbody2D.transform.position += Vector3.right 
