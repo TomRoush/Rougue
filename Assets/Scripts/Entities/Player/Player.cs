@@ -34,7 +34,7 @@ public class Player : Entities
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
     }
 	
-	void FixedUpdate () 
+	void Update () 
 	{
 		if (!gameObject.GetComponent<Status>().isStunned)
 		{

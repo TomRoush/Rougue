@@ -21,7 +21,7 @@ public class AttackingMob : Entities {
 	}
 	
 
-	void FixedUpdate () {
+	void Update () {
 
 		if (attacking.rigidbody2D.transform.position.y > (rigidbody2D.transform.position.y + distance)) 	
 		{
