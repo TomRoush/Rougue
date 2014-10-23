@@ -101,6 +101,8 @@ public class MapUtilities : MonoBehaviour {
 		return false;
 	}
 
+
+	//calls connectsToGoal for every floor tile. Not efficient but makes sure every tile is walkable by the player.
 	public static bool isGoodMap(eTile[,] mapData, int sizeX, int sizeY)
 	{
 
