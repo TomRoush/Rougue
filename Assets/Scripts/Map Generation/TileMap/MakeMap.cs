@@ -61,6 +61,7 @@ public class MakeMap : MonoBehaviour
 				{
 					PlayerInstance.transform.position =   tilePos;
 					Instantiate(UpStairs, tilePos, Quaternion.identity);
+					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
