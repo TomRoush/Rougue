@@ -55,11 +55,6 @@ public class AttackingMob : Entities {
 		}
 	}
 
-	public void Die()
-	{
-
-	}
-
 	public void attackEntity()
 	{
 		int take = Random.Range (lowRangeDamage, highRangeDamage);
