@@ -8,8 +8,9 @@ public class Player : Entities
 	public static GameState playerState = GameState.PLAYING;
 
 	public static bool paused = false;
-	private bool a;
-	private bool d;
+	private int previousDirection;
+	private int direction;
+	private float velocity;
 	public float curHealth;
 	
 	Animator anim;
@@ -35,11 +36,15 @@ public class Player : Entities
 	}
 
 	void FixedUpdate () 
+		//walkDirection: 1 = left, 2 = up, 3 = right, 4 = down;
+		//idleDirection: saves previous walkDirection to animate idle
 	{
 		if (!gameObject.GetComponent<Status>().isStunned){
 			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 			{
-				anim.SetBool("d",true);
+				anim.SetInteger ("direction", 2);
+				anim.SetFloat ("velocity", 1.0f);
+				previousDirection = 2;
 				rigidbody2D.transform.position += Vector3.up 
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
@@ -49,12 +54,10 @@ public class Player : Entities
 			{
 				//anim.SetBool("a", true);
 				//anim.SetBool("d", false);
-				Vector3 theScale = transform.localScale;
-				theScale.x = -1;
-				transform.localScale = theScale;
 
-				anim.SetBool("d", true);
-				anim.SetBool("a", false);
+				anim.SetInteger ("direction", 1);
+				anim.SetFloat ("velocity", 1.0f);
+				previousDirection = 1;
 				rigidbody2D.transform.position += Vector3.left 
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
@@ -63,7 +66,9 @@ public class Player : Entities
 			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
 			{
 				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
-					anim.SetBool("d",true);
+					anim.SetInteger ("direction", 4);
+				anim.SetFloat ("velocity", 1.0f);
+				previousDirection = 4;
 				rigidbody2D.transform.position += Vector3.down 
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
@@ -75,8 +80,9 @@ public class Player : Entities
 				theScale.x = 1;
 				transform.localScale = theScale;
 
-				anim.SetBool("d", true);
-				anim.SetBool("a", false);
+				anim.SetInteger ("direction", 3);
+				anim.SetFloat ("velocity", 1.0f);
+				previousDirection = 3;
 				rigidbody2D.transform.position += Vector3.right 
 					* gameObject.GetComponent<Status> ().speed 
 					* gameObject.GetComponent<Status> ().getSpeedx () 
@@ -86,8 +92,8 @@ public class Player : Entities
 		//if not moving
 		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
 		{
-			anim.SetBool("d",false);
-			anim.SetBool("a", false);
+			anim.SetInteger ("direction", previousDirection);
+			anim.SetFloat ("velocity", 0.0f);
 		}
 
 		if(Input.GetKeyDown (KeyCode.Escape)) 
