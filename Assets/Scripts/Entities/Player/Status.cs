@@ -25,14 +25,15 @@ public class Status : MonoBehaviour {
 	public float attackTimer;
 	
 	public float damagex;
-	public float damage1;//type 1
-	public float defense1;//type 1
-	public float damage2;
-	public float defense2;
+	public float strength;//type 1
+	public float defense;//type 1
+	public float intelligence;
+	public float resistence;
 	
 	public bool isStunned;
 	public bool isSlowed;
 
+	public float exp1;
 	public float money1;
 	public float money2;
 	
@@ -56,6 +57,14 @@ public class Status : MonoBehaviour {
 		if (gameObject.tag == "Player") {
 			healthRegen=2f;
 		}
+		damagex = 1f;
+		strength = 20f+level;//type 1
+		//if (gameObject.tag == "Player") {
+		//	damage1 = 25f; 
+		//}
+		defense = 0.5f;//type 1 only defends against type1
+		intelligence = 50f+level;
+		resistence = 0.5f;
 		
 		rage = 0f;
 		rageDecay = 3;
@@ -65,31 +74,28 @@ public class Status : MonoBehaviour {
 		attackSpeed = 1f;
 		attackTimer = 0;
 		
-		damagex = 1f;
-		damage1 = 20f;//type 1
-		//if (gameObject.tag == "Player") {
-		//	damage1 = 25f; 
-		//}
-		defense1 = 0.5f;//type 1 only defends against type1
-		damage2 = 50f;
-		defense2 = 0.5f;
-		
 		isStunned = false;
 
+		exp1 = 0f;
 		money1 = 0f;
 		money2 = 0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (levelUp) {
-			level++;
-			maxHealth+=maxHealth/0.05f;
-		}
 
 		if (health <= 0 && gameObject.tag=="Enemy") {
 			GameObject.Find ("Mage WithCam(Clone)").GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
+			GameObject.Find ("Mage WithCam(Clone)").GetComponent<Status>().exp1+=10+level;
 			Destroy (gameObject);
+		}
+
+		if (exp1>100+10*level){
+			exp1-=100+10*level;
+			level++;
+			maxHealth+=maxHealth/0.05f;
+			strength++;
+			intelligence++;
 		}
 		
 		if (health>maxHealth){
@@ -131,23 +137,23 @@ public class Status : MonoBehaviour {
 	
 	void OnCollisionStay2D (Collision2D collider){
 		if (gameObject.tag=="Player" && collider.gameObject.tag == "Enemy" && attackTimer <= 0) {
-			collider.gameObject.GetComponent<Status> ().health -= damage1 * damagex
-				* collider.gameObject.GetComponent<Status> ().defense1;
+			collider.gameObject.GetComponent<Status> ().health -= strength * damagex
+				* collider.gameObject.GetComponent<Status> ().defense;
 
 			if (!collider.gameObject.GetComponent<Status> ().isRaged){
-				collider.gameObject.GetComponent<Status> ().rage += damage1 * damagex
-					* collider.gameObject.GetComponent<Status> ().defense1 * 2;//gain twice rage as loss in hp
+				collider.gameObject.GetComponent<Status> ().rage += strength * damagex
+					* collider.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
 			}
 			//money1+=0.1f;
 			attackTimer = 1/attackSpeed;
 		}
 		if (gameObject.tag=="Enemy" && collider.gameObject.tag == "Player" && attackTimer <= 0) {
-			collider.gameObject.GetComponent<Status> ().health -= damage1 * damagex
-				* collider.gameObject.GetComponent<Status> ().defense1;
+			collider.gameObject.GetComponent<Status> ().health -= strength * damagex
+				* collider.gameObject.GetComponent<Status> ().defense;
 
 			if (!collider.gameObject.GetComponent<Status> ().isRaged){
-				collider.gameObject.GetComponent<Status> ().rage += damage1 * damagex
-					* collider.gameObject.GetComponent<Status> ().defense1 * 2;//gain twice rage as loss in hp
+				collider.gameObject.GetComponent<Status> ().rage += strength * damagex
+					* collider.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
 			}
 			collider.gameObject.GetComponent<Player>().blood.Play();
 			attackTimer = 1/attackSpeed;
