@@ -35,4 +35,9 @@
 	{
 		return floors[i];
 	}
+
+	public int length()
+	{
+		return floors.Length;
+	}
 }

@@ -134,7 +134,8 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(false);
         DungeonFloor++;
         ClearMap();
-        PlaceMap(genTMD());//dungeon.getTMD(DungeonFloor));
+        if(DungeonFloor>=dungeon.length())PlaceMap(genTMD());//
+        else PlaceMap(dungeon.getTMD(DungeonFloor));
         PlayerInstance.SetActive(true);
     }
 
