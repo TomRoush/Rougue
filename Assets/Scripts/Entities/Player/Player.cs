@@ -10,6 +10,7 @@ public class Player : Entities
 	public static bool paused = false;
 	private int previousDirection;
 	private float velocity;
+	public bool alive = true;
 	public float curHealth;
 	
 	Animator anim;
@@ -142,15 +143,21 @@ public class Player : Entities
 	{
 		if (paused) 
 		{
-			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
-			{
-				paused = false;
-				//	Debug.Log("BUTTON HIT");
-			}
-			if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
-			{
-				paused = true;
-				Application.LoadLevel("MainMenu");
+			if(alive) {
+				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
+				{
+					paused = false;
+				}
+				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
+				{
+					Application.LoadLevel("MainMenu");
+				}
+			} else {
+				GUI.Label (new Rect(Screen.width/2, Screen.height/2, 100, 100), "YOU HAVE DIED");
+				if(GUI.Button (new Rect(Screen.width/2, Screen.height/2 + 100, 100, 50), "MAIN MENU")) 
+				{
+					Application.LoadLevel("MainMenu");
+				}
 			}
 		}
 		
@@ -241,7 +248,8 @@ public class Player : Entities
 
 	public override void Die()
 	{
-		print ("I've been killed");
-		Debug.Break();
+		alive = false;
+		paused = true;
+		UpdateGameState ();
 	}
 }

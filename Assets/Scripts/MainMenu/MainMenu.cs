@@ -5,13 +5,16 @@ public class MainMenu : MonoBehaviour {
 	
 	private enum Menu { MAIN, SETTINGS, LOAD };
 	private static Menu scene = Menu.MAIN;
-	
+
+	private AudioClip music;
+
 	private Texture2D new_game;
 	private Texture2D load_game;
 	private Texture2D settings;
 	private Texture2D quit;
-	
-	public void Start() {
+
+	public void Start() 
+	{
 		
 		new_game = Resources.Load ("Artwork/Main_Menu/new_game") as Texture2D;
 		load_game = Resources.Load ("Artwork/Main_Menu/load_game") as Texture2D;
@@ -19,7 +22,6 @@ public class MainMenu : MonoBehaviour {
 		quit = Resources.Load ("Artwork/Main_Menu/quit") as Texture2D;
 		
 	}
-	
 	public void OnGUI()
 	{
 		if(scene == Menu.MAIN) 
@@ -44,7 +46,9 @@ public class MainMenu : MonoBehaviour {
 		} else if(scene == Menu.SETTINGS)
 		{
 			GUI.HorizontalSlider (new Rect ((Screen.width)/5+15, (Screen.height)/2+20, 100, 50), 10, 0, 20);
+
 			GUI.Label (new Rect ((Screen.width)/5+10, (Screen.height)/2+45, 200, 100), "MASTER VOLUME");
+
 			if (GUI.Button (new Rect ((Screen.width)/5+15, (Screen.height)/2+80, 100, 50), "BACK"))
 			{
 				scene = Menu.MAIN;
