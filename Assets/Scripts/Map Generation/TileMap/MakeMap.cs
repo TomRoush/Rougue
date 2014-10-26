@@ -49,8 +49,8 @@ public class MakeMap : MonoBehaviour
         Debug.Log("add");
         Debug.Log("dungeon size " + dungeon.floors.Length);
 
-
-        return map;
+        TileMapData blank = new TileMapData(true);
+        return blank;
 	}
 
 	void PlaceMap()
@@ -65,7 +65,7 @@ public class MakeMap : MonoBehaviour
         dungeon.add(map);
         Debug.Log("add");
         Debug.Log("dungeon size " + dungeon.floors.Length);
-        
+
 		for(int y=0; y<map.sizeY; y++)
 		{
 			for(int x=0; x<map.sizeX; x++)
@@ -138,7 +138,8 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(false);
         DungeonFloor++;
         ClearMap();
-        PlaceMap();
+        dungeon.add(genTMD());
+        PlaceMap(dungeon.getTMD(DungeonFloor));
         PlayerInstance.SetActive(true);
     }
 
@@ -147,7 +148,7 @@ public class MakeMap : MonoBehaviour
     	PlayerInstance.SetActive(false);
         DungeonFloor--;
         ClearMap();
-        PlaceMap(dungeon.getTMD(DungeonFloor-1));
+        PlaceMap(dungeon.getTMD(DungeonFloor));
         PlayerInstance.SetActive(true);
     }
 
