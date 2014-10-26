@@ -211,12 +211,12 @@ public class Player : Entities
 
 	void OnTriggerStay2D( Collider2D other )
 	{
-		if(other.CompareTag("goal") && Input.GetButton("Action")) 
+		if(other.CompareTag("goal") && Input.GetButtonDown("Action")) 
 		{
 			Dungeon.NextFloor();
 			//Application.LoadLevel ("Game");
 		} 
-		if(other.CompareTag("UpStairs") && Input.GetButton("Action"))
+		if(other.CompareTag("UpStairs") && Input.GetButtonDown("Action"))
 		{
 			Dungeon.PreviousFloor();
 		}

@@ -60,17 +60,6 @@ public partial class TileMapData
 				return true;
 		}
 	}
-    
-	public TileMapData(){}
-
-    public TileMapData(bool blank)
-    {
-    	if(blank) 
-    	{
-    		mapData = createFilledMapArray();
-    		//mapData[1,1] = eTile.Player;
-    	}
-    }
 
     public eTile GetTileAt(int x, int y)
     {
