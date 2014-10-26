@@ -29,7 +29,7 @@ public abstract class Entities : MonoBehaviour {
 
 	public void Die()
 	{
-		Destroy (gameObject);
+		//Destroy (gameObject);
 	}
 
 	public void moveUp()

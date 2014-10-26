@@ -5,6 +5,7 @@ public class Status : MonoBehaviour {
 
 	public int level;
 	public bool levelUp;
+	public int upgradePoints;
 	public int floor;
 
 	public float speed;
@@ -39,7 +40,7 @@ public class Status : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		level = 1;
+		level = 5;
 		if (gameObject.tag == "Enemy") {
 			level = Random.Range (floor, floor+10);
 		}
@@ -96,6 +97,7 @@ public class Status : MonoBehaviour {
 			maxHealth+=maxHealth/0.05f;
 			strength++;
 			intelligence++;
+			upgradePoints++;
 		}
 		
 		if (health>maxHealth){
@@ -106,7 +108,7 @@ public class Status : MonoBehaviour {
 		
 		if (rage < 0) {
 			rage=0;
-		}else if (rage>=100){//rage on
+		}else if (rage>=100&&gameObject.tag == "Player"){//rage on
 			speedx+=1f;//speed does not work
 			damagex+=10f;//damage works though
 			attackSpeed+=0.5f;
@@ -170,7 +172,7 @@ public class Status : MonoBehaviour {
 //
 //	}
 
-	public float getSpeedx(){
+	public float getSpeedx(){//not sure if needed anymore
 		return speedx;
 	}
 }
