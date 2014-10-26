@@ -47,7 +47,7 @@ public class Status : MonoBehaviour {
 		levelUp = false;
 		floor = 1;
 
-		speed = 5f;
+		speed = 15f;
 		speedx = 1f;//speed-buff or slow-debuff
 		agility = 180f;
 		agilityx = 1f;
