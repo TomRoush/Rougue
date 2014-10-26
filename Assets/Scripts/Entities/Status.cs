@@ -155,7 +155,7 @@ public class Status : MonoBehaviour {
 		        //   (enemies[i].transform.position.y-gameObject.transform.position.y)) < range1 
 				attackTimer <= 0) 
 			{
-			Debug.Log ("Yes1");
+			//Debug.Log ("Yes1");
 				closest.gameObject.GetComponent<Status> ().health -= strength * damagex
 					* closest.gameObject.GetComponent<Status> ().defense;
 
@@ -175,7 +175,7 @@ public class Status : MonoBehaviour {
 		        //  			(player.transform.position.y-gameObject.transform.position.y)) < range1 
 			  	attackTimer <= 0) 
 			{
-				Debug.Log ("Yes2");
+				//Debug.Log ("Yes2");
 				player.gameObject.GetComponent<Status> ().health -= strength * damagex
 					* player.gameObject.GetComponent<Status> ().defense;
 					

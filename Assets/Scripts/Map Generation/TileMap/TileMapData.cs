@@ -6,6 +6,7 @@ public partial class TileMapData
 	public int sizeX;
 	public int sizeY; 
 	public int nRooms;
+	public int floorNum;
 	
 	public eTile[,] mapData;
 	
@@ -60,7 +61,16 @@ public partial class TileMapData
 		}
 	}
     
-    
+	public TileMapData(){}
+
+    public TileMapData(bool blank)
+    {
+    	if(blank) 
+    	{
+    		//mapData = createFilledMapArray();
+    		mapData[0,0] = eTile.Player;
+    	}
+    }
 
     public eTile GetTileAt(int x, int y)
     {

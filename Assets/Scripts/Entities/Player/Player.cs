@@ -84,7 +84,7 @@ public class Player : Entities
 			}
 		}
 		//if not moving
-		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
+		if(!PlayerInput.isMoving())
 		{
 			anim.SetInteger ("direction", previousDirection);
 			anim.SetFloat ("velocity", 0.0f);
@@ -206,15 +206,17 @@ public class Player : Entities
 		}
 	}
 
-	void OnTriggerEnter2D( Collider2D other )
+	void OnTriggerStay2D( Collider2D other )
 	{
-		if(other.CompareTag("goal")) 
+		if(other.CompareTag("goal") && Input.GetButton("Action")) 
 		{
+			Debug.Log("down");
 			Application.LoadLevel ("Game");
-		} else
+		} 
+		if(other.CompareTag("UpStairs") && Input.GetButton("Action"))
 		{
-			// Not sure what this did, but it prevents other triggers at the moment
-			//Application.LoadLevel ("MainMenu");
+			Debug.Log("up");
+			Application.LoadLevel ("Game");
 		}
 	}
 	
