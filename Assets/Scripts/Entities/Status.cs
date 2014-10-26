@@ -6,11 +6,13 @@ public class Status : MonoBehaviour {
 	//public Hashtable<string, float> attributes = new Hashtable<string, float>();
 	GameObject[] enemies; //= new GameObject[200];
 	static GameObject player;
-
-	public int level;
-	public bool levelUp;
+	[HideInInspector]
+	public int level = 5;
+	[HideInInspector]
+	public bool levelUp = false;
 	public int upgradePoints;
-	public int floor;
+	[HideInInspector]
+	public int floor = 1;
 
 	public float speed;
 	public float speedx;//speed-buff or slow-debuff
@@ -18,27 +20,39 @@ public class Status : MonoBehaviour {
 	public float agilityx;
 
 	public float maxHealth;
+	[HideInInspector]
 	public float health;
 	public float healthRegen;
 	
-	public float rage;
+	public float maxMana;
+	[HideInInspector]
+	public float mana;
+	public float manaRegen;
+	
+	[HideInInspector]
+	public float rage = 0.0f;
 	public float rageDecay;
-	public float rageTimer;
-	public bool isRaged;
+	[HideInInspector]
+	public float rageTimer = 0.0f;
+	[HideInInspector]
+	public bool isRaged = false;
 	
 	public float attackSpeed;
-	public float attackTimer;
+	[HideInInspector]
+	public float attackTimer = 0.0f;
 	
 	public float damagex;
 	public float strength;//type 1
-	public float defense;//type 1
+	public float defense;//type 1 only defends against type1
 	public float intelligence;
 	public float resistence;
 
 	public float range1;
 	
-	public bool isStunned;
-	public bool isSlowed;
+	[HideInInspector]
+	public bool isStunned = false;
+	[HideInInspector]
+	public bool isSlowed = false;
 
 	public float exp1;
 	public float money1;
@@ -46,52 +60,18 @@ public class Status : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		level = 5;
 		if (gameObject.tag == "Enemy") {
 			level = Random.Range (floor, floor+10);
 		}
-		levelUp = false;
-		floor = 1;
-
-		speed = 13f;
-		speedx = 1f;//speed-buff or slow-debuff
-		agility = 180f;
-		agilityx = 1f;
 
 		maxHealth = 100f*(Mathf.Pow(1.05f, level-1));
+		
 		health = maxHealth;
-		healthRegen = 1f;
-		if (gameObject.tag == "Player") {
-			healthRegen=2f;
-		}
-		damagex = 1f;
+		mana = maxMana;
+
 		strength = 20f+level;//type 1
-		if (gameObject.tag == "Player") {
 		//	damage1 = 25f; 
-        	speed = 18f;
-		}
-		defense = 0.5f;//type 1 only defends against type1
 		intelligence = 50f+level;
-		resistence = 0.5f;
-
-		range1 = 12;
-		if (gameObject.tag == "Enemy") {
-			range1 = 6;
-		}
-		
-		rage = 0f;
-		rageDecay = 3;
-		rageTimer = 0;
-		isRaged = false;
-		
-		attackSpeed = 1f;
-		attackTimer = 0;
-		
-		isStunned = false;
-
-		exp1 = 0f;
-		money1 = 0f;
-		money2 = 0f;
 
 		//enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		player = GameObject.FindGameObjectWithTag ("Player");
@@ -103,15 +83,16 @@ public class Status : MonoBehaviour {
 	void Update () {
 
 		if (health <= 0 && gameObject.tag=="Enemy") {
-			GameObject.Find ("Mage WithCam(Clone)").GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
-			GameObject.Find ("Mage WithCam(Clone)").GetComponent<Status>().exp1+=10+level;
+			player.GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
+			player.GetComponent<Status>().exp1+=10+level;
 			Destroy (gameObject);
 		}
 
 		if (exp1>100+10*level){
 			exp1-=100+10*level;
 			level++;
-			maxHealth+=maxHealth/0.05f;
+			maxHealth *= 1.05f;
+			maxMana *= 1.05f;
 			strength++;
 			intelligence++;
 			upgradePoints++;
@@ -123,15 +104,20 @@ public class Status : MonoBehaviour {
 			health += Time.deltaTime * healthRegen;
 		}
 		
+		if(mana > maxMana) {
+			mana = maxMana;
+		} else if(mana < maxMana){
+			mana += Time.deltaTime * manaRegen;
+		}
+		
 		if (rage < 0) {
 			rage=0;
-		}else if (rage>=100&&gameObject.tag == "Player"){//rage on
+		}else if (rage>=100&&gameObject.tag == "Player" && !isRaged){//rage on
 			speedx+=1f;//speed does not work
 			damagex+=10f;//damage works though
 			attackSpeed+=0.5f;
 			rageTimer = 6f; 
 			isRaged=true;
-			rage=0;
 		}else if (rage > 0) {
 			rage -= Time.deltaTime * rageDecay;
 		}
@@ -143,6 +129,7 @@ public class Status : MonoBehaviour {
 			attackSpeed-=0.5f;
 			isRaged=false;
 			rageTimer=0;
+			rage = 0;
 		}
 		
 		if (attackTimer > 0) {

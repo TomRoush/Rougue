@@ -154,13 +154,42 @@ public class Player : Entities
 			}
 		}
 		
+		// draw the health bar
 		//draw the background:
-		InitStyles ();
+		if(gameObject.GetComponent<Status> ().health > 50.0f) {
+			InitStyles (Color.green);
+		} else {
+			InitStyles(Color.red);
+		}
 		GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
 		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().health, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
+		GUI.EndGroup();
+		GUI.EndGroup();
+		
+		// draw the mana bar
+		//draw the background:
+		InitStyles (Color.blue);
+		GUI.BeginGroup(new Rect(pos.x, pos.y + size.y, size.x, size.y));
+		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
+		
+		//draw the filled-in part:
+		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().mana, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
+		GUI.EndGroup();
+		GUI.EndGroup();
+		
+		// draw the stamina (rage) bar
+		//draw the background:
+		InitStyles (Color.magenta);
+		GUI.BeginGroup(new Rect(pos.x, pos.y + 2 * size.y, size.x, size.y));
+		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
+		
+		//draw the filled-in part:
+		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().rage, size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
@@ -177,19 +206,17 @@ public class Player : Entities
 			Application.LoadLevel ("Game");
 		} else
 		{
-			Application.LoadLevel ("MainMenu");
+			// Not sure what this did, but it prevents other triggers at the moment
+			//Application.LoadLevel ("MainMenu");
 		}
 	}
 	
-	private void InitStyles()
+	private void InitStyles(Color c)
 	{
-		if (currentStyle == null) {
+		//if (currentStyle == null) {
 			currentStyle = new GUIStyle (GUI.skin.box);
-			currentStyle.normal.background = MakeTex (2, 2, new Color (0f, 1f, 0f, 1f));
-		}
-		if (gameObject.GetComponent<Status> ().health < 50.0f) {
-			currentStyle.normal.background = MakeTex (2, 2, new Color (1f, 0f, 0f, 1f));
-		}
+			currentStyle.normal.background = MakeTex (2, 2, c);
+		//}
 	}
 	private Texture2D MakeTex( int width, int height, Color col )
 	{
