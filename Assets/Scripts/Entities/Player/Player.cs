@@ -24,6 +24,7 @@ public class Player : Entities
 	private GUIStyle currentStyle = null;
 
 	public ParticleSystem blood;//turned public
+	public GameObject bloodSpatter;
 
 	void Start () {
         
@@ -111,7 +112,6 @@ public class Player : Entities
 
 
 		UpdateGameState();
-		updateHealth();
 	}
 
 	//NEEDS TO BE CALLED
@@ -124,11 +124,17 @@ public class Player : Entities
 
 	}
 	
-	public void updateHealth()
+	public override void takeHealth(int amount)
 	{
-		if(curHealth > gameObject.GetComponent<Status> ().health) {
-			curHealth = gameObject.GetComponent<Status> ().health;
-			blood.Play();//moved to Status
+		health = health - amount;
+		Debug.Log ("health left" + health);
+		blood.Play();
+		if(Random.value < 0.25f) {
+			Instantiate(bloodSpatter, transform.position, Quaternion.identity);
+		}
+		
+		if (health <= 0) {
+			Die ();
 		}
 	}
 
