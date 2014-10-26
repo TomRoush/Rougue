@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Status : MonoBehaviour {
 
+	//public Hashtable<string, float> attributes = new Hashtable<string, float>();
+	GameObject[] enemies; //= new GameObject[200];
+	static GameObject player;
+
 	public int level;
 	public bool levelUp;
 	public int upgradePoints;
@@ -30,6 +34,8 @@ public class Status : MonoBehaviour {
 	public float defense;//type 1
 	public float intelligence;
 	public float resistence;
+
+	public float range1;
 	
 	public bool isStunned;
 	public bool isSlowed;
@@ -67,6 +73,11 @@ public class Status : MonoBehaviour {
 		defense = 0.5f;//type 1 only defends against type1
 		intelligence = 50f+level;
 		resistence = 0.5f;
+
+		range1 = 12;
+		if (gameObject.tag == "Enemy") {
+			range1 = 6;
+		}
 		
 		rage = 0f;
 		rageDecay = 3;
@@ -81,7 +92,12 @@ public class Status : MonoBehaviour {
 		exp1 = 0f;
 		money1 = 0f;
 		money2 = 0f;
+
+		//enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -136,31 +152,79 @@ public class Status : MonoBehaviour {
 		if (isSlowed) {
 			isSlowed=false;
 		}
+
+		autoMelee ();
 	}
 	
-	void OnCollisionStay2D (Collision2D collider){
-		if (gameObject.tag=="Player" && collider.gameObject.tag == "Enemy" && attackTimer <= 0) {
-			collider.gameObject.GetComponent<Status> ().health -= strength * damagex
-				* collider.gameObject.GetComponent<Status> ().defense;
+	//void OnCollisionStay2D (Collision2D collider){
+	void autoMelee(){//not necessarily melee range (uses range1), but this uses strength
+		GameObject closest = FindClosestEnemy();
+		if (closest != null){
+			if (gameObject.tag == "Player" && 
+		    	getDistance(closest) < range1 &&
+		    	//Mathf.Sqrt((enemies[i].transform.position.x-gameObject.transform.position.x) * 
+		        //   (enemies[i].transform.position.x-gameObject.transform.position.x) + 
+		        //   (enemies[i].transform.position.y-gameObject.transform.position.y) *
+		        //   (enemies[i].transform.position.y-gameObject.transform.position.y)) < range1 
+				attackTimer <= 0) 
+			{
+			Debug.Log ("Yes1");
+				closest.gameObject.GetComponent<Status> ().health -= strength * damagex
+					* closest.gameObject.GetComponent<Status> ().defense;
 
-			if (!collider.gameObject.GetComponent<Status> ().isRaged){
-				collider.gameObject.GetComponent<Status> ().rage += strength * damagex
-					* collider.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+				if (!closest.gameObject.GetComponent<Status> ().isRaged) {
+					closest.gameObject.GetComponent<Status> ().rage += strength * damagex
+					* closest.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+				}
+				//money1+=0.1f;
+				attackTimer = 1 / attackSpeed;
 			}
-			//money1+=0.1f;
-			attackTimer = 1/attackSpeed;
 		}
-		if (gameObject.tag=="Enemy" && collider.gameObject.tag == "Player" && attackTimer <= 0) {
-			collider.gameObject.GetComponent<Status> ().health -= strength * damagex
-				* collider.gameObject.GetComponent<Status> ().defense;
+		if (gameObject.tag=="Enemy" && 
+		   		getDistance(player) < range1 && 
+			    //Mathf.Sqrt((player.transform.position.x-gameObject.transform.position.x) * 
+		        // 			(player.transform.position.x-gameObject.transform.position.x) + 
+			    //      		(player.transform.position.y-gameObject.transform.position.y) *
+		        //  			(player.transform.position.y-gameObject.transform.position.y)) < range1 
+			  	attackTimer <= 0) 
+			{
+				Debug.Log ("Yes2");
+				player.gameObject.GetComponent<Status> ().health -= strength * damagex
+					* player.gameObject.GetComponent<Status> ().defense;
+					
+				if (!player.gameObject.GetComponent<Status> ().isRaged){
+					player.gameObject.GetComponent<Status> ().rage += strength * damagex
+						* player.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+				}
+				player.gameObject.GetComponent<Player>().blood.Play();
+				attackTimer = 1/attackSpeed;
+		}
+	}
 
-			if (!collider.gameObject.GetComponent<Status> ().isRaged){
-				collider.gameObject.GetComponent<Status> ().rage += strength * damagex
-					* collider.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+	GameObject FindClosestEnemy() {
+		enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+		GameObject closest = null;
+		if (gameObject.tag == "Player"){
+			float distance = Mathf.Infinity;
+			Vector3 position = transform.position;
+			foreach (GameObject go in enemies) {
+				float curDistance = (go.transform.position - position).sqrMagnitude;
+				//Vector3 diff = go.transform.position - position;
+				//float curDistance = diff.sqrMagnitude;
+				if (curDistance < distance) {
+					closest = go;
+					distance = curDistance;
+				}
 			}
-			collider.gameObject.GetComponent<Player>().blood.Play();
-			attackTimer = 1/attackSpeed;
 		}
+		if (closest != null) {
+			return closest;
+		} else {
+			return null;
+		}
+	}
+	float getDistance(GameObject go){
+		return (go.transform.position - transform.position).sqrMagnitude;
 	}
 
 //	public void buff(float duration, float startTime, float repeatTime){
