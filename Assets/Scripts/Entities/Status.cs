@@ -53,7 +53,7 @@ public class Status : MonoBehaviour {
 		levelUp = false;
 		floor = 1;
 
-		speed = 5f;
+		speed = 13f;
 		speedx = 1f;//speed-buff or slow-debuff
 		agility = 180f;
 		agilityx = 1f;
@@ -66,9 +66,10 @@ public class Status : MonoBehaviour {
 		}
 		damagex = 1f;
 		strength = 20f+level;//type 1
-		//if (gameObject.tag == "Player") {
+		if (gameObject.tag == "Player") {
 		//	damage1 = 25f; 
-		//}
+        	speed = 18f;
+		}
 		defense = 0.5f;//type 1 only defends against type1
 		intelligence = 50f+level;
 		resistence = 0.5f;

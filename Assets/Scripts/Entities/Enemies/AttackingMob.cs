@@ -12,6 +12,9 @@ public class AttackingMob : Entities {
 	private bool canAttack;
 
 	void Start () {
+
+        InitializeEntity();
+
 		canAttack = true;
 		if (attackingg == null) 
 		{
@@ -22,30 +25,9 @@ public class AttackingMob : Entities {
 	
 
 	void FixedUpdate () {
-
-		if (attacking.rigidbody2D.transform.position.y > (rigidbody2D.transform.position.y + distance)) 	
-		//if (attackingg.transform.position.y > (gameObject.transform.position.y + distance)) 	
-		{
-			rigidbody2D.transform.position += Vector3.up * speed * Time.deltaTime;
-		}
-		
-		if (attacking.rigidbody2D.transform.position.y < (rigidbody2D.transform.position.y - distance)) 
-		//if (attackingg.transform.position.y < (gameObject.transform.position.y + distance))
-		{
-			rigidbody2D.transform.position += Vector3.down * speed * Time.deltaTime;
-		}
-		
-		if (attacking.rigidbody2D.transform.position.x > (rigidbody2D.transform.position.x + distance))
-		//if (attackingg.transform.position.x > (gameObject.transform.position.x + distance))
-		{
-			rigidbody2D.transform.position += Vector3.right * speed * Time.deltaTime;
-		}
-		
-		if (attacking.rigidbody2D.transform.position.x < (rigidbody2D.transform.position.x - distance)) 
-		//if (attackingg.transform.position.x < (gameObject.transform.position.x + distance))
-		{
-			rigidbody2D.transform.position += Vector3.left * speed * Time.deltaTime;
-		}
+        
+        this.setDirection(attackingg.transform.position - this.transform.position);
+        Move();
 
 		if (Vector2.Distance (rigidbody2D.transform.position, attacking.transform.position) <= distance && canAttack)
 		{
