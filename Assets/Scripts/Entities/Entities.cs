@@ -17,6 +17,12 @@ public abstract partial class Entities : MonoBehaviour {
 	
 	}
 
+    //Must be run at start. Everything that all entities do should go here.
+    protected void InitializeEntity()
+    {
+        cStat = GetComponent<Status>();
+    }
+
 	public virtual void takeHealth(int amount)
 	{
 		health = health - amount;
