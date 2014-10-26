@@ -19,7 +19,7 @@ public class MakeMap : MonoBehaviour
 	public int numEnemies;
 
 	private TMDList dungeon = new TMDList(0);
-	private bool spawnOnGoal = false;
+	private bool toPrevFloor = false;
 
     public int DungeonFloor;
     GameObject PlayerInstance;
@@ -44,14 +44,7 @@ public class MakeMap : MonoBehaviour
             map.GenCave(xMax,yMax);
         else
             map.GenClassic(xMax,yMax, nRooms);
-        
-        //TileMapData blank = new TileMapData(true);
-
-        dungeon.add(map);
-        //Debug.Log("add");
-        //Debug.Log("dungeon size " + dungeon.floors.Length);
-
-     return map;
+    	 return map;
 	}
 
 	void PlaceMap()
@@ -64,36 +57,7 @@ public class MakeMap : MonoBehaviour
             map.GenClassic(xMax,yMax, nRooms);
 
         dungeon.add(map);
-        //Debug.Log("add");
-        //Debug.Log("dungeon size " + dungeon.floors.Length);
-
-		for(int y=0; y<map.sizeY; y++)
-		{
-			for(int x=0; x<map.sizeX; x++)
-			{
-				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
-				//if logic instantiates the proper prefab
-				if(map.GetTileAt(x,y) == eTile.Unknown)
-					Instantiate(Unknown, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == eTile.Floor)
-					Instantiate(Floor, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == eTile.Wall)
-					Instantiate(Wall, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == eTile.Filler)
-					Instantiate(Filler, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == eTile.Player)
-				{
-					PlayerInstance.transform.position =   tilePos;
-					Instantiate(UpStairs, tilePos, Quaternion.identity);
-					Instantiate(Floor, tilePos, Quaternion.identity);
-				}
-				else if(map.GetTileAt(x,y) == eTile.Goal)
-				{
-					Instantiate(Goal, tilePos, Quaternion.identity);
-				}
-			}
-		}
-		Spawning.SpawnEnemies(map, numEnemies, Enemy);
+		PlaceMap(map);
 	}
 
 	public void PlaceMap(TileMapData tmd)
@@ -116,37 +80,42 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Filler, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
-					if(!spawnOnGoal) PlayerInstance.transform.position =  tilePos;
+					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
 					Instantiate(UpStairs, tilePos, Quaternion.identity);
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
-					if(spawnOnGoal) PlayerInstance.transform.position =  tilePos;
+					if(toPrevFloor) PlayerInstance.transform.position =  tilePos;
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}
 			}
 		}
-		Spawning.SpawnEnemies(map, numEnemies, Enemy);
+		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
 	}
 
-    public void NextFloor()
+    public void NextFloor()//called when player hits action on downstairs
     {
         PlayerInstance.SetActive(false);
-        spawnOnGoal = false;
+        toPrevFloor = false;
         DungeonFloor++;
         ClearMap();
-        if(DungeonFloor>=dungeon.length())PlaceMap(genTMD());//if the player hasn't been here before, generate a new floor
+        if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
+        {
+        	TileMapData generated = genTMD();
+        	PlaceMap(generated);
+        	dungeon.add(generated);
+    	}
         else PlaceMap(dungeon.getTMD(DungeonFloor));//if the player has been here, load it from the list
         PlayerInstance.SetActive(true);
     }
 
-    public void PreviousFloor()
+    public void PreviousFloor()//called when player hits action on upstairs
     {
     	if(DungeonFloor>0)
     	{
 	    	PlayerInstance.SetActive(false);
-	    	spawnOnGoal = true;
+	    	toPrevFloor = true;
 	        DungeonFloor--;
 	        ClearMap();
 	        PlaceMap(dungeon.getTMD(DungeonFloor));
