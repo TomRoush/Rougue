@@ -12,6 +12,7 @@ public class Player : Entities
 	private float velocity;
 	public bool alive = true;
 	public float curHealth;
+	public MakeMap Dungeon;
 	
 	Animator anim;
 
@@ -35,6 +36,8 @@ public class Player : Entities
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
+
+        Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
 
 		weapon = transform.Find ("Weapon");
 	}
@@ -210,13 +213,12 @@ public class Player : Entities
 	{
 		if(other.CompareTag("goal") && Input.GetButton("Action")) 
 		{
-			Debug.Log("down");
-			Application.LoadLevel ("Game");
+			Dungeon.NextFloor();
+			//Application.LoadLevel ("Game");
 		} 
 		if(other.CompareTag("UpStairs") && Input.GetButton("Action"))
 		{
-			Debug.Log("up");
-			Application.LoadLevel ("Game");
+			Dungeon.PreviousFloor();
 		}
 	}
 	

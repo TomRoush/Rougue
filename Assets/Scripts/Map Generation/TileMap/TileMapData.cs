@@ -67,8 +67,8 @@ public partial class TileMapData
     {
     	if(blank) 
     	{
-    		//mapData = createFilledMapArray();
-    		mapData[0,0] = eTile.Player;
+    		mapData = createFilledMapArray();
+    		//mapData[1,1] = eTile.Player;
     	}
     }
 

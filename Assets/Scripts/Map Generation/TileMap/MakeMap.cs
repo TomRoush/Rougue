@@ -20,7 +20,6 @@ public class MakeMap : MonoBehaviour
 
 	private TMDList dungeon = new TMDList(0);
 
-
     public int DungeonFloor;
     GameObject PlayerInstance;
     //Events to Handle Map clearings
@@ -44,13 +43,14 @@ public class MakeMap : MonoBehaviour
             map.GenCave(xMax,yMax);
         else
             map.GenClassic(xMax,yMax, nRooms);
+        
+        //TileMapData blank = new TileMapData(true);
 
         dungeon.add(map);
         Debug.Log("add");
         Debug.Log("dungeon size " + dungeon.floors.Length);
 
-        TileMapData blank = new TileMapData(true);
-        return blank;
+     return map;
 	}
 
 	void PlaceMap()
@@ -99,11 +99,6 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = tmd;
 
-		if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax);
-        else
-            map.GenClassic(xMax,yMax, nRooms);
-
 		for(int y=0; y<map.sizeY; y++)
 		{
 			for(int x=0; x<map.sizeX; x++)
@@ -135,16 +130,17 @@ public class MakeMap : MonoBehaviour
 
     public void NextFloor()
     {
+		Debug.Log("down");
         PlayerInstance.SetActive(false);
         DungeonFloor++;
         ClearMap();
-        dungeon.add(genTMD());
-        PlaceMap(dungeon.getTMD(DungeonFloor));
+        PlaceMap(genTMD());//dungeon.getTMD(DungeonFloor));
         PlayerInstance.SetActive(true);
     }
 
     public void PreviousFloor()
     {
+		Debug.Log("up");
     	PlayerInstance.SetActive(false);
         DungeonFloor--;
         ClearMap();
