@@ -27,6 +27,7 @@ public class Player : Entities
 	public ParticleSystem blood;//turned public
 
 	void Start () {
+        cStat = GetComponent<Status>();
 		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
@@ -39,16 +40,15 @@ public class Player : Entities
 		//walkDirection: 1 = left, 2 = up, 3 = right, 4 = down;
 		//idleDirection: saves previous walkDirection to animate idle
 	{
+        float dx = 0;
+        float dy = 0;
 		if (!gameObject.GetComponent<Status>().isStunned){
 			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
 			{
 				anim.SetInteger ("direction", 2);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 2;
-				rigidbody2D.transform.position += Vector3.up 
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+                dy = 1;
 			}
 			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
 			{
@@ -58,10 +58,7 @@ public class Player : Entities
 				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 1;
-				rigidbody2D.transform.position += Vector3.left 
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+                dx = -1;
 			}
 			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
 			{
@@ -69,10 +66,7 @@ public class Player : Entities
 					anim.SetInteger ("direction", 4);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 4;
-				rigidbody2D.transform.position += Vector3.down 
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+                dy = -1;
 			}
 			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
 			{			
@@ -83,10 +77,7 @@ public class Player : Entities
 				anim.SetInteger ("direction", 3);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 3;
-				rigidbody2D.transform.position += Vector3.right 
-					* gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx () 
-					* Time.deltaTime;
+                dx = 1;
 			}
 		}
 		//if not moving
@@ -95,6 +86,9 @@ public class Player : Entities
 			anim.SetInteger ("direction", previousDirection);
 			anim.SetFloat ("velocity", 0.0f);
 		}
+
+        this.setDirection(new Vector3(dx,dy,0));
+        Move();
 
 		if(Input.GetKeyDown (KeyCode.Escape)) 
 		{
@@ -211,7 +205,7 @@ public class Player : Entities
 		transform.position = spawnPt;
 	}
 
-	public void Die()
+	public override void Die()
 	{
 		print ("I've been killed");
 		Debug.Break();
