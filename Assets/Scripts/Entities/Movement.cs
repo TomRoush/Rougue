@@ -12,11 +12,6 @@ public abstract partial class Entities : MonoBehaviour {
         }
 
         protected void Move() {
-            if(rigidbody2D == null)
-                Debug.Log("things be wwronmg");
-            else
-                Debug.Log("is all cool");
-
             this.rigidbody2D.velocity = direction * cStat.speed * cStat.getSpeedx();
         }
 
