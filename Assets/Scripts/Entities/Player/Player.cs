@@ -27,7 +27,9 @@ public class Player : Entities
 	public ParticleSystem blood;//turned public
 
 	void Start () {
-        cStat = GetComponent<Status>();
+        
+        InitializeEntity();
+
 		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
