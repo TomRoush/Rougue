@@ -19,6 +19,7 @@ public class MakeMap : MonoBehaviour
 	public int numEnemies;
 
 	private TMDList dungeon = new TMDList(0);
+	private bool spawnOnGoal = false;
 
     public int DungeonFloor;
     GameObject PlayerInstance;
@@ -47,8 +48,8 @@ public class MakeMap : MonoBehaviour
         //TileMapData blank = new TileMapData(true);
 
         dungeon.add(map);
-        Debug.Log("add");
-        Debug.Log("dungeon size " + dungeon.floors.Length);
+        //Debug.Log("add");
+        //Debug.Log("dungeon size " + dungeon.floors.Length);
 
      return map;
 	}
@@ -63,8 +64,8 @@ public class MakeMap : MonoBehaviour
             map.GenClassic(xMax,yMax, nRooms);
 
         dungeon.add(map);
-        Debug.Log("add");
-        Debug.Log("dungeon size " + dungeon.floors.Length);
+        //Debug.Log("add");
+        //Debug.Log("dungeon size " + dungeon.floors.Length);
 
 		for(int y=0; y<map.sizeY; y++)
 		{
@@ -115,12 +116,13 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Filler, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
-					PlayerInstance.transform.position =   tilePos;
+					if(!spawnOnGoal) PlayerInstance.transform.position =  tilePos;
 					Instantiate(UpStairs, tilePos, Quaternion.identity);
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
+					if(spawnOnGoal) PlayerInstance.transform.position =  tilePos;
 					Instantiate(Goal, tilePos, Quaternion.identity);
 				}
 			}
@@ -130,29 +132,32 @@ public class MakeMap : MonoBehaviour
 
     public void NextFloor()
     {
-		Debug.Log("down");
         PlayerInstance.SetActive(false);
+        spawnOnGoal = false;
         DungeonFloor++;
         ClearMap();
-        if(DungeonFloor>=dungeon.length())PlaceMap(genTMD());//
-        else PlaceMap(dungeon.getTMD(DungeonFloor));
+        if(DungeonFloor>=dungeon.length())PlaceMap(genTMD());//if the player hasn't been here before, generate a new floor
+        else PlaceMap(dungeon.getTMD(DungeonFloor));//if the player has been here, load it from the list
         PlayerInstance.SetActive(true);
     }
 
     public void PreviousFloor()
     {
-		Debug.Log("up");
-    	PlayerInstance.SetActive(false);
-        DungeonFloor--;
-        ClearMap();
-        PlaceMap(dungeon.getTMD(DungeonFloor));
-        PlayerInstance.SetActive(true);
+    	if(DungeonFloor>0)
+    	{
+	    	PlayerInstance.SetActive(false);
+	    	spawnOnGoal = true;
+	        DungeonFloor--;
+	        ClearMap();
+	        PlaceMap(dungeon.getTMD(DungeonFloor));
+	        PlayerInstance.SetActive(true);
+	    }
+	    else Debug.Log("You are on the top floor");
     }
 
     void ClearMap()
     {
         if(OnDelete != null)
             OnDelete();
-
     }
 }
