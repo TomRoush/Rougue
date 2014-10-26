@@ -9,7 +9,6 @@ public class Player : Entities
 
 	public static bool paused = false;
 	private int previousDirection;
-	private int direction;
 	private float velocity;
 	public float curHealth;
 	
