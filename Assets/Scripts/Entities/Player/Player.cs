@@ -8,6 +8,8 @@ public class Player : Entities
 	public static GameState playerState = GameState.PLAYING;
 
 	public static bool paused = false;
+	private Texture2D scroll;
+
 	private int previousDirection;
 	private float velocity;
 	public bool alive = true;
@@ -37,6 +39,7 @@ public class Player : Entities
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
 		weapon = transform.Find ("Weapon");
+
 	}
 
 	void FixedUpdate () 
@@ -84,7 +87,10 @@ public class Player : Entities
 			}
 		}
 		//if not moving
-		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
+		if(!Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.UpArrow) 
+		   && !Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow) 
+		   && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.DownArrow) 
+		   && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.RightArrow))
 		{
 			anim.SetInteger ("direction", previousDirection);
 			anim.SetFloat ("velocity", 0.0f);
@@ -105,12 +111,10 @@ public class Player : Entities
 			}
 		}
 
-
 		if(gameObject.GetComponent<Status> ().health <= 0)
 		{
 			Die();		
 		}
-
 
 		UpdateGameState();
 	}
@@ -141,12 +145,15 @@ public class Player : Entities
 
 	void OnGUI() 
 	{
+		scroll = Resources.Load ("Resources/Artwork/InGame/scroll") as Texture2D;
 		if (paused) 
 		{
+			GUI.Label (new Rect(Screen.width/2,Screen.height/2,350,350), scroll);
 			if(alive) {
 				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
 				{
 					paused = false;
+					UpdateGameState ();
 				}
 				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
 				{
