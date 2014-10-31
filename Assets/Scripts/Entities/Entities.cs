@@ -33,6 +33,14 @@ public abstract partial class Entities : MonoBehaviour {
 		}
 	}
 
+	public virtual void giveHealth(int amount)
+	{
+		health = health + amount;
+		Debug.Log ("health left" + health);
+
+
+	}
+
 	public virtual void Die()
 	{
 		Destroy (gameObject);
