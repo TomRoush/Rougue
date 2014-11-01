@@ -4,14 +4,13 @@ using System.Collections;
 public class Status : MonoBehaviour {
 
 	//public Hashtable<string, float> attributes = new Hashtable<string, float>();
-	GameObject[] enemies; //= new GameObject[200];
+	private GameObject[] enemies; //= new GameObject[200];
 	static GameObject player;
-	[HideInInspector]
+	public static GameObject closest;
+
 	public int level = 5;
-	[HideInInspector]
 	public bool levelUp = false;
 	public int upgradePoints;
-	[HideInInspector]
 	public int floor = 1;
 
 	public float speed;
@@ -145,7 +144,7 @@ public class Status : MonoBehaviour {
 	
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoMelee(){//not necessarily melee range (uses range1), but this uses strength
-		GameObject closest = FindClosestEnemy();
+		closest = FindClosestEnemy();
 		if (closest != null){
 			if (gameObject.tag == "Player" && 
 		    	getDistance(closest) < range1 &&
@@ -161,11 +160,14 @@ public class Status : MonoBehaviour {
 
 				if (!closest.gameObject.GetComponent<Status> ().isRaged) {
 					closest.gameObject.GetComponent<Status> ().rage += strength * damagex
-					* closest.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+					* closest.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
 				}
 				//money1+=0.1f;
 				attackTimer = 1 / attackSpeed;
 			}
+			//if (Input.GetKey(KeyCode.Space)){
+			//	GetComponent<Fireball>().closest = closest;
+			//}
 		}
 		if (gameObject.tag=="Enemy" && 
 		   		getDistance(player) < range1 && 
@@ -181,14 +183,14 @@ public class Status : MonoBehaviour {
 					
 				if (!player.gameObject.GetComponent<Status> ().isRaged){
 					player.gameObject.GetComponent<Status> ().rage += strength * damagex
-						* player.gameObject.GetComponent<Status> ().defense * 2;//gain twice rage as loss in hp
+						* player.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
 				}
 				player.gameObject.GetComponent<Player>().blood.Play();
 				attackTimer = 1/attackSpeed;
 		}
 	}
 
-	GameObject FindClosestEnemy() {
+	public GameObject FindClosestEnemy() {
 		enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		GameObject closest = null;
 		if (gameObject.tag == "Player"){
@@ -210,7 +212,7 @@ public class Status : MonoBehaviour {
 			return null;
 		}
 	}
-	float getDistance(GameObject go){
+	public float getDistance(GameObject go){
 		return (go.transform.position - transform.position).sqrMagnitude;
 	}
 
