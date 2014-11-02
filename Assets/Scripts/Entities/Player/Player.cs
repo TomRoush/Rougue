@@ -33,7 +33,8 @@ public class Player : Entities
 	void Start () {
         
         InitializeEntity();
-        SelfCast = new Heal();
+        SelfCast = new Heal(gameObject);
+        AutoTarget = new Fireball(gameObject);
 
 		paused = false;
 		anim = GetComponent<Animator> ();
@@ -92,7 +93,12 @@ public class Player : Entities
             //
             if(Input.GetKey (KeyCode.H))
             {
-                castSpell(SelfCast, gameObject);
+                SelfCast.cast( gameObject);
+            }
+
+            if(Input.GetKey (KeyCode.F))
+            {
+                AutoTarget.cast( cStat.FindClosestEnemy());
             }
             //
             

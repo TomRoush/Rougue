@@ -7,6 +7,8 @@ public abstract partial class Entities : MonoBehaviour {
 	public float health;
     
     public Spell SelfCast;
+    public Spell AutoTarget;
+
     protected Status cStat;
 	// Use this for initialization
 	void Start () {
@@ -43,14 +45,6 @@ public abstract partial class Entities : MonoBehaviour {
 	}
 
 
-    public void castSpell(Spell theSpell, GameObject target)
-    {
-        if(cStat.mana >= theSpell.getCost() && theSpell.OffCooldown())
-        {
-            theSpell.cast(target);
-            cStat.mana -= theSpell.getCost();
-        }
-    }
 
 	public virtual void Die()
 	{

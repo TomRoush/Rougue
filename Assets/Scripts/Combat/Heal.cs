@@ -4,15 +4,14 @@ using System.Collections;
 public class Heal : Spell {
 
 
-    public Heal()
+    public Heal(GameObject pCaster) : base(pCaster)
     {
         manaCost = 20;
         name = "Heal";
         coolDown = 10;
-        lastCastTime = 0;
     }
 
-    public override void cast(GameObject target)
+    protected override void CastSpell(GameObject target)
     {
         target.GetComponent<Status>().health += 30;
         lastCastTime = Time.time;
