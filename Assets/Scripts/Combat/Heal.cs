@@ -14,7 +14,7 @@ public class Heal : Spell {
 
     public override void cast(GameObject target)
     {
-        target.GetComponent<Entities>().giveHealth(30);
+        target.GetComponent<Status>().health += 30;
         lastCastTime = Time.time;
     }
 }
