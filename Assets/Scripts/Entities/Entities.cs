@@ -45,8 +45,11 @@ public abstract partial class Entities : MonoBehaviour {
 
     public void castSpell(Spell theSpell, GameObject target)
     {
-        if(cStat.mana >= 20 && theSpell.OffCooldown())
+        if(cStat.mana >= theSpell.getCost() && theSpell.OffCooldown())
+        {
             theSpell.cast(target);
+            cStat.mana -= theSpell.getCost();
+        }
     }
 
 	public virtual void Die()
