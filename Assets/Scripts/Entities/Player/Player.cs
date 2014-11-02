@@ -33,6 +33,7 @@ public class Player : Entities
 	void Start () {
         
         InitializeEntity();
+        SelfCast = new Heal();
 
 		paused = false;
 		anim = GetComponent<Animator> ();
@@ -88,6 +89,13 @@ public class Player : Entities
 				previousDirection = 3;
                 dx = 1;
 			}
+            //
+            if(Input.GetKey (KeyCode.H))
+            {
+                castSpell(SelfCast, gameObject);
+            }
+            //
+            
 		}
 		//if not moving
 		if(!PlayerInput.isMoving())
