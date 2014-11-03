@@ -4,9 +4,11 @@ using System.Collections;
 // Attached to projectile prefabs to handle collision behavior
 public class DestroyBullet : MonoBehaviour {
 
+	public GameObject player;
+
 	// Use this for initialization
 	void Start () {
-
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
@@ -15,7 +17,7 @@ public class DestroyBullet : MonoBehaviour {
 			// Destroy bullet
 			Destroy (gameObject);
 			// Decrease health of enemy
-			coll.gameObject.GetComponent<AttackingMob>().takeHealth(30);
+			coll.gameObject.GetComponent<Status>().health -= player.GetComponent<Status>().health;
 		
 		// If collided with wall)
 		} else if (coll.gameObject.tag == "Wall") {
