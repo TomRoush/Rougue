@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public partial class TileMapData 
+public partial class TileMapData
 {
 	public int sizeX;
 	public int sizeY; 
 	public int nRooms;
 	public int floorNum;
 	
+	public EnemyList enemies;
 	public eTile[,] mapData;
 	
 	List<RoomData> rooms;

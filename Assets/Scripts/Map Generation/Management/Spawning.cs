@@ -14,7 +14,13 @@ public class Spawning : MakeMap
 			{
 				Instantiate (Enemy, tilePos, Quaternion.identity);
 				countEnemies++;
+				map.enemies.add(Enemy);
 			}
 		}
+	}
+
+	public static void RespawnEnemies(TileMapData map, EnemyList enemies)
+	{
+		
 	}
 }
