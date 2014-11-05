@@ -100,6 +100,7 @@ public class MakeMap : MonoBehaviour
         toPrevFloor = false;
         DungeonFloor++;
         ClearMap();
+
         if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
         {
         	TileMapData generated = genTMD();
@@ -128,5 +129,11 @@ public class MakeMap : MonoBehaviour
     {
         if(OnDelete != null)
             OnDelete();
+ 		GameObject[] enemies;
+ 		enemies =  GameObject.FindGameObjectsWithTag ("Enemy");
+        for(int i = 0; i<enemies.Length; i++)
+        {
+        	Destroy(enemies[i]);
+        }
     }
 }
