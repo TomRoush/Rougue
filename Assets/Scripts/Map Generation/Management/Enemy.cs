@@ -4,11 +4,21 @@ using System.Collections;
 public class Enemy : MonoBehaviour 
 {
 	public GameObject enemy;
-	public int x, y;
+	public Vector3 v;
 
-	public Enemy(int xx, int yy)
+	public Enemy(GameObject en, Vector3 vv)
 	{
-		x = xx;
-		y = yy;
+		enemy = en;
+		v = vv;
+	}
+
+	public GameObject getGameObj()
+	{
+		return enemy;
+	}
+
+	public Vector3 getV()
+	{
+		return enemy.transform.position;
 	}
 }
