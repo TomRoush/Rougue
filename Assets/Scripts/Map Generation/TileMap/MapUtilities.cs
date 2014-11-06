@@ -10,8 +10,10 @@ public class MapUtilities : MonoBehaviour {
 	//might combine the findPlayer methods into one and return an array of 2 coodinate ints instead of having two separate methods. Still deciding which would be more convenient.
 
 	//finds the x coordinate of a player on a given map array, returns -1 if no player is present
-	public static int findPlayerX(eTile[,] mapData, int sizeX, int sizeY)
+	public static int findPlayerX(eTile[,] mapData)
 	{
+		int sizeX = mapData.GetLength (0);
+		int sizeY = mapData.GetLength (1);
 		for(int i = 1; i < sizeX; i++)
 			for(int j = 0; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Player)
@@ -22,8 +24,10 @@ public class MapUtilities : MonoBehaviour {
 	}
 
 	//finds the y coordinate of a player on a given map array, returns -1 if no player is present
-	public static int findPlayerY(eTile[,] mapData, int sizeX, int sizeY)
+	public static int findPlayerY(eTile[,] mapData)
 	{
+		int sizeX = mapData.GetLength (0);
+		int sizeY = mapData.GetLength (1);
 		for(int i = 1; i < sizeX; i++)
 			for(int j = 0; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Player)
@@ -33,10 +37,26 @@ public class MapUtilities : MonoBehaviour {
 		return -1;
 	}
 
+	public static int getNumTile(eTile[,] mapData, eTile tile)
+	{
+		int sizeX = mapData.GetLength (0);
+		int sizeY = mapData.GetLength (1);
+		int count = 0;
+		for (int i = 1; i < sizeX; i++)
+			for (int j = 0; j < sizeY; j++)
+				if (mapData [i, j] == tile) {
+						count ++;
+				}
+		return count;
+	}
+
+
 
 	//similar to what was in the isGoodMap method in TMDcave, but with one significant change: the x and y are now parameters. This means this can check if any floor, player, or misc. tile connects to the goal.
-	public static bool connectsToGoal(eTile[,] mapData, int x, int y, int sizeX, int sizeY)
+	public static bool connectsToGoal(eTile[,] mapData, int x, int y)
 	{
+		int sizeX = mapData.GetLength (0);
+		int sizeY = mapData.GetLength (1);
 		if(x == -1 || y == -1)
 			return false;
 
@@ -101,13 +121,16 @@ public class MapUtilities : MonoBehaviour {
 		return false;
 	}
 
-	public static bool isGoodMap(eTile[,] mapData, int sizeX, int sizeY)
-	{
 
+	//calls connectsToGoal for every floor tile. Not efficient but makes sure every tile is walkable by the player.
+	public static bool isGoodMap(eTile[,] mapData)
+	{
+		int sizeX = mapData.GetLength (0);
+		int sizeY = mapData.GetLength (1);
 		for(int i = 1; i < sizeX; i ++)
 			for(int j = 1; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Floor)
-					if(!connectsToGoal(mapData, i, j,sizeX,sizeY))
+					if(!connectsToGoal(mapData, i, j))
 						return false;
 		return true;
 				
