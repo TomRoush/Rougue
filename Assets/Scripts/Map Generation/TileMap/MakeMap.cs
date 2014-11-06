@@ -63,6 +63,10 @@ public class MakeMap : MonoBehaviour
 	public void PlaceMap(TileMapData tmd)
 	{
 		TileMapData map = tmd;
+		int numOldFloors = 0;//MapUtilities.getNumTile(tmd, Floor);
+		int numOldWalls = 1;//MapUtilities.getNumTile(tmd, Wall);
+		int numOldFillers = 2;//MapUtilities.getNumTile(tmd, Fillers);
+		Debug.Log("numOldFloors = " + numOldFloors + "\n" + "numOldWalls = " + numOldWalls + "\n" + "numOldFillers = " + numOldFillers);
 
 		for(int y=0; y<map.sizeY; y++)
 		{
