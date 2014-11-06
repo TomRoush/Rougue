@@ -19,7 +19,7 @@ public class Fireball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (Input.GetKey (KeyCode.F) && fireballTimer<=0 
+		if (!player.GetComponent<Status>().isStunned && Input.GetKey (KeyCode.F) && fireballTimer<=0 
 		  && player.GetComponent<Status>().mana > 50 && player.GetComponent<Status>().health > 20) {
 			player.GetComponent<Status>().mana -= 50;
 			player.GetComponent<Status>().health -= 20;
@@ -41,7 +41,7 @@ public class Fireball : MonoBehaviour {
 		}
 		if (Input.GetKey (KeyCode.M) && fireballTimer<=0) {
 			closest = player.GetComponent<Status>().FindClosestEnemy();
-			Debug.Log("fire");
+			Debug.Log("mine");
 			
 			Rigidbody2D fball = Instantiate (fireball, player.transform.position, Quaternion.identity) as Rigidbody2D;
 

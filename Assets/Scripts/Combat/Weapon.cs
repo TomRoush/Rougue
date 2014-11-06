@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour {
 	
 	// Update is called once per physics update
 	void FixedUpdate () {
-		if (Input.GetMouseButtonDown(0)) {
+		if (!parent.GetComponent<Status>().isStunned && Input.GetMouseButtonDown(0)) {
 			if(parent.GetComponent<Status>().mana > 10.0f) {
 				parent.GetComponent<Status>().mana -= 10.0f;
 			
