@@ -35,6 +35,7 @@ public class Player : Entities
         InitializeEntity();
         SelfCast = new Heal(gameObject);
         AutoTarget = new Fireball(gameObject);
+		AutoTarget2 = new Mudball (gameObject);
 
 		paused = false;
 		anim = GetComponent<Animator> ();
@@ -98,9 +99,12 @@ public class Player : Entities
 
             if(Input.GetKey (KeyCode.F))
             {
-                AutoTarget.cast( cStat.FindClosestEnemy());
+				AutoTarget.cast( cStat.FindClosestEnemy());
             }
-            //
+
+			if(Input.GetKey (KeyCode.C)){
+				AutoTarget2.cast (cStat.FindClosestEnemy());
+			}
             
 		}
 		//if not moving

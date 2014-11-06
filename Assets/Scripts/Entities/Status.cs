@@ -139,6 +139,7 @@ public class Status : MonoBehaviour {
 		if (Input.GetKey(KeyCode.T)){
 			getSlowed=true;
 		}
+
 		if (getSlowed && !isSlowed) {
 			speedx-=0.8f;
 			isSlowed=true;

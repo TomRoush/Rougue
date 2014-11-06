@@ -8,6 +8,7 @@ public abstract partial class Entities : MonoBehaviour {
     
     public Spell SelfCast;
     public Spell AutoTarget;
+	public Spell AutoTarget2;//for debugging convenience: not in the real game
 
     protected Status cStat;
 	// Use this for initialization
