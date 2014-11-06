@@ -3,37 +3,37 @@ using System.Collections.Generic;
 
 public class EnemyList : MonoBehaviour 
 {
-	public AttackinMob[] enemies;
+	public GameObject[] enemies;
 
 	public EnemyList()
 	{
-		enemies = new AttackingMob[0];
+		enemies = new GameObject[0];
 	}
 
 	public EnemyList(int n)
 	{
-		enemies = new AttackingMob[n];
+		enemies = new GameObject[n];
 	}
 
 	public EnemyList(EnemyList old)
 	{
-		AttackingMobList result = new AttackingMobList(old.enemies.Length);
+		EnemyList result = new EnemyList(old.enemies.Length);
 		for(int i = 0; i < enemies.Length; i++)
-		{;;
+		{
 			result.enemies[i] = old.enemies[i];
 		}
 	}
 
-	public void add(AttackingMob en)
+	public void add(GameObject en)
 	{
-		AttackingMob[] temp = new AttackingMob[enemies.Length+1];
+		GameObject[] temp = new GameObject[enemies.Length+1];
 		for(int i = 0; i < enemies.Length; i++)
 			temp[i] = enemies[i];
-		temp[temp.Length-1] = new AttackingMob(en.getGameObj(), en.getV());
+		temp[temp.Length-1] = en;
 		enemies = temp;
 	}
 
-	public AttackinMob getAttackinMob(int i)
+	public GameObject getEnemy(int i)
 	{
 		return enemies[i];
 	}

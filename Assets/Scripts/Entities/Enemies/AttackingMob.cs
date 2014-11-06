@@ -8,7 +8,6 @@ public class AttackingMob : Entities {
 	public int distance;
 	public int lowRangeDamage;
 	public int highRangeDamage;
-	public Vector3 v;
 
 	private bool canAttack;
 
@@ -21,11 +20,6 @@ public class AttackingMob : Entities {
 		{
 			attackingg = GameObject.FindGameObjectWithTag("Player");
 			attacking = attackingg.GetComponent<Entities>();
-		}
-
-		if(v == null)
-		{
-			v = attacking.transform.position;
 		}
 	}
 	
@@ -55,15 +49,5 @@ public class AttackingMob : Entities {
 		yield return new WaitForSeconds(1);
 		canAttack = true;
 
-	}
-
-	public GameObject getGameObj()
-	{
-		return attacking;
-	}
-
-	public Vector3 getV()
-	{
-		return enemy.transform.position;
 	}
 }

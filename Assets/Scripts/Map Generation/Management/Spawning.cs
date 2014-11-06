@@ -9,8 +9,8 @@ public class Spawning : MakeMap
 		while(countEnemies < numEnemies)
 		{
 			int x = Random.Range (0,map.mapData.GetLength (0)), y = Random.Range (0,map.mapData.GetLength (1));
+			Enemy e = new Enemy(x,y);
 			Vector3 tilePos = new Vector3(x, y, 0);
-			Enemy e = new Enemy(Enemy, tilePos);
 			if(map.GetTileAt(x,y).Equals(eTile.Floor))
 			{
 				Instantiate (Enemy, tilePos, Quaternion.identity);
