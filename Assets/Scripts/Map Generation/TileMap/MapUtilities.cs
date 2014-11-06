@@ -130,7 +130,7 @@ public class MapUtilities : MonoBehaviour {
 		for(int i = 1; i < sizeX; i ++)
 			for(int j = 1; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Floor)
-					if(!connectsToGoal(mapData, i, j,sizeX,sizeY))
+					if(!connectsToGoal(mapData, i, j))
 						return false;
 		return true;
 				
