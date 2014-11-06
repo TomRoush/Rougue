@@ -17,9 +17,15 @@ public class Weapon : MonoBehaviour {
 	
 	// Update is called once per physics update
 	void FixedUpdate () {
+//<<<<<<< HEAD
 		if (!parent.GetComponent<Status>().isStunned && Input.GetMouseButtonDown(0)) {
 			if(parent.GetComponent<Status>().mana > 10.0f) {
 				parent.GetComponent<Status>().mana -= 10.0f;
+//=======
+		if (Input.GetMouseButtonDown(0)) {
+			//if(parent.GetComponent<Status>().mana > 10.0f) {
+				//parent.GetComponent<Status>().mana -= 10.0f;
+//>>>>>>> 3782669a53ba5f462679b44330d3f70c467843c9
 			
 				// Get mouse position
 				Vector3 mousepos =  Input.mousePosition;
@@ -38,6 +44,10 @@ public class Weapon : MonoBehaviour {
 	
 				// Create vector in the direction of mouse click with magnitude of projectilespeed
 				Vector3 toward = new Vector3(xval * bulletspeed, yval * bulletspeed, 1.9f);
+				
+				float angle = Mathf.Atan2(yval, xval) * 180 / (Mathf.PI);
+				Quaternion rotation = Quaternion.identity;
+				rotation.eulerAngles = new Vector3(0, 0, angle);
 	
 				// The weapon is set to an empty gameobject at the position of the wand.
 				// We have to flip the character to the direction of the mouse click temporarily so that
@@ -54,7 +64,7 @@ public class Weapon : MonoBehaviour {
 				}
 	
 				// Create the bullet and add force to it.
-				Rigidbody2D bult = Instantiate (bullet, transform.position, Quaternion.identity) as Rigidbody2D;
+				Rigidbody2D bult = Instantiate (bullet, transform.position, rotation) as Rigidbody2D;
 				bult.AddForce(toward);
 			}
 		}

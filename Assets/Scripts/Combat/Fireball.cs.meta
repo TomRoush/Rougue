@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 5de1d59298a51eb478692ff65056854f
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fireball: {fileID: 100000, guid: e3c47566348585e44be3b111de95b90f, type: 2}
+  - closest: {instanceID: 0}
+  - player: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

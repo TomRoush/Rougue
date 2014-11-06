@@ -1,13 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Fireball : MonoBehaviour {
+public class Fireball : Spell {
 
 	public float fireballTimer;
-	public Rigidbody2D fireball;
+	public GameObject fireball;
 	public GameObject closest;
 	public GameObject player;
-	
+
+
+    public Fireball(GameObject pCaster) : base(pCaster)
+    {
+        manaCost = 50;
+        name = "Fireball";
+        coolDown = 4;
+        fireball = Resources.Load("Fireball") as GameObject;
+    }    
+
+    protected override void CastSpell(GameObject closest)
+    {
+		player = caster;//GameObject.FindGameObjectWithTag ("Player");
+
+			float bulletspeed = 1800f;
+			//float xval = (closest.transform.position.x - player.transform.position.x) ;
+			//float yval = (closest.transform.position.y - player.transform.position.y) ;
+			float xval = (closest.transform.position.x - player.transform.position.x) ;
+			float yval = (closest.transform.position.y - player.transform.position.y) ;
+			Vector3 toward = new Vector3(xval * bulletspeed, yval * bulletspeed, 1.9f)/caster.GetComponent<Status>().getDistance(closest);
+			float angle = Mathf.Atan2(yval, xval) * 180 / (Mathf.PI) - 90;
+			Quaternion rotation = Quaternion.identity;
+			rotation.eulerAngles = new Vector3(0, 0, angle);
+			GameObject fball = GameObject.Instantiate (fireball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
+			fball.GetComponent<Rigidbody2D>().AddForce(toward);
+
+            lastCastTime = Time.time;
+    }
+    /*
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
@@ -51,4 +79,5 @@ public class Fireball : MonoBehaviour {
 			fireballTimer-=Time.deltaTime;
 		}
 	}
+    */
 }

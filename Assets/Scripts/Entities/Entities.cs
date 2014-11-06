@@ -5,6 +5,9 @@ public abstract partial class Entities : MonoBehaviour {
 
 	public float speed;
 	public float health;
+    
+    public Spell SelfCast;
+    public Spell AutoTarget;
 
     protected Status cStat;
 	// Use this for initialization
@@ -40,6 +43,8 @@ public abstract partial class Entities : MonoBehaviour {
 
 
 	}
+
+
 
 	public virtual void Die()
 	{
