@@ -28,7 +28,7 @@ public class MapUtilities : MonoBehaviour {
 	{
 		int sizeX = mapData.GetLength (0);
 		int sizeY = mapData.GetLength (1);
-		for(int i = 1; i < sizeX; i++)
+		for(int i = 1; i < sizeX+1; i++)
 			for(int j = 0; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Player)
 			{
@@ -42,7 +42,7 @@ public class MapUtilities : MonoBehaviour {
 		int sizeX = mapData.GetLength (0);
 		int sizeY = mapData.GetLength (1);
 		int count = 0;
-		for (int i = 1; i < sizeX; i++)
+		for (int i = 0; i < sizeX; i++)
 			for (int j = 0; j < sizeY; j++)
 				if (mapData [i, j] == tile) {
 						count ++;
@@ -130,7 +130,7 @@ public class MapUtilities : MonoBehaviour {
 		for(int i = 1; i < sizeX; i ++)
 			for(int j = 1; j < sizeY; j++)
 				if(mapData[i,j] == eTile.Floor)
-					if(!connectsToGoal(mapData, i, j,sizeX,sizeY))
+					if(!connectsToGoal(mapData, i, j))
 						return false;
 		return true;
 				
