@@ -14,8 +14,11 @@ public class DestroyMudball : MonoBehaviour {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		if (coll.gameObject.tag == "Enemy") {
 				coll.gameObject.GetComponent<Status>().health-=player.GetComponent<Status>().intelligence*0.2f;
-			coll.gameObject.GetComponent<Status>().getSlowed=true;
-			coll.gameObject.GetComponent<Status>().slowTimer=3;
+			//coll.gameObject.GetComponent<Status>().getSlowed=true;
+			//coll.gameObject.GetComponent<Status>().slowTimer=3;
+			GameObject slowEffect = Resources.Load ("Slow") as GameObject; 
+			slowEffect.GetComponent<TimedEffect>().target = coll.gameObject;
+			GameObject.Instantiate(slowEffect, player.transform.position, Quaternion.identity);
 		
 			Destroy (gameObject);
 			
