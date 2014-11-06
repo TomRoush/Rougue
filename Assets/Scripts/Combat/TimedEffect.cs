@@ -6,7 +6,7 @@ public class TimedEffect : MonoBehaviour {
 	public float duration; // when it should expire?
 	public float startTime; // should delay the (first) effect tick?
 	public float repeatTime; // how much time between each effect tick?
-	[HideInInspector]
+
 	public GameObject target;
 	
 	void Start () {
@@ -26,5 +26,12 @@ public class TimedEffect : MonoBehaviour {
 	protected virtual void EndEffect () {
 		CancelInvoke();
 		Destroy(gameObject);
+	}
+
+	protected virtual void handleTargetNull()
+	{
+		if (target == null){
+			Destroy (gameObject);
+		}
 	}
 }

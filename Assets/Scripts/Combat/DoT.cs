@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoT : MonoBehaviour {
+public class DoT : TimedEffect {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public int damage;
+
+	protected override void ApplyEffect() {
+		handleTargetNull ();
+		target.GetComponent<Status> ().health -= damage;
 	}
 }
