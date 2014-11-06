@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class Entities : MonoBehaviour {
-
+public abstract partial class Entities : MonoBehaviour {
 
 	public float speed;
 	public float health;
+    
+    public Spell SelfCast;
+    public Spell AutoTarget;
 
+    protected Status cStat;
 	// Use this for initialization
 	void Start () {
 	
@@ -17,61 +20,34 @@ public abstract class Entities : MonoBehaviour {
 	
 	}
 
-	public void takeHealth(int amount)
+    //Must be run at start. Everything that all entities do should go here.
+    protected void InitializeEntity()
+    {
+        cStat = GetComponent<Status>();
+    }
+
+	public virtual void takeHealth(int amount)
 	{
 		health = health - amount;
-	}
+		Debug.Log ("health left" + health);
 
-	public void moveUp()
-	{
-		if (!gameObject.GetComponent<Status>().isStunned)
-		{
-			rigidbody2D.transform.position += Vector3.up  * gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
+		if (health <= 0) {
+			Die ();
 		}
 	}
 
-	public void moveDown()
+	public virtual void giveHealth(int amount)
 	{
-		if (!gameObject.GetComponent<Status>().isStunned)
-		{
-			rigidbody2D.transform.position += Vector3.down  * gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
-		}
+		health = health + amount;
+		Debug.Log ("health left" + health);
+
+
 	}
 
-	public void moveLeft()
-	{
-		if (!gameObject.GetComponent<Status>().isStunned)
-		{
-			rigidbody2D.transform.position += Vector3.left  * gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
-		}
-	}
 
-	public void moveRight()
-	{
-		if (!gameObject.GetComponent<Status>().isStunned)
-		{
-			rigidbody2D.transform.position += Vector3.right  * gameObject.GetComponent<Status> ().speed 
-					* gameObject.GetComponent<Status> ().getSpeedx ()  * Time.deltaTime;
-		}
-	}
 
-	public void moveDirection(Vector3 x, Vector3 y)//move in average direction of x and y
+	public virtual void Die()
 	{
-		Vector3 dir = Vector3.Lerp(x, y, 0.5f); //average two vectors
-		rigidbody2D.transform.position += dir  
-			* gameObject.GetComponent<Status> ().speed 
-			* gameObject.GetComponent<Status> ().getSpeedx ()  
-			* Time.deltaTime;
-	}
-
-	public void moveDirection(Vector3 x)//move in direction x
-	{
-		rigidbody2D.transform.position += x  
-			* gameObject.GetComponent<Status> ().speed 
-			* gameObject.GetComponent<Status> ().getSpeedx ()  
-			* Time.deltaTime;
+		Destroy (gameObject);
 	}
 }

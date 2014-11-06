@@ -2,7 +2,11 @@ fileFormatVersion: 2
 guid: 940b943ad1b4c8248a132f2a16b66f23
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bullet: {fileID: 5000000, guid: 34c81ced7630942bc88b0dd0d45e9329, type: 2}
+  - emptyTex: {instanceID: 0}
+  - fullTex: {instanceID: 0}
+  - blood: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

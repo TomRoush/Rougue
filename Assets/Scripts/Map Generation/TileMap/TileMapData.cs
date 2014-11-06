@@ -6,6 +6,7 @@ public partial class TileMapData
 	public int sizeX;
 	public int sizeY; 
 	public int nRooms;
+	public int floorNum;
 	
 	public eTile[,] mapData;
 	
@@ -59,8 +60,6 @@ public partial class TileMapData
 				return true;
 		}
 	}
-    
-    
 
     public eTile GetTileAt(int x, int y)
     {
