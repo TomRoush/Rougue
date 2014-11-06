@@ -29,7 +29,7 @@ public partial class TileMapData
 
         caveMakeSpawn();
         caveMakeGoal();
-			good = MapUtilities.isGoodMap (mapData, sizeX, sizeY);//MapUtilities.connectsToGoal (mapData, MapUtilities.findPlayerX(mapData, sizeX, sizeY),MapUtilities.findPlayerY(mapData, sizeX, sizeY), sizeX, sizeY);
+			good = MapUtilities.isGoodMap (mapData);
         MakeWalls();
         }
         if( attempts > 2)

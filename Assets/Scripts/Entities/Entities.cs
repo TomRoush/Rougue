@@ -48,6 +48,6 @@ public abstract partial class Entities : MonoBehaviour {
 
 	public virtual void Die()
 	{
-		Destroy (gameObject);
+		//Destroy (gameObject);
 	}
 }

@@ -50,8 +50,9 @@ public class Status : MonoBehaviour {
 	
 	[HideInInspector]
 	public bool isStunned = false;
-	[HideInInspector]
+	public bool getSlowed = false;
 	public bool isSlowed = false;
+	public float slowTimer=0;
 
 	public float exp1;
 	public float money1;
@@ -112,8 +113,8 @@ public class Status : MonoBehaviour {
 		if (rage < 0) {
 			rage=0;
 		}else if (rage>=100&&gameObject.tag == "Player" && !isRaged){//rage on
-			speedx+=1f;//speed does not work
-			damagex+=10f;//damage works though
+			speedx+=1f;
+			damagex+=10f;
 			attackSpeed+=0.5f;
 			rageTimer = 6f; 
 			isRaged=true;
@@ -135,7 +136,19 @@ public class Status : MonoBehaviour {
 			attackTimer -= Time.deltaTime;
 		}
 
-		if (isSlowed) {
+		if (Input.GetKey(KeyCode.T)){
+			getSlowed=true;
+		}
+		if (getSlowed && !isSlowed) {
+			speedx-=0.8f;
+			isSlowed=true;
+			getSlowed=false;
+			slowTimer=3;//default can be changed, I believe
+		}
+		if (slowTimer > 0) {
+			slowTimer-=Time.deltaTime;
+		} else if (isSlowed && slowTimer<=0){
+			speedx+=0.8f;
 			isSlowed=false;
 		}
 
