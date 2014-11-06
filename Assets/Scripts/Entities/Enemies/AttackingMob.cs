@@ -31,8 +31,8 @@ public class AttackingMob : Entities {
 
 		if (Vector2.Distance (rigidbody2D.transform.position, attacking.transform.position) <= distance && canAttack)
 		{
-			attackEntity();
-			StartCoroutine(waitForAttack());
+			//attackEntity();
+			//StartCoroutine(waitForAttack());
 
 		}
 	}

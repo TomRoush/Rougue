@@ -17,9 +17,15 @@ public class Weapon : MonoBehaviour {
 	
 	// Update is called once per physics update
 	void FixedUpdate () {
+//<<<<<<< HEAD
+		if (!parent.GetComponent<Status>().isStunned && Input.GetMouseButtonDown(0)) {
+			if(parent.GetComponent<Status>().mana > 10.0f) {
+				parent.GetComponent<Status>().mana -= 10.0f;
+//=======
 		if (Input.GetMouseButtonDown(0)) {
 			//if(parent.GetComponent<Status>().mana > 10.0f) {
 				//parent.GetComponent<Status>().mana -= 10.0f;
+//>>>>>>> 3782669a53ba5f462679b44330d3f70c467843c9
 			
 				// Get mouse position
 				Vector3 mousepos =  Input.mousePosition;
@@ -60,7 +66,8 @@ public class Weapon : MonoBehaviour {
 				// Create the bullet and add force to it.
 				Rigidbody2D bult = Instantiate (bullet, transform.position, rotation) as Rigidbody2D;
 				bult.AddForce(toward);
-			//}
+			}
 		}
 	}
+}
 }
