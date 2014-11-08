@@ -24,8 +24,6 @@ public class MakeMap : MonoBehaviour
     public int DungeonFloor;
     GameObject PlayerInstance;
     //Events to Handle Map clearings
-    public delegate void DeleteTiles();
-    public static event DeleteTiles OnDelete;
 
     private int maxFloors=0, maxWalls=0;
 
@@ -192,19 +190,16 @@ public class MakeMap : MonoBehaviour
         toPrevFloor = false;
         DungeonFloor++;
         ClearEnemies();
-		//ClearMap();
 
         if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
         {
         	TileMapData generated = genTMD();
         	MoveMap(generated);
-        	//NOEDITPlaceMap(generated);
         	dungeon.add(generated);
     	}
         else 
         {
         	MoveMap(dungeon.getTMD(DungeonFloor));//if the player has been here, load it from the list
-            //NOEDITPlaceMap(dungeon.getTMD(DungeonFloor));
 		}
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
@@ -220,26 +215,12 @@ public class MakeMap : MonoBehaviour
 	    	toPrevFloor = true;
 	        DungeonFloor--;
 	        ClearEnemies();
-	        //ClearMap();
 	        MoveMap(dungeon.getTMD(DungeonFloor));
-	        //NOEDITPlaceMap(dungeon.getTMD(DungeonFloor));
 	        PlayerInstance.SetActive(true);
 	        float endTime = Time.realtimeSinceStartup;
 			Debug.Log(endTime-startTime + "seconds loadtime");
 	    }
 	    else Debug.Log("You are on the top floor");
-    }
-
-    void ClearMap()
-    {
-        if(OnDelete != null)
-            OnDelete();
- 		GameObject[] enemies;
- 		enemies =  GameObject.FindGameObjectsWithTag ("Enemy");
-        for(int i = 0; i<enemies.Length; i++)
-        {
-        	Destroy(enemies[i]);
-        }
     }
 
     void ClearEnemies()
