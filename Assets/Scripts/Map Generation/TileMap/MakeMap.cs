@@ -106,22 +106,18 @@ public class MakeMap : MonoBehaviour
 	public void MoveMap(TileMapData tmd)
 	{
 		TileMapData map = tmd;
-		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
-		int numOldWalls = MapUtilities.getNumTile(map.mapData, eTile.Wall);
-		Debug.Log("numOldFloors = " + numOldFloors);
-		Debug.Log("numOldWalls = " + numOldWalls);
 		int floorIndex = 0, wallIndex = 0;
-		if(numOldFloors>maxFloors) maxFloors = numOldFloors;
-		if(numOldWalls>maxWalls) maxWalls = numOldWalls;
-		GameObject[] ft = GameObject.FindGameObjectsWithTag("Floor");
-		GameObject[] wt = GameObject.FindGameObjectsWithTag("Wall");
-		GameObject[] floorTiles = new GameObject[maxFloors];
-		GameObject[] wallTiles = new GameObject[maxWalls];
+		GameObject[] activeFloorTiles = GameObject.FindGameObjectsWithTag("Floor");
+		GameObject[] activeWallTiles = GameObject.FindGameObjectsWithTag("Wall");
+		if(activeFloorTiles.Length>maxFloors) maxFloors = activeFloorTiles.Length;
+		if(activeWallTiles.Length>maxWalls) maxWalls = activeWallTiles.Length;
+		GameObject[] allFloorTiles = new GameObject[maxFloors];
+		GameObject[] allWallTiles = new GameObject[maxWalls];
 		Debug.Log("maxFloors = "+ maxFloors + "; maxWalls = "+ maxWalls);
-		for(int i = 0; i<ft.Length-1; i++)
-			floorTiles[i]=ft[i];
-		for(int i = 0; i<wt.Length-1; i++)
-			wallTiles[i] = wt[i];
+		for(int i = 0; i<activeFloorTiles.Length; i++)
+			allFloorTiles[i]=activeFloorTiles[i];
+		for(int i = 0; i<activeWallTiles.Length; i++)
+			allWallTiles[i] = activeWallTiles[i];
 		for(int y=0; y<map.sizeY; y++)
 		{
 			for(int x=0; x<map.sizeX; x++)
@@ -139,43 +135,51 @@ public class MakeMap : MonoBehaviour
 				}
 				if(map.GetTileAt(x,y) == eTile.Floor)
 				{
-					if(floorIndex<floorTiles.Length && floorTiles[floorIndex]!=null)
+					if(floorIndex<allFloorTiles.Length && allFloorTiles[floorIndex]!=null)
 					{
-						floorTiles[floorIndex].transform.position = tilePos;
-						floorTiles[wallIndex].active = true;
+						allFloorTiles[floorIndex].transform.position = tilePos;
+						allFloorTiles[floorIndex].active = true;
 						floorIndex++;
 					}
 					else
 					{
 						Instantiate(Floor, tilePos, Quaternion.identity);
-						floorTiles[floorIndex] = Floor; 
-						floorIndex++;
+						if(floorIndex<allFloorTiles.Length)
+						{
+							allFloorTiles[floorIndex] = Floor; 
+							floorIndex++;
+						}
 					}
 				}
 				if(map.GetTileAt(x,y) == eTile.Wall)
 				{
-					if(wallIndex<wallTiles.Length && wallTiles[wallIndex]!=null)
+					if(wallIndex<allWallTiles.Length && allWallTiles[wallIndex]!=null)
 					{
-						wallTiles[wallIndex].transform.position = tilePos;
-						wallTiles[wallIndex].active = true;
+						allWallTiles[wallIndex].transform.position = tilePos;
+						allWallTiles[wallIndex].active = true;
 						wallIndex++;
 					}
 					else
 					{
 						Instantiate(Wall, tilePos, Quaternion.identity);
+						if(wallIndex<allWallTiles.Length)
+						{
+							allWallTiles[wallIndex] = Wall; 
+							wallIndex++;
+						}
 					}
 				}
 			}
 		}
-		for(int i = floorIndex; i<floorTiles.Length; i++)
+		for(int i = floorIndex; i<allFloorTiles.Length; i++)
 		{
-			if(floorTiles[i]!=null) floorTiles[i].active = false;
-			//Destroy(floorTiles[i]);
+			if(allFloorTiles[i]!=null) allFloorTiles[i].active = false;
+			//Destroy(allFloorTiles[i]);
 		}
-		for(int i = wallIndex; i<wallTiles.Length; i++)
+		for(int i = wallIndex; i<allWallTiles.Length; i++)
 		{
-			if(wallTiles[i]!=null) wallTiles[i].active = false;
-			//Destroy(wallTiles[i]);
+			if(allWallTiles[i]!=null) allWallTiles[i].active = false;
+			//Destroy(allWallTiles[i]);
 		}
 
 		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
