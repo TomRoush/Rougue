@@ -110,9 +110,9 @@ public class MakeMap : MonoBehaviour
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
 		int numOldWalls = MapUtilities.getNumTile(map.mapData, eTile.Wall);
 		int numOldFillers = MapUtilities.getNumTile(map.mapData, eTile.Filler);
-		//Debug.Log("numOldFloors = " + numOldFloors);
-		//Debug.Log("numOldWalls = " + numOldWalls);
-		//Debug.Log("numOldFillers = " + numOldFillers);
+		Debug.Log("numOldFloors = " + numOldFloors);
+		Debug.Log("numOldWalls = " + numOldWalls);
+		Debug.Log("numOldFillers = " + numOldFillers);
 		int floorIndex = 0, wallIndex = 0, fillerIndex = 0;
 		GameObject[] floorTiles = GameObject.FindGameObjectsWithTag("Floor");
 		GameObject[] wallTiles = GameObject.FindGameObjectsWithTag("Wall");
@@ -172,19 +172,21 @@ public class MakeMap : MonoBehaviour
 		}
 		for(int i = floorIndex; i<floorTiles.Length; i++)
 		{
-			Destroy(floorTiles[i]);
+			floorTiles[i].active = false;
+			//Destroy(floorTiles[i]);
 		}
 		for(int i = wallIndex; i<wallTiles.Length; i++)
 		{
-			Destroy(wallTiles[i]);
+			wallTiles[i].active = false;
+			//Destroy(wallTiles[i]);
 		}
 		for(int i = fillerIndex; i<fillerTiles.Length; i++)
 		{
-			Destroy(fillerTiles[i]);
+			fillerTiles[i].active = false;
+			//Destroy(fillerTiles[i]);
 		}
 
 		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
-		
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -240,5 +242,10 @@ public class MakeMap : MonoBehaviour
         {
         	Destroy(enemies[i]);
         }
+    }
+
+    public eTile[,] currentFloor()
+    {
+    	return dungeon.getTMD(DungeonFloor).copyMapArray();
     }
 }
