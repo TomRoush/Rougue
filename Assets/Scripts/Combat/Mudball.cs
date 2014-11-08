@@ -24,7 +24,7 @@ public class Mudball : Spell {
 	// Update is called once per frame
 	protected override void CastSpell (GameObject closest) {
 		player = caster;
-		if (!player.GetComponent<Status>().isStunned && Input.GetKey (KeyCode.C)) {
+		if (!player.GetComponent<Status>().isStunned && closest != null) {
 			//closest = player.GetComponent<Status>().FindClosestEnemy();
 			//Debug.Log("mud");
 			
