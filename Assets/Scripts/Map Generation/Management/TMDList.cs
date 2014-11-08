@@ -1,8 +1,7 @@
 ﻿public class TMDList 
 {
 	public TileMapData[] floors;
-	private static int nFloors = 1;
-
+	
 	public TMDList()
 	{
 		floors = new TileMapData[0];

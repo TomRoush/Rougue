@@ -82,5 +82,5 @@ public partial class TileMapData
         eTile[,] ret = (eTile[,]) mapData.Clone();
         return ret;
 	}
-} 
+}
 
