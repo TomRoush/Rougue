@@ -12,6 +12,8 @@ public class AIPath {
 		this.startnode = startNode;
 		pathnodes = new List<Node> ();
 		pathnodes.Add (startnode);
+
+		getPath ();
 	}
 
 	// Gets the path starting from the given node.
@@ -35,5 +37,10 @@ public class AIPath {
 			pathnodes.RemoveAt (0);
 			return temp;
 		}
+	}
+
+	// Length of the current path.
+	public int length() {
+		return pathnodes.Count;
 	}
 }
