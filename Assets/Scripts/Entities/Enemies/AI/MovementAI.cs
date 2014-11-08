@@ -11,14 +11,14 @@ public class MovementAI {
 	private Node current;
 	private Location targetlocation;
 	public AIPath aipath;
-	public int nodecounter = 1;
 	public int fpscounter = 0;
+	public Node currentNode;
 
 	public MovementAI(eTile[,] mapdata) {
 		this.mapdata = mapdata;
 	}
 
-	public List<Node> getPath(Vector3 start, Vector3 target) {
+	public AIPath getPath(Vector3 start, Vector3 target) {
 		// Set current position
 		current = new Node (null, new Location((int)start.x, (int)start.y), 999, NodeState.Open);
 		
@@ -35,8 +35,6 @@ public class MovementAI {
 			}
 		}
 
-
-
 		// Repeat while we are not at the target location
 		while (!current.loc.equals(targetlocation)) {
 			checkNeighbors(current);
@@ -47,7 +45,7 @@ public class MovementAI {
 		
 		// Get the path and spawn balls to indicate the path
 		aipath = new AIPath (current);
-		return aipath.getPath ();
+		return aipath;
 	}
 
 	void checkNeighbors(Node n) {;
