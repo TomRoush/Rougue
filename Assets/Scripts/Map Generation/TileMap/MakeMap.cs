@@ -27,6 +27,8 @@ public class MakeMap : MonoBehaviour
     public delegate void DeleteTiles();
     public static event DeleteTiles OnDelete;
 
+    private int maxFloors=0, maxWalls=0;
+
 
 	
 	void Start () 
@@ -61,7 +63,6 @@ public class MakeMap : MonoBehaviour
 		NOEDITPlaceMap(map);
 		float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
-
 	}
 
 	public void NOEDITPlaceMap(TileMapData tmd)
@@ -69,10 +70,10 @@ public class MakeMap : MonoBehaviour
 		TileMapData map = tmd;
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
 		int numOldWalls = MapUtilities.getNumTile(map.mapData, eTile.Wall);
-		int numOldFillers = MapUtilities.getNumTile(map.mapData, eTile.Filler);
-		//Debug.Log("numOldFloors = " + numOldFloors);
-		//Debug.Log("numOldWalls = " + numOldWalls);
-		//Debug.Log("numOldFillers = " + numOldFillers);
+		Debug.Log("numOldFloors = " + numOldFloors);
+		Debug.Log("numOldWalls = " + numOldWalls);
+		if(numOldFloors>maxFloors) maxFloors = numOldFloors;
+		if(numOldWalls>maxWalls) maxWalls = numOldWalls;
 
 		for(int y=0; y<map.sizeY; y++)
 		{
@@ -86,8 +87,6 @@ public class MakeMap : MonoBehaviour
 					Instantiate(Floor, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == eTile.Wall)
 					Instantiate(Wall, tilePos, Quaternion.identity);
-				else if(map.GetTileAt(x,y) == eTile.Filler)
-					Instantiate(Filler, tilePos, Quaternion.identity);
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
 					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
@@ -109,14 +108,20 @@ public class MakeMap : MonoBehaviour
 		TileMapData map = tmd;
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
 		int numOldWalls = MapUtilities.getNumTile(map.mapData, eTile.Wall);
-		int numOldFillers = MapUtilities.getNumTile(map.mapData, eTile.Filler);
 		Debug.Log("numOldFloors = " + numOldFloors);
 		Debug.Log("numOldWalls = " + numOldWalls);
-		Debug.Log("numOldFillers = " + numOldFillers);
-		int floorIndex = 0, wallIndex = 0, fillerIndex = 0;
-		GameObject[] floorTiles = GameObject.FindGameObjectsWithTag("Floor");
-		GameObject[] wallTiles = GameObject.FindGameObjectsWithTag("Wall");
-		GameObject[] fillerTiles = GameObject.FindGameObjectsWithTag("Filler");
+		int floorIndex = 0, wallIndex = 0;
+		if(numOldFloors>maxFloors) maxFloors = numOldFloors;
+		if(numOldWalls>maxWalls) maxWalls = numOldWalls;
+		GameObject[] ft = GameObject.FindGameObjectsWithTag("Floor");
+		GameObject[] wt = GameObject.FindGameObjectsWithTag("Wall");
+		GameObject[] floorTiles = new GameObject[maxFloors];
+		GameObject[] wallTiles = new GameObject[maxWalls];
+		Debug.Log("maxFloors = "+ maxFloors + "; maxWalls = "+ maxWalls);
+		for(int i = 0; i<ft.Length-1; i++)
+			floorTiles[i]=ft[i];
+		for(int i = 0; i<wt.Length-1; i++)
+			wallTiles[i] = wt[i];
 		for(int y=0; y<map.sizeY; y++)
 		{
 			for(int x=0; x<map.sizeX; x++)
@@ -134,21 +139,25 @@ public class MakeMap : MonoBehaviour
 				}
 				if(map.GetTileAt(x,y) == eTile.Floor)
 				{
-					if(floorIndex<floorTiles.Length)
+					if(floorIndex<floorTiles.Length && floorTiles[floorIndex]!=null)
 					{
 						floorTiles[floorIndex].transform.position = tilePos;
+						floorTiles[wallIndex].active = true;
 						floorIndex++;
 					}
 					else
 					{
 						Instantiate(Floor, tilePos, Quaternion.identity);
+						floorTiles[floorIndex] = Floor; 
+						floorIndex++;
 					}
 				}
 				if(map.GetTileAt(x,y) == eTile.Wall)
 				{
-					if(wallIndex<wallTiles.Length)
+					if(wallIndex<wallTiles.Length && wallTiles[wallIndex]!=null)
 					{
 						wallTiles[wallIndex].transform.position = tilePos;
+						wallTiles[wallIndex].active = true;
 						wallIndex++;
 					}
 					else
@@ -156,34 +165,17 @@ public class MakeMap : MonoBehaviour
 						Instantiate(Wall, tilePos, Quaternion.identity);
 					}
 				}
-				if(map.GetTileAt(x,y) == eTile.Filler)
-				{
-					if(fillerIndex<fillerTiles.Length)
-					{
-						fillerTiles[fillerIndex].transform.position = tilePos;
-						fillerIndex++;
-					}
-					else
-					{
-						Instantiate(Filler, tilePos, Quaternion.identity);
-					}
-				}
 			}
 		}
 		for(int i = floorIndex; i<floorTiles.Length; i++)
 		{
-			floorTiles[i].active = false;
+			if(floorTiles[i]!=null) floorTiles[i].active = false;
 			//Destroy(floorTiles[i]);
 		}
 		for(int i = wallIndex; i<wallTiles.Length; i++)
 		{
-			wallTiles[i].active = false;
+			if(wallTiles[i]!=null) wallTiles[i].active = false;
 			//Destroy(wallTiles[i]);
-		}
-		for(int i = fillerIndex; i<fillerTiles.Length; i++)
-		{
-			fillerTiles[i].active = false;
-			//Destroy(fillerTiles[i]);
 		}
 
 		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
@@ -195,7 +187,8 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(false);
         toPrevFloor = false;
         DungeonFloor++;
-        //ClearMap();
+        ClearEnemies();
+		//ClearMap();
 
         if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
         {
@@ -222,6 +215,7 @@ public class MakeMap : MonoBehaviour
 			PlayerInstance.SetActive(false);
 	    	toPrevFloor = true;
 	        DungeonFloor--;
+	        ClearEnemies();
 	        //ClearMap();
 	        MoveMap(dungeon.getTMD(DungeonFloor));
 	        //NOEDITPlaceMap(dungeon.getTMD(DungeonFloor));
@@ -237,6 +231,16 @@ public class MakeMap : MonoBehaviour
         if(OnDelete != null)
             OnDelete();
  		GameObject[] enemies;
+ 		enemies =  GameObject.FindGameObjectsWithTag ("Enemy");
+        for(int i = 0; i<enemies.Length; i++)
+        {
+        	Destroy(enemies[i]);
+        }
+    }
+
+    void ClearEnemies()
+    {
+    	GameObject[] enemies;
  		enemies =  GameObject.FindGameObjectsWithTag ("Enemy");
         for(int i = 0; i<enemies.Length; i++)
         {
