@@ -200,6 +200,9 @@ public class Status : MonoBehaviour {
 						* player.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
 				}
 				player.gameObject.GetComponent<Player>().blood.Play();
+				if(Random.value < 1.0f) {
+					Instantiate(player.gameObject.GetComponent<Player>().bloodSpatter, player.transform.position, Quaternion.identity);
+				}
 				attackTimer = 1/attackSpeed;
 		}
 	}
