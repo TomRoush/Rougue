@@ -232,7 +232,7 @@ public class MakeMap : MonoBehaviour
     	GameObject[] temp = new GameObject[enemies.Length + inactiveEnemies.Length];
     	for(int i =0; i<inactiveEnemies.Length; i++)
     	{
-    		temp[i] = inactiveEnemies[i];
+    		if(inactiveEnemies[i]!=null) temp[i] = inactiveEnemies[i];
     		//Debug.Log("inactiveEnemies["+i+"].initFloor = "+ inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
     	}
         for(int i = 0; i<enemies.Length; i++)
@@ -247,8 +247,9 @@ public class MakeMap : MonoBehaviour
     {
     	for(int i = 0; i<inactiveEnemies.Length;i++)
         {
-        	if(inactiveEnemies[i].GetComponent<AttackingMob>().initFloor < DungeonFloor-1) Destroy(inactiveEnemies[i]);
-        	Debug.Log("inactiveEnemies["+i+"].initFloor = " + inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
+        	//Debug.Log(inactiveEnemies.Length);
+        	if(inactiveEnemies[i]!=null && inactiveEnemies[i].GetComponent<AttackingMob>().initFloor < DungeonFloor-5) Destroy(inactiveEnemies[i]);
+        	//Debug.Log("inactiveEnemies["+i+"].initFloor = " + inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
         }
     }
 
