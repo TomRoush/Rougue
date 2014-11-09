@@ -113,21 +113,24 @@ public class Status : MonoBehaviour {
 		if (rage < 0) {
 			rage=0;
 		}else if (rage>=100&&gameObject.tag == "Player" && !isRaged){//rage on
-			speedx+=1f;
-			damagex+=10f;
-			attackSpeed+=0.5f;
-			rageTimer = 6f; 
-			isRaged=true;
+			GameObject rageEffect = Resources.Load ("Rage") as GameObject; 
+			rageEffect.GetComponent<TimedEffect>().target = gameObject;
+			GameObject.Instantiate(rageEffect, player.transform.position, Quaternion.identity);
+			//speedx+=1f;
+			//damagex+=10f;
+			//attackSpeed+=0.5f;
+			//rageTimer = 6f; 
+			//isRaged=true;
 		}else if (rage > 0) {
 			rage -= Time.deltaTime * rageDecay;
 		}
 		if (rageTimer>0){
 			rageTimer -= Time.deltaTime;
 		}else if (isRaged && rageTimer<=0){//rage off
-			speedx-=1f;
-			damagex-=10f;
-			attackSpeed-=0.5f;
-			isRaged=false;
+			//speedx-=1f;
+			//damagex-=10f;
+			//attackSpeed-=0.5f;
+			//isRaged=false;
 			rageTimer=0;
 			rage = 0;
 		}

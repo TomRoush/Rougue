@@ -20,7 +20,7 @@ public class Fireball : Spell {
     protected override void CastSpell(GameObject closest)
     {
 		player = caster;//GameObject.FindGameObjectWithTag ("Player");
-		if (!player.GetComponent<Status>().isStunned){
+		if (!player.GetComponent<Status>().isStunned && closest != null){
 			float bulletspeed = 1800f;
 			//float xval = (closest.transform.position.x - player.transform.position.x) ;
 			//float yval = (closest.transform.position.y - player.transform.position.y) ;
