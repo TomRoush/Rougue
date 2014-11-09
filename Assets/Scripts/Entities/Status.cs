@@ -8,6 +8,8 @@ public class Status : MonoBehaviour {
 	static GameObject player;
 	public static GameObject closest;
 
+	public LayerMask myLM;
+
 	public int level = 5;
 	public bool levelUp = false;
 	public int upgradePoints;
@@ -48,7 +50,7 @@ public class Status : MonoBehaviour {
 
 	public float range1;
 	
-	[HideInInspector]
+	//[HideInInspector]
 	public bool isStunned = false;
 	public bool getSlowed = false;
 	public bool isSlowed = false;
@@ -161,31 +163,34 @@ public class Status : MonoBehaviour {
 	
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
-		closest = FindClosestEnemy();
-		//closest = FindClosestEnemyWalls(range1);
-		if (closest != null){
-			if (gameObject.tag == "Player" && 
-		    	getDistance(closest) < range1 &&//
-		    	//Mathf.Sqrt((enemies[i].transform.position.x-gameObject.transform.position.x) * 
-		        //   (enemies[i].transform.position.x-gameObject.transform.position.x) + 
-		        //   (enemies[i].transform.position.y-gameObject.transform.position.y) *
-		        //   (enemies[i].transform.position.y-gameObject.transform.position.y)) < range1 
-				attackTimer <= 0) 
-			{
-			Debug.Log ("AutoAttack1");
-				closest.gameObject.GetComponent<Status> ().health -= strength * damagex
-					* closest.gameObject.GetComponent<Status> ().defense;
+		//closest = FindClosestEnemy();
+		if (attackTimer<=0){
+			closest = FindClosestEnemyWalls(range1);
+			if (closest != null){
+				if (gameObject.tag == "Player" && 
+		    		getDistance(closest) < range1 //&&//need if FindClosestEnemy w/o the Walls
+		    		//Mathf.Sqrt((enemies[i].transform.position.x-gameObject.transform.position.x) * 
+		        	//   (enemies[i].transform.position.x-gameObject.transform.position.x) + 
+		        	//   (enemies[i].transform.position.y-gameObject.transform.position.y) *
+		        	//   (enemies[i].transform.position.y-gameObject.transform.position.y)) < range1 
+					//attackTimer <= 0
+				    ) 
+				{
+					Debug.Log ("AutoAttack1");
+						closest.gameObject.GetComponent<Status> ().health -= strength * damagex
+						* closest.gameObject.GetComponent<Status> ().defense;
 
-				if (!closest.gameObject.GetComponent<Status> ().isRaged) {
-					closest.gameObject.GetComponent<Status> ().rage += strength * damagex
-					* closest.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+					if (!closest.gameObject.GetComponent<Status> ().isRaged) {
+						closest.gameObject.GetComponent<Status> ().rage += strength * damagex
+						* closest.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+					}
+					//money1+=0.1f;
+					attackTimer = 1 / attackSpeed;
 				}
-				//money1+=0.1f;
-				attackTimer = 1 / attackSpeed;
-			}
 			//if (Input.GetKey(KeyCode.Space)){
 			//	GetComponent<Fireball>().closest = closest;
 			//}
+			}
 		}
 		if (gameObject.tag=="Enemy" && 
 		   		getDistance(player) < range1 && //
@@ -241,10 +246,13 @@ public class Status : MonoBehaviour {
 				//Vector3 diff = go.transform.position - position;
 				//float curDistance = diff.sqrMagnitude;
 				if (curDistance < distance) {
-					var heading = (go.transform.position - transform.position);
+					var heading = go.transform.position - gameObject.transform.position;
 					var distance2 = heading.magnitude;
 					var direction = heading/distance2;
-					if (Physics.Raycast(position, direction, range)){
+					RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, direction, range, myLM);
+					//Debug.Log (hit.collider.tag);
+					if (hit.collider.tag == "Enemy"){
+						//Debug.Log (hit.collider.tag);
 						closest = go;
 						distance = curDistance;
 					}
