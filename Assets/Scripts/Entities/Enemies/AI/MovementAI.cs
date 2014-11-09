@@ -19,6 +19,7 @@ public class MovementAI {
 	}
 
 	public AIPath getPath(Vector3 start, Vector3 target) {
+		float startTime = Time.realtimeSinceStartup;
 		// Set current position
 		current = new Node (null, new Location((int)start.x, (int)start.y), 999, NodeState.Open);
 		
@@ -45,6 +46,9 @@ public class MovementAI {
 		
 		// Get the path and spawn balls to indicate the path
 		aipath = new AIPath (current);
+
+		float endTime = Time.realtimeSinceStartup;
+		//Debug.Log ("time taken to get path:" + (endTime - startTime));
 		return aipath;
 	}
 

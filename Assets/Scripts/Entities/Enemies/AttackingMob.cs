@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class AttackingMob : Entities {
 
+	public static int mobcount;
+	public int updaterate;
+	public int mobnum;
+
 	public GameObject attackingg;
 	public Entities attacking;
 	public int distance;
@@ -15,8 +19,12 @@ public class AttackingMob : Entities {
 	private MovementAI ai;
 	private AIPath path;
 	private Vector3 target;
+	private MakeMap mapgen;
 
 	void Start () {
+		updaterate = 50;
+		mobnum = mobcount;
+		mobcount++;
 
         InitializeEntity();
 
@@ -27,17 +35,18 @@ public class AttackingMob : Entities {
 			attacking = attackingg.GetComponent<Entities>();
 		}
 
-		MakeMap mapgen = GameObject.FindGameObjectWithTag("MapGen").GetComponent<MakeMap>();
+		mapgen = GameObject.FindGameObjectWithTag("MapGen").GetComponent<MakeMap>();
 		ai = new MovementAI (mapgen.currentFloor ());
 		path = ai.getPath (gameObject.transform.position, attackingg.transform.position);
 		ai.currentNode = path.pop ();
+		ai.fpscounter = (updaterate / mapgen.numEnemies) * mobnum;
 	}
 	
 
 	void FixedUpdate () {
 		ai.fpscounter++;
 
-		if (ai.fpscounter > 40) {
+		if (ai.fpscounter > updaterate) {
 			ai.fpscounter = 0;
 			path = ai.getPath (gameObject.transform.position, attackingg.transform.position);
 			path.pop();
@@ -61,8 +70,6 @@ public class AttackingMob : Entities {
 			//StartCoroutine(waitForAttack());
 
 		}
-
-
 	}
 
 	public void attackEntity()
