@@ -245,7 +245,7 @@ public class Status : MonoBehaviour {
 					var direction = heading/distance2;
 					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, enemiesWalls);
 					//Debug.Log (hit.collider.tag);
-					if (hit.collider.tag == "Enemy"){
+					if (hit != null && hit.collider.tag == "Enemy"){
 						//Debug.Log (hit.collider.tag);
 						closest = go;
 						distance = curDistance;
