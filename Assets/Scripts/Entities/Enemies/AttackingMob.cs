@@ -21,6 +21,7 @@ public class AttackingMob : Entities {
 	private Vector3 target;
 	private MakeMap mapgen;
 
+	// TODO: Check/reset mobcount when changing floors
 	void Start () {
 		updaterate = 50;
 		mobnum = mobcount;
