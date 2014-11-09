@@ -180,6 +180,7 @@ public class MakeMap : MonoBehaviour
 			if(allWallTiles[i]!=null) allWallTiles[i].active = false;
 			//Destroy(allWallTiles[i]);
 		}
+		RefreshEnemies();
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -232,7 +233,7 @@ public class MakeMap : MonoBehaviour
     	for(int i =0; i<inactiveEnemies.Length; i++)
     	{
     		temp[i] = inactiveEnemies[i];
-    		Debug.Log("inactiveEnemies["+i+"].initFloor = "+ inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
+    		//Debug.Log("inactiveEnemies["+i+"].initFloor = "+ inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
     	}
         for(int i = 0; i<enemies.Length; i++)
         {
@@ -240,10 +241,14 @@ public class MakeMap : MonoBehaviour
         	temp[i+inactiveEnemies.Length] = enemies[i];
         }
         inactiveEnemies = temp;
-        for(int i = 0; i<inactiveEnemies.Length;i++)
+    }
+
+    void RefreshEnemies()
+    {
+    	for(int i = 0; i<inactiveEnemies.Length;i++)
         {
-        	//if(inactiveEnemies[i].GetComponent<AttackingMob>().initFloor < DungeonFloor-1) Destroy(inactiveEnemies[i]);
-        	//Debug.Log("inactiveEnemies["+i+"].initFloor = " + inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
+        	if(inactiveEnemies[i].GetComponent<AttackingMob>().initFloor < DungeonFloor-1) Destroy(inactiveEnemies[i]);
+        	Debug.Log("inactiveEnemies["+i+"].initFloor = " + inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
         }
     }
 

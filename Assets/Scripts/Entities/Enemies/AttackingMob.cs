@@ -32,7 +32,6 @@ public class AttackingMob : Entities {
 
 		MakeMap mapgen = GameObject.FindGameObjectWithTag("MapGen").GetComponent<MakeMap>();
 		initFloor = mapgen.DungeonFloor;
-		Debug.Log("initFloor" + initFloor);
 		ai = new MovementAI (mapgen.currentFloor ());
 		path = ai.getPath (gameObject.transform.position, attackingg.transform.position);
 		ai.currentNode = path.pop ();
