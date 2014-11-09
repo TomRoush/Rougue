@@ -4,6 +4,8 @@ using System.Collections;
 public class DestroyFireball : MonoBehaviour {
 
 	public GameObject player;
+	public float aoe = 5f;	
+	public LayerMask enemiesWalls;
 
 	// Use this for initialization
 	void Start () {
@@ -14,8 +16,14 @@ public class DestroyFireball : MonoBehaviour {
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		if (coll.gameObject.tag == "Enemy") {
 			foreach (GameObject go in enemies) {
-				if (getDistance(go)<=3){
-					go.gameObject.GetComponent<Status>().health-=player.GetComponent<Status>().intelligence*3;
+				if (getDistance(go)<=aoe){
+					var heading = go.transform.position - transform.position;
+					var distance2 = heading.magnitude;
+					var direction = heading/distance2;
+					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, aoe, enemiesWalls);
+					if (hit.collider.tag == "Enemy"){
+						go.gameObject.GetComponent<Status>().health-=player.GetComponent<Status>().intelligence*2;
+					}
 				}
 			}
 			Debug.Log ("FBcollisionenemy");
