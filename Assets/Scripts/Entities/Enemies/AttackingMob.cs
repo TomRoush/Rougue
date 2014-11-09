@@ -22,6 +22,7 @@ public class AttackingMob : Entities {
 	public int initFloor;
 	private MakeMap mapgen;
 
+	// TODO: Check/reset mobcount when changing floors
 	void Start () {
 		updaterate = 50;
 		mobnum = mobcount;
