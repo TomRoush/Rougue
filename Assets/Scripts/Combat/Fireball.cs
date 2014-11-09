@@ -8,10 +8,9 @@ public class Fireball : Spell {
 	public GameObject closest;
 	public GameObject player;
 
-
     public Fireball(GameObject pCaster) : base(pCaster)
     {
-        manaCost = 50;
+        manaCost = 40;
         name = "Fireball";
         coolDown = 4;
         fireball = Resources.Load("Fireball") as GameObject;
