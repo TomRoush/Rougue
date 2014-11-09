@@ -13,7 +13,7 @@ public abstract partial class Entities : MonoBehaviour {
     protected Status cStat;
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 	
 	// Update is called once per frame

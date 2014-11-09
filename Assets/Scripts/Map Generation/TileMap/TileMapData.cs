@@ -8,7 +8,6 @@ public partial class TileMapData
 	public int nRooms;
 	public int floorNum;
 	
-	public EnemyList enemies;
 	public eTile[,] mapData;
 	
 	List<RoomData> rooms;
