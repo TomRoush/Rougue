@@ -156,22 +156,23 @@ public class Status : MonoBehaviour {
 			isSlowed=false;
 		}
 
-		autoMelee ();
+		autoAttack ();
 	}
 	
 	//void OnCollisionStay2D (Collision2D collider){
-	void autoMelee(){//not necessarily melee range (uses range1), but this uses strength
+	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
 		closest = FindClosestEnemy();
+		//closest = FindClosestEnemyWalls(range1);
 		if (closest != null){
 			if (gameObject.tag == "Player" && 
-		    	getDistance(closest) < range1 &&
+		    	getDistance(closest) < range1 &&//
 		    	//Mathf.Sqrt((enemies[i].transform.position.x-gameObject.transform.position.x) * 
 		        //   (enemies[i].transform.position.x-gameObject.transform.position.x) + 
 		        //   (enemies[i].transform.position.y-gameObject.transform.position.y) *
 		        //   (enemies[i].transform.position.y-gameObject.transform.position.y)) < range1 
 				attackTimer <= 0) 
 			{
-			//Debug.Log ("Yes1");
+			Debug.Log ("AutoAttack1");
 				closest.gameObject.GetComponent<Status> ().health -= strength * damagex
 					* closest.gameObject.GetComponent<Status> ().defense;
 
@@ -187,14 +188,14 @@ public class Status : MonoBehaviour {
 			//}
 		}
 		if (gameObject.tag=="Enemy" && 
-		   		getDistance(player) < range1 && 
+		   		getDistance(player) < range1 && //
 			    //Mathf.Sqrt((player.transform.position.x-gameObject.transform.position.x) * 
 		        // 			(player.transform.position.x-gameObject.transform.position.x) + 
 			    //      		(player.transform.position.y-gameObject.transform.position.y) *
 		        //  			(player.transform.position.y-gameObject.transform.position.y)) < range1 
 			  	attackTimer <= 0) 
 			{
-				//Debug.Log ("Yes2");
+				//Debug.Log ("AutoAttack2");
 				player.gameObject.GetComponent<Status> ().health -= strength * damagex
 					* player.gameObject.GetComponent<Status> ().defense;
 					
@@ -220,6 +221,33 @@ public class Status : MonoBehaviour {
 				if (curDistance < distance) {
 					closest = go;
 					distance = curDistance;
+				}
+			}
+		}
+		if (closest != null) {
+			return closest;
+		} else {
+			return null;
+		}
+	}
+	public GameObject FindClosestEnemyWalls(float range) {
+		enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+		GameObject closest = null;
+		if (gameObject.tag == "Player"){
+			float distance = Mathf.Infinity;
+			Vector3 position = transform.position;
+			foreach (GameObject go in enemies) {
+				float curDistance = (go.transform.position - position).sqrMagnitude;
+				//Vector3 diff = go.transform.position - position;
+				//float curDistance = diff.sqrMagnitude;
+				if (curDistance < distance) {
+					var heading = (go.transform.position - transform.position);
+					var distance2 = heading.magnitude;
+					var direction = heading/distance2;
+					if (Physics.Raycast(position, direction, range)){
+						closest = go;
+						distance = curDistance;
+					}
 				}
 			}
 		}
