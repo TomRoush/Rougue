@@ -23,9 +23,10 @@ public class MakeMap : MonoBehaviour
 
     public int DungeonFloor;
     GameObject PlayerInstance;
-    //Events to Handle Map clearings
 
     private int maxFloors=0, maxWalls=0;
+
+    public static GameObject[] inactiveEnemies = new GameObject[0];
 
 
 	
@@ -68,8 +69,8 @@ public class MakeMap : MonoBehaviour
 		TileMapData map = tmd;
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
 		int numOldWalls = MapUtilities.getNumTile(map.mapData, eTile.Wall);
-		Debug.Log("numOldFloors = " + numOldFloors);
-		Debug.Log("numOldWalls = " + numOldWalls);
+		//Debug.Log("numOldFloors = " + numOldFloors);
+		//Debug.Log("numOldWalls = " + numOldWalls);
 		if(numOldFloors>maxFloors) maxFloors = numOldFloors;
 		if(numOldWalls>maxWalls) maxWalls = numOldWalls;
 
@@ -111,7 +112,7 @@ public class MakeMap : MonoBehaviour
 		if(activeWallTiles.Length>maxWalls) maxWalls = activeWallTiles.Length;
 		GameObject[] allFloorTiles = new GameObject[maxFloors];
 		GameObject[] allWallTiles = new GameObject[maxWalls];
-		Debug.Log("maxFloors = "+ maxFloors + "; maxWalls = "+ maxWalls);
+		//Debug.Log("maxFloors = "+ maxFloors + "; maxWalls = "+ maxWalls);
 		for(int i = 0; i<activeFloorTiles.Length; i++)
 			allFloorTiles[i]=activeFloorTiles[i];
 		for(int i = 0; i<activeWallTiles.Length; i++)
@@ -179,8 +180,7 @@ public class MakeMap : MonoBehaviour
 			if(allWallTiles[i]!=null) allWallTiles[i].active = false;
 			//Destroy(allWallTiles[i]);
 		}
-
-		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
+		RefreshEnemies();
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -196,10 +196,12 @@ public class MakeMap : MonoBehaviour
         	TileMapData generated = genTMD();
         	MoveMap(generated);
         	dungeon.add(generated);
+        	Spawning.SpawnEnemies(generated, numEnemies, Enemy);
     	}
         else 
         {
         	MoveMap(dungeon.getTMD(DungeonFloor));//if the player has been here, load it from the list
+        	Spawning.RespawnEnemies(DungeonFloor);
 		}
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
@@ -219,17 +221,35 @@ public class MakeMap : MonoBehaviour
 	        PlayerInstance.SetActive(true);
 	        float endTime = Time.realtimeSinceStartup;
 			Debug.Log(endTime-startTime + "seconds loadtime");
+			Spawning.RespawnEnemies(DungeonFloor);
 	    }
 	    else Debug.Log("You are on the top floor");
     }
 
     void ClearEnemies()
     {
-    	GameObject[] enemies;
- 		enemies =  GameObject.FindGameObjectsWithTag ("Enemy");
+    	GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+    	GameObject[] temp = new GameObject[enemies.Length + inactiveEnemies.Length];
+    	for(int i =0; i<inactiveEnemies.Length; i++)
+    	{
+    		if(inactiveEnemies[i]!=null) temp[i] = inactiveEnemies[i];
+    		//Debug.Log("inactiveEnemies["+i+"].initFloor = "+ inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
+    	}
         for(int i = 0; i<enemies.Length; i++)
         {
-        	Destroy(enemies[i]);
+        	enemies[i].active = false;
+        	temp[i+inactiveEnemies.Length] = enemies[i];
+        }
+        inactiveEnemies = temp;
+    }
+
+    void RefreshEnemies()
+    {
+    	for(int i = 0; i<inactiveEnemies.Length;i++)
+        {
+        	//Debug.Log(inactiveEnemies.Length);
+        	if(inactiveEnemies[i]!=null && inactiveEnemies[i].GetComponent<AttackingMob>().initFloor < DungeonFloor-5) Destroy(inactiveEnemies[i]);
+        	//Debug.Log("inactiveEnemies["+i+"].initFloor = " + inactiveEnemies[i].GetComponent<AttackingMob>().initFloor);
         }
     }
 
