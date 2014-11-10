@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal, Enemy};
+public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
 
 public class MakeMap : MonoBehaviour 
 {
@@ -41,9 +41,9 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-        if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax);
-        else
+       // if(Random.Range(0.0f,2.0f) > 1.0)
+       //     map.GenCave(xMax,yMax);
+       //  else
             map.GenClassic(xMax,yMax, nRooms);
     	 return map;
 	}
@@ -51,12 +51,7 @@ public class MakeMap : MonoBehaviour
 	void PlaceMap()
 	{
 		float startTime = Time.realtimeSinceStartup;
-		TileMapData map = new TileMapData();
-
-        if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax);
-        else
-            map.GenClassic(xMax,yMax, nRooms);
+		TileMapData map = genTMD();
 
         dungeon.add(map);
 		NOEDITPlaceMap(map);
