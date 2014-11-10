@@ -167,12 +167,12 @@ public class MakeMap : MonoBehaviour
 		}
 		for(int i = floorIndex; i<allFloorTiles.Length; i++)
 		{
-			if(allFloorTiles[i]!=null) allFloorTiles[i].active = false;
+			if(allFloorTiles[i]!=null) allFloorTiles[i].SetActive(false);
 			//Destroy(allFloorTiles[i]);
 		}
 		for(int i = wallIndex; i<allWallTiles.Length; i++)
 		{
-			if(allWallTiles[i]!=null) allWallTiles[i].active = false;
+			if(allWallTiles[i]!=null) allWallTiles[i].SetActive(false);
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
@@ -232,7 +232,7 @@ public class MakeMap : MonoBehaviour
     	}
         for(int i = 0; i<enemies.Length; i++)
         {
-        	enemies[i].active = false;
+        	enemies[i].SetActive(false);
         	temp[i+inactiveEnemies.Length] = enemies[i];
         }
         inactiveEnemies = temp;
