@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SpellsManager : MonoBehaviour {
-	private Spell[] spells = new Spell[3];
+	private Spell<GameObject>[] spells = new Spell<GameObject>[3];
 	public Texture2D[] cooldownIcons;
 	private Texture2D[] appliedTextures = new Texture2D[3];
 	

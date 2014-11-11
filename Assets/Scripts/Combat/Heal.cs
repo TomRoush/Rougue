@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Heal : Spell {
+public class Heal : Spell<GameObject> {
 	public GameObject heal;
 
     public Heal(GameObject pCaster) : base(pCaster)
