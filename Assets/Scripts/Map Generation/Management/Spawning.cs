@@ -22,7 +22,7 @@ public class Spawning : MakeMap
 	{
 		for(int i = 0; i < MakeMap.inactiveEnemies.Length; i++)
 		{
-			if(MakeMap.inactiveEnemies[i]!=null && MakeMap.inactiveEnemies[i].GetComponent<AttackingMob>().initFloor == floor) MakeMap.inactiveEnemies[i].active = true;
+			if(MakeMap.inactiveEnemies[i]!=null && MakeMap.inactiveEnemies[i].GetComponent<AttackingMob>().initFloor == floor) MakeMap.inactiveEnemies[i].SetActive(true);
 		}
 	}
 }
