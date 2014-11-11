@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class Spell {
+public abstract class Spell <gType>
+{
 
 	protected int manaCost;
     protected string name;
@@ -9,8 +10,9 @@ public abstract class Spell {
     protected float lastCastTime;
     protected GameObject caster;
     protected Status casterStat;
+   
 
-    public void cast(GameObject target)
+    public void cast(gType target)
     {
         if(CanCast())
         {
@@ -20,7 +22,7 @@ public abstract class Spell {
         }
     }
 
-    protected abstract void CastSpell(GameObject target);
+    protected abstract void CastSpell(gType target);
      
     public Spell(GameObject pCaster)
     {
@@ -29,10 +31,6 @@ public abstract class Spell {
         casterStat = caster.GetComponent<Status>();
     }
 
-    public Spell()
-    {
-        lastCastTime = 0;
-    }
 
     public bool CanCast()
     {

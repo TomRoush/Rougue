@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Mudball : Spell {
+public class Mudball : Spell<GameObject> {
 	
 	//public float mudballTimer;
 	public GameObject mudball;

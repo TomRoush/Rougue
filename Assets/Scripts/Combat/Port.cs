@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Port : Spell {
+public class Port : Spell<GameObject> {
 	
 	public GameObject player;
 	
