@@ -36,6 +36,7 @@ public class Player : Entities
         SelfCast = new Heal(gameObject);
         AutoTarget = new Fireball(gameObject);
 		AutoTarget2 = new Mudball (gameObject);
+        PosTarget = new MagicMissle(gameObject);
 
 		paused = false;
 		anim = GetComponent<Animator> ();
@@ -105,6 +106,11 @@ public class Player : Entities
 			if(Input.GetKey (KeyCode.C)){
 				AutoTarget2.cast (cStat.FindClosestEnemy());
 			}
+            if(Input.GetMouseButtonDown(0))
+            {
+                PosTarget.cast(Input.mousePosition);
+
+            }
             
 		}
 		//if not moving
