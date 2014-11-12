@@ -27,7 +27,7 @@ public class AudioPlayer : MonoBehaviour {
 	}
 	
 	public void play() {
-		source.volume = manager.getVolume(type) / 10.0f;
+		source.volume = (manager.getVolume(VolumeManager.TypeOfAudio.MASTER) + Mathf.Max(manager.getVolume(VolumeManager.TypeOfAudio.MASTER), manager.getVolume(type))) / 20.0f;
 		Debug.Log(source.volume);
 		source.Play();
 	}
