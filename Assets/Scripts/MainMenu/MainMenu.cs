@@ -28,8 +28,8 @@ public class MainMenu : MonoBehaviour {
 		sheath = Resources.Load("Sounds/Sound_Effects/sheath") as AudioClip;
 		
 		manager = ((VolumeManager)FindObjectOfType(typeof(VolumeManager)));
-		music = new AudioPlayer(gameObject, Resources.Load("Sounds/Music/RougueTheme1") as AudioClip, VolumeManager.TypeOfAudio.MASTER);
-		sheathPlayer = new AudioPlayer(gameObject, sheath, VolumeManager.TypeOfAudio.MASTER);
+		music = new AudioPlayer(gameObject, Resources.Load("Sounds/Music/Rougue Theme") as AudioClip, VolumeManager.TypeOfAudio.MASTER);
+		sheathPlayer = new AudioPlayer(gameObject, sheath, VolumeManager.TypeOfAudio.MUSIC);
 		
 		music.setLoop(true);
 		music.play();
