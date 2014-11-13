@@ -36,6 +36,7 @@ public class PlayerGUI : MonoBehaviour {
 				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
 				{
 					player.paused = false;
+					player.UpdateGameState();
 				}
 				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
 				{
@@ -52,7 +53,7 @@ public class PlayerGUI : MonoBehaviour {
 		
 		// draw the health bar
 		//draw the background:
-		if(player.gameObject.GetComponent<Status> ().health > 50.0f) {
+		if(player.GetComponent<Status> ().health > 50.0f) {
 			InitStyles (Color.green);
 		} else {
 			InitStyles(Color.red);

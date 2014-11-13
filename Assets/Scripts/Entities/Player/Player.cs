@@ -3,9 +3,6 @@ using System.Collections;
 
 public class Player : Entities 
 {
-	//public enumerator to easily communicate current game state
-	public enum GameState { PLAYING, PAUSED };
-	public static GameState playerState = GameState.PLAYING;
 
 	public bool paused;
 	private Texture2D scroll;
@@ -26,7 +23,7 @@ public class Player : Entities
 	// GUI Object
 	private PlayerGUI playerGUI;
 
-	void Start () {
+	private void Start () {
         
         InitializeEntity();
         SelfCast = new Heal(gameObject);
@@ -50,7 +47,7 @@ public class Player : Entities
 
 	}
 
-	void FixedUpdate () 
+	private void FixedUpdate () 
 		//walkDirection: 1 = left, 2 = up, 3 = right, 4 = down;
 		//idleDirection: saves previous walkDirection to animate idle
 	{
@@ -148,11 +145,9 @@ public class Player : Entities
 
 	//NEEDS TO BE CALLED
 	
-	void UpdateGameState()
+	public void UpdateGameState()
 	{
 		Time.timeScale = paused ? 0 : 1;
-		
-		playerState = paused ? GameState.PAUSED : GameState.PLAYING;
 
 	}
 	
@@ -170,7 +165,7 @@ public class Player : Entities
 		}
 	}
 
-	void OnGUI() 
+	private void OnGUI() 
 	{
 		if (paused) 
 		{
@@ -178,7 +173,7 @@ public class Player : Entities
 		}
 	}
 
-	void OnTriggerStay2D( Collider2D other )
+	private void OnTriggerStay2D( Collider2D other )
 	{
 		if(other.CompareTag("goal") && Input.GetButtonDown("Action")) 
 		{
