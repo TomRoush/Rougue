@@ -11,13 +11,14 @@ public class DestroyBullet : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
+	void OnCollisionEnter2D(Collision2D coll) {
 		// If collided with enemy
+
 		if (coll.gameObject.tag == "Enemy") {
 			// Destroy bullet
 			Destroy (gameObject);
 			// Decrease health of enemy
-			coll.gameObject.GetComponent<Status>().health -= 10;
+			coll.gameObject.GetComponent<Status>().health -= 20;
 		
 		// If collided with wall)
 		} else if (coll.gameObject.tag == "Wall") {
@@ -25,8 +26,11 @@ public class DestroyBullet : MonoBehaviour {
 			Destroy (gameObject);
 
 		// Else, destroy bullet after 0.5 secs
-		} else {
-			Destroy (gameObject, 0.5f);
-		}
+		} else  {
+			// Destroy bullet
+			Destroy (gameObject,0.5f);
+			
+			// Else, destroy bullet after 0.5 secs
+		} 
 	}
 }
