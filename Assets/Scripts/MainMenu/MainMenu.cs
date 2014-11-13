@@ -49,11 +49,10 @@ public class MainMenu : MonoBehaviour {
 		GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), background);
 		if(scene == Menu.MAIN) 
 		{
-			if (clicked || GUI.Button (new Rect ((Screen.width)/17, (Screen.height)/2, 200, 100), new_game, ""))
+			if (GUI.Button (new Rect ((Screen.width)/17, (Screen.height)/2, 200, 100), new_game, ""))
 			{
-				Application.LoadLevel("Game");
+				clicked = true;
 			}
-
 			if (GUI.Button (new Rect ((Screen.width)/17, (3*(Screen.height))/4, 200, 100), settings, ""))
 			{
 				scene = Menu.SETTINGS;
@@ -85,7 +84,25 @@ public class MainMenu : MonoBehaviour {
 			}
 		}
 
-		if(alpha > 0) 
+		if(clicked)
+		{
+			if(alpha >= 1)
+			{
+				Application.LoadLevel("Game");
+			}
+			if(alpha < 2) 
+			{
+				alpha += .007f;
+				alpha = Mathf.Clamp01(alpha);   
+				
+				Color temp = GUI.color;
+				temp.a = alpha;
+				GUI.color = temp;
+				
+				GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fade);
+			}
+		} 
+		else if(alpha > 0) 
 		{
 			alpha -= .007f;
 			alpha = Mathf.Clamp01(alpha);   
@@ -96,7 +113,6 @@ public class MainMenu : MonoBehaviour {
 			
 			GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fade);
 		}
-		
 	}
 
 }

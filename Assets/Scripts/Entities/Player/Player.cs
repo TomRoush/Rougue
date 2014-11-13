@@ -7,7 +7,7 @@ public class Player : Entities
 	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
-	public static bool paused;
+	public bool paused;
 	private Texture2D scroll;
 
 	private int previousDirection;
@@ -19,16 +19,12 @@ public class Player : Entities
 	Animator anim;
 
 	Transform weapon;
-	
-	// GUI
-	public Vector2 pos = new Vector2(20,40);
-	public Vector2 size = new Vector2(100,20);
-	public Texture2D emptyTex;
-	public Texture2D fullTex;
-	private GUIStyle currentStyle = null;
 
 	public ParticleSystem blood;//turned public
 	public GameObject bloodSpatter;
+
+	// GUI Object
+	private PlayerGUI playerGUI;
 
 	void Start () {
         
@@ -45,6 +41,9 @@ public class Player : Entities
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
 
 		weapon = transform.Find ("Weapon");
+
+		playerGUI = new PlayerGUI (this);
+
 
 		paused = false;
 		Time.timeScale = 1;
@@ -130,10 +129,12 @@ public class Player : Entities
 			if(paused)
 			{
 				paused = false;
+				playerGUI.paused = false;
 			}
 			else
 			{
 				paused = true;
+				playerGUI.paused = true;
 			}
 		}
 
@@ -171,71 +172,9 @@ public class Player : Entities
 
 	void OnGUI() 
 	{
-		scroll = Resources.Load ("Resources/Artwork/InGame/scroll") as Texture2D;
 		if (paused) 
 		{
-			GUI.Label (new Rect(Screen.width/2,Screen.height/2,350,350), scroll);
-			if(alive) {
-				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
-				{
-					paused = false;
-					UpdateGameState ();
-				}
-				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
-				{
-					Application.LoadLevel("MainMenu");
-				}
-			} else {
-				GUI.Label (new Rect(Screen.width/2, Screen.height/2, 100, 100), "YOU HAVE DIED");
-				if(GUI.Button (new Rect(Screen.width/2, Screen.height/2 + 100, 100, 50), "MAIN MENU")) 
-				{
-					Application.LoadLevel("MainMenu");
-				}
-			}
-		}
-		
-		// draw the health bar
-		//draw the background:
-		if(gameObject.GetComponent<Status> ().health > 50.0f) {
-			InitStyles (Color.green);
-		} else {
-			InitStyles(Color.red);
-		}
-		GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().health, size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-		
-		// draw the mana bar
-		//draw the background:
-		InitStyles (Color.blue);
-		GUI.BeginGroup(new Rect(pos.x, pos.y + size.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().mana, size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-		
-		// draw the stamina (rage) bar
-		//draw the background:
-		InitStyles (Color.magenta);
-		GUI.BeginGroup(new Rect(pos.x, pos.y + 2 * size.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, gameObject.GetComponent<Status> ().rage, size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-		
-		if (gameObject.GetComponent<Status> ().health<=0.0f){
-			GUI.Box (new Rect(Screen.width/2,Screen.height/2,100,50),"You died");
+			playerGUI.onGUI ();
 		}
 	}
 
@@ -250,26 +189,6 @@ public class Player : Entities
 		{
 			Dungeon.PreviousFloor();
 		}
-	}
-	
-	private void InitStyles(Color c)
-	{
-		//if (currentStyle == null) {
-			currentStyle = new GUIStyle (GUI.skin.box);
-			currentStyle.normal.background = MakeTex (2, 2, c);
-		//}
-	}
-	private Texture2D MakeTex( int width, int height, Color col )
-	{
-		Color[] pix = new Color[width * height];
-		for( int i = 0; i < pix.Length; ++i )
-		{
-			pix[ i ] = col;
-		}
-		Texture2D result = new Texture2D( width, height );
-		result.SetPixels( pix );
-		result.Apply();
-		return result;
 	}
 
 	public void Respawn(Vector3 spawnPt)
