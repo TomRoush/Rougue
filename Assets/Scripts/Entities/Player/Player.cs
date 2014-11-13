@@ -7,7 +7,7 @@ public class Player : Entities
 	public enum GameState { PLAYING, PAUSED };
 	public static GameState playerState = GameState.PLAYING;
 
-	public static bool paused = false;
+	public static bool paused;
 	private Texture2D scroll;
 
 	private int previousDirection;
@@ -38,7 +38,6 @@ public class Player : Entities
 		AutoTarget2 = new Mudball (gameObject);
         PosTarget = new MagicMissle(gameObject);
 
-		paused = false;
 		anim = GetComponent<Animator> ();
 		curHealth = health;//gameObject.GetComponent<Status> ().health?
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
@@ -46,6 +45,9 @@ public class Player : Entities
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
 
 		weapon = transform.Find ("Weapon");
+
+		paused = false;
+		Time.timeScale = 1;
 
 	}
 
@@ -269,9 +271,6 @@ public class Player : Entities
 		result.Apply();
 		return result;
 	}
-
-
-
 
 	public void Respawn(Vector3 spawnPt)
 	{

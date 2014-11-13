@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour {
 			if (GUI.Button (new Rect ((Screen.width)/17, (Screen.height)/2, 200, 100), new_game, ""))
 			{
 				//audio.PlayOneShot(sheath);
-				sheathPlayer.play();
+//				sheathPlayer.play();
 				Application.LoadLevel ("Game");
 			}
 			if (GUI.Button (new Rect ((Screen.width)/17, (3*(Screen.height))/4, 200, 100), settings, ""))
