@@ -132,7 +132,7 @@ public class MakeMap : MonoBehaviour
 					if(floorIndex<allFloorTiles.Length && allFloorTiles[floorIndex]!=null)
 					{
 						allFloorTiles[floorIndex].transform.position = tilePos;
-						allFloorTiles[floorIndex].active = true;
+						allFloorTiles[floorIndex].SetActive(true);
 						floorIndex++;
 					}
 					else
@@ -150,7 +150,7 @@ public class MakeMap : MonoBehaviour
 					if(wallIndex<allWallTiles.Length && allWallTiles[wallIndex]!=null)
 					{
 						allWallTiles[wallIndex].transform.position = tilePos;
-						allWallTiles[wallIndex].active = true;
+						allWallTiles[wallIndex].SetActive(true);
 						wallIndex++;
 					}
 					else
@@ -201,6 +201,7 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
+		Debug.Log("DungeonFloor: " + DungeonFloor);
     }
 
     public void PreviousFloor()//called when player hits action on upstairs
