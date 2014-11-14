@@ -35,6 +35,7 @@ public class PlayerGUI : MonoBehaviour {
 			if(alive) {
 				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
 				{
+					this.paused = false;
 					player.paused = false;
 					player.UpdateGameState();
 				}
