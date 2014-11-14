@@ -11,7 +11,7 @@ public class DestroyBullet : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
+	void OnCollisionEnter2D(Collision2D coll) {
 		// If collided with enemy
 		if (coll.gameObject.tag == "Enemy") {
 			// Destroy bullet
