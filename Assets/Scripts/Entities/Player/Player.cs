@@ -167,10 +167,7 @@ public class Player : Entities
 
 	private void OnGUI() 
 	{
-		if (paused) 
-		{
-			playerGUI.onGUI ();
-		}
+		playerGUI.onGUI ();
 	}
 
 	private void OnTriggerStay2D( Collider2D other )
