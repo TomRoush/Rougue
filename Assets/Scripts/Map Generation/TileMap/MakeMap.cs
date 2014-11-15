@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum eTile {Unknown, Floor, Wall, Filler, Player, Goal, Enemy};
+public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
 
 public class MakeMap : MonoBehaviour 
 {
@@ -41,9 +41,9 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-        if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax);
-        else
+       // if(Random.Range(0.0f,2.0f) > 1.0)
+       //     map.GenCave(xMax,yMax);
+       //  else
             map.GenClassic(xMax,yMax, nRooms);
     	 return map;
 	}
@@ -51,12 +51,7 @@ public class MakeMap : MonoBehaviour
 	void PlaceMap()
 	{
 		float startTime = Time.realtimeSinceStartup;
-		TileMapData map = new TileMapData();
-
-        if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax);
-        else
-            map.GenClassic(xMax,yMax, nRooms);
+		TileMapData map = genTMD();
 
         dungeon.add(map);
 		NOEDITPlaceMap(map);
@@ -137,7 +132,7 @@ public class MakeMap : MonoBehaviour
 					if(floorIndex<allFloorTiles.Length && allFloorTiles[floorIndex]!=null)
 					{
 						allFloorTiles[floorIndex].transform.position = tilePos;
-						allFloorTiles[floorIndex].active = true;
+						allFloorTiles[floorIndex].SetActive(true);
 						floorIndex++;
 					}
 					else
@@ -155,7 +150,7 @@ public class MakeMap : MonoBehaviour
 					if(wallIndex<allWallTiles.Length && allWallTiles[wallIndex]!=null)
 					{
 						allWallTiles[wallIndex].transform.position = tilePos;
-						allWallTiles[wallIndex].active = true;
+						allWallTiles[wallIndex].SetActive(true);
 						wallIndex++;
 					}
 					else
@@ -172,12 +167,12 @@ public class MakeMap : MonoBehaviour
 		}
 		for(int i = floorIndex; i<allFloorTiles.Length; i++)
 		{
-			if(allFloorTiles[i]!=null) allFloorTiles[i].active = false;
+			if(allFloorTiles[i]!=null) allFloorTiles[i].SetActive(false);
 			//Destroy(allFloorTiles[i]);
 		}
 		for(int i = wallIndex; i<allWallTiles.Length; i++)
 		{
-			if(allWallTiles[i]!=null) allWallTiles[i].active = false;
+			if(allWallTiles[i]!=null) allWallTiles[i].SetActive(false);
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
@@ -206,6 +201,7 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
+		Debug.Log("DungeonFloor: " + DungeonFloor);
     }
 
     public void PreviousFloor()//called when player hits action on upstairs
@@ -237,7 +233,7 @@ public class MakeMap : MonoBehaviour
     	}
         for(int i = 0; i<enemies.Length; i++)
         {
-        	enemies[i].active = false;
+        	enemies[i].SetActive(false);
         	temp[i+inactiveEnemies.Length] = enemies[i];
         }
         inactiveEnemies = temp;

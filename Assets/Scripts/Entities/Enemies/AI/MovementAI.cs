@@ -36,7 +36,7 @@ public class MovementAI {
 		}
 
 		// Repeat while we are not at the target location
-		while (!current.loc.equals(targetlocation)) {
+		while (current.loc != null && !current.loc.equals(targetlocation)) {
 			checkNeighbors(current);
 			
 			current.state = NodeState.Closed;

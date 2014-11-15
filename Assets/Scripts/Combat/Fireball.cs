@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Fireball : Spell {
+public class Fireball : Spell<GameObject> {
 
 	//public float fireballTimer;
 	public GameObject fireball;

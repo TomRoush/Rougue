@@ -81,5 +81,31 @@ public partial class TileMapData
         eTile[,] ret = (eTile[,]) mapData.Clone();
         return ret;
 	}
-}
 
+
+    private bool adjacentTo(eTile[,] mapArray, int x, int y, eTile target)
+    {
+        int i = x;
+        int j = y;
+        i--;
+        if(i >= 0 && i < sizeX && j >= 0 && j < sizeY)
+            if(mapArray[i,j] == target)
+                return true;
+
+        i += 2;
+        if(i >= 0 && i < sizeX && j >= 0 && j < sizeY)
+            if(mapArray[i,j] == target)
+                return true;
+        i--;
+        j--;
+        if(i >= 0 && i < sizeX && j >= 0 && j < sizeY)
+            if(mapArray[i,j] == target)
+                return true;
+
+        j+=2;
+        if(i >= 0 && i < sizeX && j >= 0 && j < sizeY)
+            if(mapArray[i,j] == target)
+                return true;
+        return false;
+    }
+}

@@ -6,9 +6,10 @@ public abstract partial class Entities : MonoBehaviour {
 	public float speed;
 	public float health;
     
-    public Spell SelfCast;
-    public Spell AutoTarget;
-	public Spell AutoTarget2;//for debugging convenience: not in the real game
+    public Spell<GameObject> SelfCast;
+    public Spell<GameObject> AutoTarget;
+	public Spell<GameObject> AutoTarget2;//for debugging convenience: not in the real game
+    public Spell<Vector3>   PosTarget;
 
 
     protected Status cStat;

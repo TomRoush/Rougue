@@ -17,7 +17,7 @@ public class DestroyBullet : MonoBehaviour {
 			// Destroy bullet
 			Destroy (gameObject);
 			// Decrease health of enemy
-			coll.gameObject.GetComponent<Status>().health -= player.GetComponent<Status>().health;
+			coll.gameObject.GetComponent<Status>().health -= 10;
 		
 		// If collided with wall)
 		} else if (coll.gameObject.tag == "Wall") {
