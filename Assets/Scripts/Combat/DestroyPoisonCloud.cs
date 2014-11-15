@@ -5,7 +5,7 @@ public class DestroyPoisonCloud : MonoBehaviour {
 
 	public GameObject player;
 	public float aoe = 6f;
-	public float duration=4f;
+	public float duration=5f;
 	
 	// Use this for initialization
 	void Start () {
