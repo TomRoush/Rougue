@@ -265,7 +265,7 @@ public class Status : MonoBehaviour {
 	}
 	//public GameObject FindPlayerWalls(float range) {}
 	public float getDistance(GameObject go){
-		return (go.transform.position - transform.position).sqrMagnitude;
+		return (go.transform.position - gameObject.transform.position).sqrMagnitude;
 	}
 
 //	public void buff(float duration, float startTime, float repeatTime){
