@@ -166,8 +166,10 @@ public class Status : MonoBehaviour {
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
 		//closest = FindClosestEnemy();
 		if (attackTimer<=0){
-			closest = FindClosestEnemyWalls(range1);
+			//closest = FindClosestEnemyWalls(range1);
+			closest = FindClosestEnemyWalls(range1);//
 			if (closest != null){
+				//try
 				if (gameObject.tag == "Player" && getDistance(closest) < range1 
 				    //&&//need if FindClosestEnemy w/o the Walls
 				    ) 
@@ -245,10 +247,12 @@ public class Status : MonoBehaviour {
 					var direction = heading/distance2;
 					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, enemiesWalls);
 					//Debug.Log (hit.collider.tag);
-					if (hit != null && hit.collider.tag == "Enemy"){
+					if (hit){//implicit unity operator
+						if(hit.collider.tag == "Enemy"){
 						//Debug.Log (hit.collider.tag);
 						closest = go;
 						distance = curDistance;
+						}
 					}
 				}
 			}
