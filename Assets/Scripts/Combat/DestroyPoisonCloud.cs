@@ -19,7 +19,7 @@ public class DestroyPoisonCloud : MonoBehaviour {
 			if (getDistance(go)<=aoe){
 				go.GetComponent<Status>().health-=Time.deltaTime * 
 					player.GetComponent<Status>().intelligence;
-				Debug.Log ("PCloud");
+				//Debug.Log ("PCloud");
 				//if (true){
 				//go.GetComponent<Status>().poisonTimer=5f;//can be poisoned by DoT debuff and by poisonCloud at same time
 				//go.GetComponent<Status>().isPoisoned=true;

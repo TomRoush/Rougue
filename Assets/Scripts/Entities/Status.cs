@@ -104,7 +104,7 @@ public class Status : MonoBehaviour {
 		if (health>maxHealth){
 			health=maxHealth;
 		}else if (health<maxHealth){
-			health += Time.deltaTime * healthRegen;
+			health += Time.deltaTime * healthRegen*maxHealth/100;
 		}
 		
 		if(mana > maxMana) {
