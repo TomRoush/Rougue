@@ -14,7 +14,7 @@ public class Heal : Spell<GameObject> {
 
     protected override void CastSpell(GameObject target)
     {
-        target.GetComponent<Status>().health += 30;
+        target.GetComponent<Status>().health += 20 + 0.1f*caster.GetComponent<Status>().intelligence + 0.05f*caster.GetComponent<Status>().maxHealth;
         lastCastTime = Time.time;
 		
 		//Quaternion rotation = Quaternion.identity;

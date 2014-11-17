@@ -7,14 +7,16 @@ public abstract partial class Entities : MonoBehaviour {
 	public float health;
     
     public Spell<GameObject> SelfCast;
+	public Spell<GameObject> SelfCast2;//for debugging convenience: not in the real game
     public Spell<GameObject> AutoTarget;
 	public Spell<GameObject> AutoTarget2;//for debugging convenience: not in the real game
     public Spell<Vector3>   PosTarget;
 
+
     protected Status cStat;
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
