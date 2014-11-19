@@ -27,6 +27,7 @@ public class Player : Entities
         
         InitializeEntity();
         SelfCast = new Heal(gameObject);
+		SelfCast2 = new PoisonCloud(gameObject);
         AutoTarget = new Fireball(gameObject);
 		AutoTarget2 = new Mudball (gameObject);
         PosTarget = new MagicMissle(gameObject);
@@ -95,6 +96,11 @@ public class Player : Entities
             {
                 SelfCast.cast( gameObject);
             }
+
+			if(Input.GetKey (KeyCode.X) || Input.GetKey (KeyCode.P))
+			{
+				SelfCast2.cast( gameObject);
+			}
 
             if(Input.GetKey (KeyCode.F))
             {
