@@ -7,6 +7,7 @@ public class Fireball : Spell<GameObject> {
 	public GameObject fireball;
 	public GameObject closest;
 	public GameObject player;
+    private int Damage;
 
     public Fireball(GameObject pCaster) : base(pCaster)
     {
@@ -15,6 +16,16 @@ public class Fireball : Spell<GameObject> {
         coolDown = 4;
         fireball = Resources.Load("Fireball") as GameObject;
     }    
+
+    public override void RefreshValues()
+    {
+        if(level == 1)
+        {
+            manaCost = 40;
+            coolDown = 5;
+        }
+
+    }
 
     protected override void CastSpell(GameObject closest)
     {

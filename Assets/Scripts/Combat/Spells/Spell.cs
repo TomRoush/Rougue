@@ -10,6 +10,8 @@ public abstract class Spell <gType>
     protected float lastCastTime;
     protected GameObject caster;
     protected Status casterStat;
+    protected int level;
+    protected int maxLevel;
    
 
     public void cast(gType target)
@@ -23,6 +25,13 @@ public abstract class Spell <gType>
     }
 
     protected abstract void CastSpell(gType target);
+    protected abstract void RefreshValues();
+    
+    public Upgrade()
+    {
+        level++;
+        RefreshValues();
+    }
      
     public Spell(GameObject pCaster)
     {
