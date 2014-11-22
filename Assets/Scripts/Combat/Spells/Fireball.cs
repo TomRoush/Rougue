@@ -13,6 +13,7 @@ public class Fireball : Spell<GameObject> {
     {
         name = "Fireball";
         fireball = Resources.Load("Fireball") as GameObject;
+
     }    
 
     protected override void RefreshValues()

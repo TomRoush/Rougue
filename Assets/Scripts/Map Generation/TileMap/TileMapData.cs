@@ -66,7 +66,7 @@ public partial class TileMapData
         return mapData[x,y];
     }
 
-    private eTile[,] createFilledMapArray(eTile Filler = eTile.Filler)
+    private eTile[,] createFilledMapArray(eTile Filler)
     {
         eTile[,] tmp = new eTile[this.sizeX,this.sizeY];
         for(int i = 0; i < sizeX; i++)

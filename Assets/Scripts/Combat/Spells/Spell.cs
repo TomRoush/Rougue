@@ -35,6 +35,7 @@ public abstract class Spell <gType>
      
     public Spell(GameObject pCaster)
     {
+		level = 1;
         caster = pCaster;
         lastCastTime = 0;
         casterStat = caster.GetComponent<Status>();
