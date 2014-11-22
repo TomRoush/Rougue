@@ -27,7 +27,7 @@ public abstract class Spell <gType>
     protected abstract void CastSpell(gType target);
     protected abstract void RefreshValues();
     
-    public Upgrade()
+    public void Upgrade()
     {
         level++;
         RefreshValues();
@@ -38,6 +38,7 @@ public abstract class Spell <gType>
         caster = pCaster;
         lastCastTime = 0;
         casterStat = caster.GetComponent<Status>();
+		RefreshValues ();
     }
 
 

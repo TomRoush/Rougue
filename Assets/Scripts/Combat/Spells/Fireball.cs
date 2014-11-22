@@ -11,13 +11,11 @@ public class Fireball : Spell<GameObject> {
 
     public Fireball(GameObject pCaster) : base(pCaster)
     {
-        manaCost = 40;
         name = "Fireball";
-        coolDown = 4;
         fireball = Resources.Load("Fireball") as GameObject;
     }    
 
-    public override void RefreshValues()
+    protected override void RefreshValues()
     {
         switch (level)
         {
@@ -25,12 +23,15 @@ public class Fireball : Spell<GameObject> {
                 manaCost = 40;
                 coolDown = 5;
                 damage = 40;
+			break;
             case 2:
                 manaCost = 60;
                 coolDown = 5;
                 damage = 60;
+			break;
             default:
                 Debug.Log("Fireball level error");
+			break;
         }
 
     }

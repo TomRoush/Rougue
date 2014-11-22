@@ -10,9 +10,7 @@ public class Mudball : Spell<GameObject> {
 	
 	// Use this for initialization
 	public Mudball (GameObject pCaster) : base(pCaster) {
-		manaCost = 10;
 		name = "Mudball";
-		coolDown = 7;
 		mudball = Resources.Load ("Mudball") as GameObject;
 		//player = GameObject.FindGameObjectWithTag ("Player");
 		//mudballTimer = 0; 
@@ -20,7 +18,25 @@ public class Mudball : Spell<GameObject> {
 		//fireball = (GameObject) Resources.Load ("Fireball");
 		
 	}
-	
+
+	protected override void RefreshValues()
+	{
+		switch (level)
+		{
+		case 1:
+			manaCost = 10;
+			coolDown = 7;
+			break;
+		case 2:
+			manaCost = 9;
+			coolDown = 5;
+			break;
+		default:
+			Debug.Log("Mudball level error");
+			break;
+		}
+		
+	}
 	// Update is called once per frame
 	protected override void CastSpell (GameObject closest) {
 		player = caster;
