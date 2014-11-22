@@ -7,14 +7,34 @@ public class Fireball : Spell<GameObject> {
 	public GameObject fireball;
 	public GameObject closest;
 	public GameObject player;
+    private int damage;
 
     public Fireball(GameObject pCaster) : base(pCaster)
     {
-        manaCost = 40;
         name = "Fireball";
-        coolDown = 4;
         fireball = Resources.Load("Fireball") as GameObject;
     }    
+
+    protected override void RefreshValues()
+    {
+        switch (level)
+        {
+            case 1:
+                manaCost = 40;
+                coolDown = 5;
+                damage = 40;
+			break;
+            case 2:
+                manaCost = 60;
+                coolDown = 5;
+                damage = 60;
+			break;
+            default:
+                Debug.Log("Fireball level error");
+			break;
+        }
+
+    }
 
     protected override void CastSpell(GameObject closest)
     {

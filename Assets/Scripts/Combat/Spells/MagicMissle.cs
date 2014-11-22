@@ -9,17 +9,38 @@ public class MagicMissle : Spell<Vector3> {
 	public GameObject bullet;
 	// Reference to the transform this weapon is attached to
 	private Transform parent;
-
+	private int damage;
 	// Use this for initialization
 
     public MagicMissle(GameObject pCaster) : base(pCaster)
     {
-        manaCost = 5;
+ 
         name = "MagicMissle";
-        coolDown = 0.25f;
+
         parent = pCaster.GetComponent<Transform>();
         bullet = Resources.Load("Missile") as GameObject;
     }
+
+	protected override void RefreshValues()
+	{
+		switch (level)
+		{
+		case 1:
+			manaCost = 5;
+			coolDown = 0.25f;
+			damage = 10;
+			break;
+		case 2:
+			manaCost = 6;
+			coolDown = 0.2f;
+			damage = 15;
+			break;
+		default:
+			Debug.Log("MagicMissle level error");
+			break;
+		}
+		
+	}
 
     protected override void CastSpell(Vector3 target)
     {
