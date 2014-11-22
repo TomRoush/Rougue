@@ -9,9 +9,7 @@ public class PoisonCloud : Spell<GameObject> {
 	//public LayerMask everything = LayerMask.NameToLayer("Everything");
 	
 	public PoisonCloud(GameObject pCaster) : base(pCaster){
-		manaCost = 15;
 		name = "PoisonCloud";
-		coolDown = 7;
 		poisonCloud = Resources.Load ("PoisonCloud") as GameObject;
 	}
 

@@ -7,9 +7,7 @@ public class Heal : Spell<GameObject> {
 
     public Heal(GameObject pCaster) : base(pCaster)
     {
-        manaCost = 20;
         name = "Heal";
-        coolDown = 10;
 		heal = Resources.Load("HealEffect") as GameObject;
     }
 

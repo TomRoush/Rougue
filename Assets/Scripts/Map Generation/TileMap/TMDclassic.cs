@@ -10,7 +10,7 @@ public partial class TileMapData
 		this.sizeY = sizeY;
 		this.nRooms = nRooms;
 		
-		mapData = createFilledMapArray();
+		mapData = createFilledMapArray(eTile.Filler);
 		
 		rooms = new List<RoomData>();
 		

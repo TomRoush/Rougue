@@ -6,7 +6,7 @@ public partial class TileMapData
     //Note: Removed most refrences to "rooms". May cause bugs.
     //Credit goes to http://www.roguebasin.com/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels
     //for algorithm. Read it if you want to understand.
-    public void GenCave(int sizeX, int sizeY, float initialWallProb = 40) 
+    public void GenCave(int sizeX, int sizeY, float initialWallProb) 
     {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -24,8 +24,8 @@ public partial class TileMapData
 
 
             caveInitWalls(initialWallProb);        
-            caveRunSmoothAutomata();
-            caveRunFillGapsAutomata();
+            caveRunSmoothAutomata(3);
+            caveRunFillGapsAutomata(2);
             caveConnectRegions();
 
             caveMakeSpawn();
@@ -38,7 +38,7 @@ public partial class TileMapData
 
     }
 
-    private void caveInitWalls(float initialWallProb = 40)
+    private void caveInitWalls(float initialWallProb)
     {
 
 
@@ -53,7 +53,7 @@ public partial class TileMapData
             }
     }   
 
-    private void caveRunSmoothAutomata(int generations = 3)
+    private void caveRunSmoothAutomata(int generations)
     {
         for(int k = 0; k < generations; k++)
         {
@@ -71,7 +71,7 @@ public partial class TileMapData
         } 
     }
 
-    private void caveRunFillGapsAutomata(int generations = 2)
+    private void caveRunFillGapsAutomata(int generations)
     {
         for(int k = 0; k < generations; k++)
         {

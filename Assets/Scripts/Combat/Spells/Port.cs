@@ -6,9 +6,7 @@ public class Port : Spell<GameObject> {
 	public GameObject player;
 	
 	public Port(GameObject pCaster) : base(pCaster){
-		manaCost = 50;
 		name = "Port";
-		coolDown = 12 + 1000f/player.GetComponent<Status>().intelligence;
 	}
 
 	protected override void RefreshValues()
