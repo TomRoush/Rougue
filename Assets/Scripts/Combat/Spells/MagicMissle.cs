@@ -83,6 +83,7 @@ public class MagicMissle : Spell<Vector3> {
 	
 				// Create the bullet and add force to it.
 				GameObject bult = GameObject.Instantiate (bullet, parent.position, rotation) as GameObject;
+		bult.GetComponent<DestroyBullet>().Initialize(damage);
 				bult.GetComponent<Rigidbody2D>().AddForce(toward);
     }
 }

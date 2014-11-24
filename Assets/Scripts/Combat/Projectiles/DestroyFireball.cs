@@ -22,7 +22,7 @@ public class DestroyFireball : DestroyProjectile {
 					var direction = heading/distance2;
 					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, aoe, enemiesWalls);
 					if (hit.collider.tag == "Enemy"){
-						go.gameObject.GetComponent<Status>().health-= damage;
+						go.gameObject.GetComponent<Status>().MagicDamage(damage);
 					}
 				}
 			}

@@ -1,36 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestroyMudball : MonoBehaviour {
-	
-	public GameObject player;
-	
-	// Use this for initialization
-	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player");
+public class DestroyMudball : DestroyProjectile {
+
+	private int damage;
+
+	public void Initialize(int pDamage)
+	{
+		damage = pDamage;
 	}
+
+	protected override void OnTargetCollision(GameObject contact) {
 	
-	void OnCollisionEnter2D(Collision2D coll) {
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
-		if (coll.gameObject.tag == "Enemy") {
-				coll.gameObject.GetComponent<Status>().health-=player.GetComponent<Status>().intelligence*0.2f;
+		contact.GetComponent<Status>().MagicDamage(damage);
 			//coll.gameObject.GetComponent<Status>().getSlowed=true;
 			//coll.gameObject.GetComponent<Status>().slowTimer=3;
 			GameObject slowEffect = Resources.Load ("Slow") as GameObject; 
-			slowEffect.GetComponent<TimedEffect>().target = coll.gameObject;
-			GameObject.Instantiate(slowEffect, player.transform.position, Quaternion.identity);
-		
-			Destroy (gameObject);
+			slowEffect.GetComponent<TimedEffect>().target = contact;
+			GameObject.Instantiate(slowEffect, contact.transform.position, Quaternion.identity);
+
 			
-		} else if (coll.gameObject.tag == "Wall") {
-			Debug.Log ("collisionwall");
-			Destroy (gameObject);
-		} else {
-			Destroy (gameObject, 1f);
-		}
-	}
 	
-	public float getDistance(GameObject go){
-		return (go.transform.position - transform.position).sqrMagnitude;
 	}
+
 }
