@@ -104,7 +104,7 @@ public partial class TileMapData
 
     private void caveConnectRegions()
     {
-
+		Debug.Log ("Got this far");
         int x = -1;
         int y = -1;
         for(int i = 1; i < sizeX; i++)
@@ -150,22 +150,22 @@ public partial class TileMapData
                     for(int j = 0; j < sizeY; j++)
                         if(tmp[i,j] == eTile.dConnectedFloor)
                         {
-                            if(tmp[i-1,j] != eTile.Filler)
+                            if(tmp[i-1,j] == eTile.Floor )
                             {
                                 done = false;
                                 tmp[i-1,j] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i,j-1] != eTile.Filler)
+                            if(tmp[i,j-1] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i,j-1] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i,j+1] != eTile.Filler)
+                            if(tmp[i,j+1] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i,j+1] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i+1,j] != eTile.Filler)
+                            if(tmp[i+1,j] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i+1,j] = eTile.dConnectedFloor;
