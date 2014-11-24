@@ -1,47 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestroyProjectile : MonoBehaviour {
+public abstract class DestroyProjectile : MonoBehaviour {
 
-	public GameObject player;
-	public float aoe = 5f;	
-	public LayerMask enemiesWalls;
+	public float duration = 1.5f;
+	public string targetTag = "Enemy";
 
-	// Use this for initialization
-	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player");
-	}
 	
 	void OnCollisionEnter2D(Collision2D coll) {
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
-		if (coll.gameObject.tag == "Enemy") {
-			foreach (GameObject go in enemies) {
-				if (getDistance(go)<=aoe){
-					var heading = go.transform.position - transform.position;
-					var distance2 = heading.magnitude;
-					var direction = heading/distance2;
-					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, aoe, enemiesWalls);
-					if (hit.collider.tag == "Enemy"){
-						go.gameObject.GetComponent<Status>().health-=player.GetComponent<Status>().intelligence*2;
-					}
-				}
-			}
-			Debug.Log ("FBcollisionenemy");
+		if(coll.gameObject.tag == targetTag)
+		{
+			OnTargetCollision(coll.gameObject);
 			Destroy (gameObject);
-			
-		} else if (coll.gameObject.tag == "Wall") {
-			Debug.Log ("collisionwall");
-			Destroy (gameObject);
-		} else if (gameObject.tag == "Fireball") {
-			Destroy (gameObject, 0.8f);//0.5f
-		} else if (gameObject.tag == "Mine"){
-			Destroy (gameObject, 20f);
-		} else {
-			Destroy (gameObject, 1f);
 		}
-	}
+		else if (coll.gameObject.tag == "Wall") {
+			Destroy (gameObject,0.1f);
+		} 
+		else {
+			Destroy (gameObject, duration);
+		}
 
-	public float getDistance(GameObject go){
-		return (go.transform.position - transform.position).sqrMagnitude;
 	}
+	protected abstract void OnTargetCollision(GameObject contact);
+
 }
