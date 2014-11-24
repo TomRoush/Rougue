@@ -161,6 +161,21 @@ public class Status : MonoBehaviour {
 
 		autoAttack ();
 	}
+
+	public void MagicDamage(int d)
+	{
+		health -= d;
+	}
+
+	public void PhysicalDamage(int d)
+	{
+		health -= d;
+	}
+
+	public void PureDamage(int d)
+	{
+		health -= d;
+	}
 	
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
