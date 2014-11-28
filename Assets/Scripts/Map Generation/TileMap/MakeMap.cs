@@ -41,9 +41,9 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-        if(Random.Range(0.0f,2.0f) > 1.0)
-            map.GenCave(xMax,yMax,40);
-         else
+      //  if(Random.Range(0.0f,2.0f) > 1.0)
+       //     map.GenCave(xMax,yMax,40);
+      //  else
             map.GenClassic(xMax,yMax, nRooms);
 
     	 return map;
