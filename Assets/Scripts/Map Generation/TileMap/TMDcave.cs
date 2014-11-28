@@ -225,16 +225,18 @@ public partial class TileMapData
             for(int r = 2; r < sizeX+sizeY && !done; r++)
                 for(float t = 0; t < 2*Mathf.PI && !done; t+= Mathf.PI/12)
                 {
-                    dstX = (int) Mathf.Cos(t)*r;
-                    dstY = (int) Mathf.Sin(t)*r; 
+                    dstX = (int) Mathf.Cos(t)*r + srcX;
+                    dstY = (int) Mathf.Sin(t)*r + srcY; 
                     
-                    if(dstX >= 0 && dstY < sizeX && dstY >= 0 && dstY < sizeY)
+                    if(dstX >= 0 && dstX < sizeX && dstY >= 0 && dstY < sizeY)
                         if(tmp[dstX,dstY] == eTile.dConnectedFloor)
                             done = true;
                 }
 
             while(srcX != dstX)
             {
+				if(!(dstX >= 0 && dstX < sizeX && dstY >= 0 && dstY < sizeY))
+					Debug.Log ("MapGenError");
                     mapData[srcX,srcY] = eTile.Floor;
                     mapData[srcX,srcY+1] = eTile.Floor;
                 if(srcX<dstX)
