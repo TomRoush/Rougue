@@ -11,7 +11,6 @@ public partial class TileMapData
         this.sizeX = sizeX;
         this.sizeY = sizeY;
 
-
         if(sizeX < 10 || sizeY < 10)
             Debug.Log("Error! Map for GenCave is too small");
 
@@ -26,7 +25,7 @@ public partial class TileMapData
             caveInitWalls(initialWallProb);        
             caveRunSmoothAutomata(3);
             caveRunFillGapsAutomata(2);
-            caveConnectRegions();
+            //caveConnectRegions();
 
             caveMakeSpawn();
             caveMakeGoal();
