@@ -385,7 +385,15 @@ void caveMakeSpawn()
         for(int j = 2; j < sizeY; j++)
             if(mapData[i,j] == eTile.Floor)
             {
-                mapData[i,j] = eTile.Player;
+                mapData[i,j-1]      = eTile.Floor;
+                mapData[i,j]        = eTile.Floor;
+                mapData[i,j+1]      = eTile.Floor;
+                mapData[i+1,j-1]    = eTile.Floor;
+                mapData[i+1,j+1]    = eTile.Floor;
+                mapData[i+2,j-1]    = eTile.Floor;
+                mapData[i+2,j]      = eTile.Floor;
+                mapData[i+2,j+1]    = eTile.Floor;
+                mapData[i+1,j] = eTile.Player;
                 return;
             }
 }    
@@ -396,7 +404,16 @@ void caveMakeGoal()
         for(int j = sizeX-1; j > 0; j--)
             if(mapData[i,j] == eTile.Floor)
             {
-                mapData[i,j] = eTile.Goal;
+
+                mapData[i,j-1]      = eTile.Floor;
+                mapData[i,j]        = eTile.Floor;
+                mapData[i,j+1]      = eTile.Floor;
+                mapData[i-1,j-1]    = eTile.Floor;
+                mapData[i-1,j+1]    = eTile.Floor;
+                mapData[i-2,j-1]    = eTile.Floor;
+                mapData[i-2,j]      = eTile.Floor;
+                mapData[i-2,j+1]    = eTile.Floor;
+                mapData[i-1,j] = eTile.Goal;
                 return;
             }
 }    
