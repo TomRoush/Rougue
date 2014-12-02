@@ -12,6 +12,7 @@ public abstract class Spell <gType>
     protected Status casterStat;
     protected int level;
     protected int maxLevel;
+    protected Texture2D cooldownIcon;
    
 
     public void cast(gType target)
@@ -86,5 +87,8 @@ public abstract class Spell <gType>
         return Time.time > (lastCastTime + coolDown);
     }
 
-
+	public Texture2D getCooldownIcon()
+	{
+		return cooldownIcon;
+	}
 }

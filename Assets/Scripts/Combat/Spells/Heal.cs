@@ -9,6 +9,7 @@ public class Heal : Spell<GameObject> {
     {
         name = "Heal";
 		heal = Resources.Load("HealEffect") as GameObject;
+		cooldownIcon = Resources.Load("Artwork/InGame/Heal") as Texture2D;
     }
 
 	protected override void RefreshValues()

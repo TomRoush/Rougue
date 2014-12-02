@@ -1,32 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpellsManager : MonoBehaviour {
-	private Spell<GameObject>[] spells = new Spell<GameObject>[3];
-	public Texture2D[] cooldownIcons;
-	private Texture2D[] appliedTextures = new Texture2D[3];
+	private SpellInfo[] spells;
 	
-	private float[] progress = new float[3];
 	private Color overlayColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+	
+	public struct SpellInfo {
+		public Spell<GameObject> spell;
+		public Texture2D appliedTexture;
+		public float progress;
+	}
 	
 	// Use this for initialization
 	void Start () {
-		spells[0] = GetComponent<Player>().AutoTarget;
-		spells[1] = GetComponent<Player>().SelfCast;
-		spells[2] = GetComponent<Player>().AutoTarget2;
+		List<SpellInfo> infoList = new List<SpellInfo>();
+		if(GetComponent<Player>().AutoTarget != null) {
+			SpellInfo info = new SpellInfo();
+			info.spell = GetComponent<Player>().AutoTarget;
+			infoList.Add(info);
+		}
+		if(GetComponent<Player>().SelfCast != null) {
+			SpellInfo info = new SpellInfo();
+			info.spell = GetComponent<Player>().SelfCast;
+			infoList.Add(info);
+		}
+		if(GetComponent<Player>().AutoTarget2 != null) {
+			SpellInfo info = new SpellInfo();
+			info.spell = GetComponent<Player>().AutoTarget2;
+			infoList.Add(info);
+		}
+		if(GetComponent<Player>().SelfCast2 != null) {
+			SpellInfo info = new SpellInfo();
+			info.spell = GetComponent<Player>().SelfCast2;
+			infoList.Add(info);
+		}
+		spells = infoList.ToArray();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		for(int i = 0; i < spells.Length; i++) {
-			progress[i] = (Time.time - spells[i].getLastCastTime()) / spells[i].getCoolDown();
-			appliedTextures[i] = UpdateProgress(cooldownIcons[i], progress[i]);
+			spells[i].progress = (Time.time - spells[i].spell.getLastCastTime()) / spells[i].spell.getCoolDown();
+			spells[i].appliedTexture = UpdateProgress(spells[i].spell.getCooldownIcon(), spells[i].progress);
 		}
 	}
 	
 	void OnGUI() {
 		for(int i = 0; i < spells.Length; i++) {
-			GUI.DrawTexture(new Rect(10 + 37 * i, Screen.height - 42, 32, 32), appliedTextures[i], ScaleMode.ScaleToFit, true, 1.0f);
+			GUI.DrawTexture(new Rect(10 + 37 * i, Screen.height - 42, 32, 32), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
 		}
 	}
 	
