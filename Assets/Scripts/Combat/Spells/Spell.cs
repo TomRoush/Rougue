@@ -10,6 +10,9 @@ public abstract class Spell <gType>
     protected float lastCastTime;
     protected GameObject caster;
     protected Status casterStat;
+    protected int level;
+    protected int maxLevel;
+    protected Texture2D cooldownIcon;
    
 
     public void cast(gType target)
@@ -23,12 +26,21 @@ public abstract class Spell <gType>
     }
 
     protected abstract void CastSpell(gType target);
+    protected abstract void RefreshValues();
+    
+    public void Upgrade()
+    {
+        level++;
+        RefreshValues();
+    }
      
     public Spell(GameObject pCaster)
     {
+		level = 1;
         caster = pCaster;
         lastCastTime = 0;
         casterStat = caster.GetComponent<Status>();
+		RefreshValues ();
     }
 
 
@@ -75,5 +87,8 @@ public abstract class Spell <gType>
         return Time.time > (lastCastTime + coolDown);
     }
 
-
+	public Texture2D getCooldownIcon()
+	{
+		return cooldownIcon;
+	}
 }

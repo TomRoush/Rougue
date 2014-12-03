@@ -10,17 +10,34 @@ public class Mudball : Spell<GameObject> {
 	
 	// Use this for initialization
 	public Mudball (GameObject pCaster) : base(pCaster) {
-		manaCost = 10;
 		name = "Mudball";
-		coolDown = 7;
 		mudball = Resources.Load ("Mudball") as GameObject;
+		cooldownIcon = Resources.Load("Artwork/InGame/Fortify") as Texture2D;
 		//player = GameObject.FindGameObjectWithTag ("Player");
 		//mudballTimer = 0; 
 		//parent = transform.parent;
 		//fireball = (GameObject) Resources.Load ("Fireball");
 		
 	}
-	
+
+	protected override void RefreshValues()
+	{
+		switch (level)
+		{
+		case 1:
+			manaCost = 10;
+			coolDown = 7;
+			break;
+		case 2:
+			manaCost = 9;
+			coolDown = 5;
+			break;
+		default:
+			Debug.Log("Mudball level error");
+			break;
+		}
+		
+	}
 	// Update is called once per frame
 	protected override void CastSpell (GameObject closest) {
 		player = caster;
@@ -40,8 +57,9 @@ public class Mudball : Spell<GameObject> {
 			float angle = Mathf.Atan2(yval, xval) * 180 / (Mathf.PI) - 90;
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
-			GameObject fball = GameObject.Instantiate (mudball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			fball.GetComponent<Rigidbody2D>().AddForce(toward);
+			GameObject mball = GameObject.Instantiate (mudball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
+			mball.GetComponent<DestroyMudball>().Initialize(10);
+			mball.GetComponent<Rigidbody2D>().AddForce(toward);
 
 		}
 	}

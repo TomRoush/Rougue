@@ -104,7 +104,7 @@ public class Status : MonoBehaviour {
 		if (health>maxHealth){
 			health=maxHealth;
 		}else if (health<maxHealth){
-			health += Time.deltaTime * healthRegen;
+			health += Time.deltaTime * healthRegen*maxHealth/100;
 		}
 		
 		if(mana > maxMana) {
@@ -161,13 +161,30 @@ public class Status : MonoBehaviour {
 
 		autoAttack ();
 	}
+
+	public void MagicDamage(int d)
+	{
+		health -= d;
+	}
+
+	public void PhysicalDamage(int d)
+	{
+		health -= d;
+	}
+
+	public void PureDamage(int d)
+	{
+		health -= d;
+	}
 	
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
 		//closest = FindClosestEnemy();
 		if (attackTimer<=0){
-			closest = FindClosestEnemyWalls(range1);
+			//closest = FindClosestEnemyWalls(range1);
+			closest = FindClosestEnemyWalls(range1);//
 			if (closest != null){
+				//try
 				if (gameObject.tag == "Player" && getDistance(closest) < range1 
 				    //&&//need if FindClosestEnemy w/o the Walls
 				    ) 
@@ -245,10 +262,12 @@ public class Status : MonoBehaviour {
 					var direction = heading/distance2;
 					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, enemiesWalls);
 					//Debug.Log (hit.collider.tag);
-					if (hit != null && hit.collider.tag == "Enemy"){
+					if (hit){//implicit unity operator
+						if(hit.collider.tag == "Enemy"){
 						//Debug.Log (hit.collider.tag);
 						closest = go;
 						distance = curDistance;
+						}
 					}
 				}
 			}
@@ -261,7 +280,7 @@ public class Status : MonoBehaviour {
 	}
 	//public GameObject FindPlayerWalls(float range) {}
 	public float getDistance(GameObject go){
-		return (go.transform.position - transform.position).sqrMagnitude;
+		return (go.transform.position - gameObject.transform.position).sqrMagnitude;
 	}
 
 //	public void buff(float duration, float startTime, float repeatTime){

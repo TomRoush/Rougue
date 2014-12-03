@@ -2,6 +2,7 @@
 using System.Collections;
 
 public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
+public enum TileSet {Classic, Cave};
 
 public class MakeMap : MonoBehaviour 
 {
@@ -27,8 +28,8 @@ public class MakeMap : MonoBehaviour
     private int maxFloors=0, maxWalls=0;
 
     public static GameObject[] inactiveEnemies = new GameObject[0];
-
-
+    
+	public TileSet set;
 	
 	void Start () 
 	{
@@ -41,10 +42,13 @@ public class MakeMap : MonoBehaviour
 	{
 		TileMapData map = new TileMapData();
 
-       // if(Random.Range(0.0f,2.0f) > 1.0)
-       //     map.GenCave(xMax,yMax);
-       //  else
+        if(Random.Range(0.0f,2.0f) > 1.0) {
+            map.GenCave(xMax,yMax,40);
+			set = TileSet.Cave;
+        } else {
             map.GenClassic(xMax,yMax, nRooms);
+			set = TileSet.Classic;
+		}
     	 return map;
 	}
 
@@ -75,23 +79,27 @@ public class MakeMap : MonoBehaviour
 			{
 				Vector3 tilePos = new Vector3(x, y, Floor.transform.position.z);
 				//if logic instantiates the proper prefab
+				GameObject tile = null;
 				if(map.GetTileAt(x,y) == eTile.Unknown)
-					Instantiate(Unknown, tilePos, Quaternion.identity);
+					tile = Instantiate(Unknown, tilePos, Quaternion.identity) as GameObject;
 				else if(map.GetTileAt(x,y) == eTile.Floor)
-					Instantiate(Floor, tilePos, Quaternion.identity);
+					tile = Instantiate(Floor, tilePos, Quaternion.identity) as GameObject;
 				else if(map.GetTileAt(x,y) == eTile.Wall)
-					Instantiate(Wall, tilePos, Quaternion.identity);
+					tile = Instantiate(Wall, tilePos, Quaternion.identity) as GameObject;
 				else if(map.GetTileAt(x,y) == eTile.Player)
 				{
 					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
-					Instantiate(UpStairs, tilePos, Quaternion.identity);
-					Instantiate(Floor, tilePos, Quaternion.identity);
+					tile = Instantiate(UpStairs, tilePos, Quaternion.identity) as GameObject;
+					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(); //}
+					tile = Instantiate(Floor, tilePos, Quaternion.identity) as GameObject;
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					if(toPrevFloor) PlayerInstance.transform.position =  tilePos;
-					Instantiate(Goal, tilePos, Quaternion.identity);
+					tile = Instantiate(Goal, tilePos, Quaternion.identity) as GameObject;
 				}
+				
+				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
 			}
 		}
 		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
@@ -103,6 +111,14 @@ public class MakeMap : MonoBehaviour
 		int floorIndex = 0, wallIndex = 0;
 		GameObject[] activeFloorTiles = GameObject.FindGameObjectsWithTag("Floor");
 		GameObject[] activeWallTiles = GameObject.FindGameObjectsWithTag("Wall");
+		
+		foreach(GameObject tile in activeFloorTiles) {
+			tile.GetComponent<TileSetChanger>().setTile();
+		}
+		foreach(GameObject tile in activeWallTiles) {
+			tile.GetComponent<TileSetChanger>().setTile();
+		}
+		
 		if(activeFloorTiles.Length>maxFloors) maxFloors = activeFloorTiles.Length;
 		if(activeWallTiles.Length>maxWalls) maxWalls = activeWallTiles.Length;
 		GameObject[] allFloorTiles = new GameObject[maxFloors];
@@ -132,7 +148,7 @@ public class MakeMap : MonoBehaviour
 					if(floorIndex<allFloorTiles.Length && allFloorTiles[floorIndex]!=null)
 					{
 						allFloorTiles[floorIndex].transform.position = tilePos;
-						allFloorTiles[floorIndex].active = true;
+						allFloorTiles[floorIndex].SetActive(true);
 						floorIndex++;
 					}
 					else
@@ -150,7 +166,7 @@ public class MakeMap : MonoBehaviour
 					if(wallIndex<allWallTiles.Length && allWallTiles[wallIndex]!=null)
 					{
 						allWallTiles[wallIndex].transform.position = tilePos;
-						allWallTiles[wallIndex].active = true;
+						allWallTiles[wallIndex].SetActive(true);
 						wallIndex++;
 					}
 					else
@@ -201,6 +217,7 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
+		Debug.Log("DungeonFloor: " + DungeonFloor);
     }
 
     public void PreviousFloor()//called when player hits action on upstairs

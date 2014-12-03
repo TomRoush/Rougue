@@ -6,11 +6,10 @@ public partial class TileMapData
     //Note: Removed most refrences to "rooms". May cause bugs.
     //Credit goes to http://www.roguebasin.com/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels
     //for algorithm. Read it if you want to understand.
-    public void GenCave(int sizeX, int sizeY, float initialWallProb = 40) 
+    public void GenCave(int sizeX, int sizeY, float initialWallProb) 
     {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-
 
         if(sizeX < 10 || sizeY < 10)
             Debug.Log("Error! Map for GenCave is too small");
@@ -24,9 +23,9 @@ public partial class TileMapData
 
 
             caveInitWalls(initialWallProb);        
-            caveRunSmoothAutomata();
-            caveRunFillGapsAutomata();
-            caveConnectRegions();
+            caveRunSmoothAutomata(3);
+            caveRunFillGapsAutomata(2);
+            //caveConnectRegions();
 
             caveMakeSpawn();
             caveMakeGoal();
@@ -38,7 +37,7 @@ public partial class TileMapData
 
     }
 
-    private void caveInitWalls(float initialWallProb = 40)
+    private void caveInitWalls(float initialWallProb)
     {
 
 
@@ -53,7 +52,7 @@ public partial class TileMapData
             }
     }   
 
-    private void caveRunSmoothAutomata(int generations = 3)
+    private void caveRunSmoothAutomata(int generations)
     {
         for(int k = 0; k < generations; k++)
         {
@@ -71,7 +70,7 @@ public partial class TileMapData
         } 
     }
 
-    private void caveRunFillGapsAutomata(int generations = 2)
+    private void caveRunFillGapsAutomata(int generations)
     {
         for(int k = 0; k < generations; k++)
         {
@@ -104,7 +103,7 @@ public partial class TileMapData
 
     private void caveConnectRegions()
     {
-
+		Debug.Log ("Got this far");
         int x = -1;
         int y = -1;
         for(int i = 1; i < sizeX; i++)
@@ -150,22 +149,22 @@ public partial class TileMapData
                     for(int j = 0; j < sizeY; j++)
                         if(tmp[i,j] == eTile.dConnectedFloor)
                         {
-                            if(tmp[i-1,j] != eTile.Filler)
+                            if(tmp[i-1,j] == eTile.Floor )
                             {
                                 done = false;
                                 tmp[i-1,j] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i,j-1] != eTile.Filler)
+                            if(tmp[i,j-1] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i,j-1] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i,j+1] != eTile.Filler)
+                            if(tmp[i,j+1] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i,j+1] = eTile.dConnectedFloor;
                             }
-                            if(tmp[i+1,j] != eTile.Filler)
+                            if(tmp[i+1,j] == eTile.Floor)
                             {
                                 done = false;
                                 tmp[i+1,j] = eTile.dConnectedFloor;
@@ -225,16 +224,18 @@ public partial class TileMapData
             for(int r = 2; r < sizeX+sizeY && !done; r++)
                 for(float t = 0; t < 2*Mathf.PI && !done; t+= Mathf.PI/12)
                 {
-                    dstX = (int) Mathf.Cos(t)*r;
-                    dstY = (int) Mathf.Sin(t)*r; 
+                    dstX = (int) Mathf.Cos(t)*r + srcX;
+                    dstY = (int) Mathf.Sin(t)*r + srcY; 
                     
-                    if(dstX >= 0 && dstY < sizeX && dstY >= 0 && dstY < sizeY)
+                    if(dstX >= 0 && dstX < sizeX && dstY >= 0 && dstY < sizeY)
                         if(tmp[dstX,dstY] == eTile.dConnectedFloor)
                             done = true;
                 }
 
             while(srcX != dstX)
             {
+				if(!(dstX >= 0 && dstX < sizeX && dstY >= 0 && dstY < sizeY))
+					Debug.Log ("MapGenError");
                     mapData[srcX,srcY] = eTile.Floor;
                     mapData[srcX,srcY+1] = eTile.Floor;
                 if(srcX<dstX)
@@ -384,7 +385,15 @@ void caveMakeSpawn()
         for(int j = 2; j < sizeY; j++)
             if(mapData[i,j] == eTile.Floor)
             {
-                mapData[i,j] = eTile.Player;
+                mapData[i,j-1]      = eTile.Floor;
+                mapData[i,j]        = eTile.Floor;
+                mapData[i,j+1]      = eTile.Floor;
+                mapData[i+1,j-1]    = eTile.Floor;
+                mapData[i+1,j+1]    = eTile.Floor;
+                mapData[i+2,j-1]    = eTile.Floor;
+                mapData[i+2,j]      = eTile.Floor;
+                mapData[i+2,j+1]    = eTile.Floor;
+                mapData[i+1,j] = eTile.Player;
                 return;
             }
 }    
@@ -395,7 +404,16 @@ void caveMakeGoal()
         for(int j = sizeX-1; j > 0; j--)
             if(mapData[i,j] == eTile.Floor)
             {
-                mapData[i,j] = eTile.Goal;
+
+                mapData[i,j-1]      = eTile.Floor;
+                mapData[i,j]        = eTile.Floor;
+                mapData[i,j+1]      = eTile.Floor;
+                mapData[i-1,j-1]    = eTile.Floor;
+                mapData[i-1,j+1]    = eTile.Floor;
+                mapData[i-2,j-1]    = eTile.Floor;
+                mapData[i-2,j]      = eTile.Floor;
+                mapData[i-2,j+1]    = eTile.Floor;
+                mapData[i-1,j] = eTile.Goal;
                 return;
             }
 }    
