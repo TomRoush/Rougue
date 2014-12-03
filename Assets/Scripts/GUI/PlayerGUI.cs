@@ -18,6 +18,8 @@ public class PlayerGUI : MonoBehaviour {
 	private Texture2D background;
 	private GUIStyle currentStyle = null;
 
+	private float alpha = 1.0f;
+
 	public PlayerGUI(Player player)
 	{
 		this.player = player;
@@ -29,17 +31,31 @@ public class PlayerGUI : MonoBehaviour {
 
 	public void onGUI()
 	{
+
 		if (paused) 
 		{
+			alpha = Mathf.Clamp01(.65f);
+			
+			Color temp = GUI.color;
+			temp.a = alpha;
+			GUI.color = temp;
+
 			GUI.DrawTexture (new Rect (0,0, Screen.width, Screen.height), background);
+
+			alpha = Mathf.Clamp01(1f);
+			
+			temp = GUI.color;
+			temp.a = alpha;
+			GUI.color = temp;
+
 			if(alive) {
-				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
+				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
 				{
 					this.paused = false;
 					player.paused = false;
 					player.UpdateGameState();
 				}
-				if(GUI.Button (new Rect((Screen.width)/2, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
+				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
 				{
 					Application.LoadLevel("MainMenu");
 				}
