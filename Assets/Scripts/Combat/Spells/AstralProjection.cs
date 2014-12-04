@@ -41,13 +41,13 @@ public class AstralProjection : Spell<GameObject> {
 	// Update is called once per frame
 	protected override void CastSpell (GameObject closest) {
 		player = caster;
-		Debug.Log ("333");
+		//Debug.Log ("333");
 		if (!player.GetComponent<Status>().isStunned && closest != null) {
 			//closest = player.GetComponent<Status>().FindClosestEnemy();
 			//Debug.Log("mud");
 			
 			//Vector3 vpp = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-			Debug.Log("234");
+			//Debug.Log("234");
 			float bulletspeed = 900f;
 			//float xval = (closest.transform.position.x - player.transform.position.x) ;
 			//float yval = (closest.transform.position.y - player.transform.position.y) ;

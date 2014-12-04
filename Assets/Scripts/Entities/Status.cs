@@ -60,6 +60,8 @@ public class Status : MonoBehaviour {
 	public float exp1;
 	public float money1;
 	public float money2;
+
+	public bool see=false;
 	
 	// Use this for initialization
 	void Start () {
@@ -164,11 +166,13 @@ public class Status : MonoBehaviour {
 
 	public void MagicDamage(int d)
 	{
+	
 		health -= d;
 	}
 
-	public void PhysicalDamage(int d)
+	public void PhysicalDamage(float d)
 	{
+
 		health -= d;
 	}
 
@@ -176,7 +180,17 @@ public class Status : MonoBehaviour {
 	{
 		health -= d;
 	}
-	
+
+	public void dRage(float r){
+		rage += r;
+	}
+	void Attack(Status target)
+	{
+		target.PhysicalDamage(strength * damagex * 0.5f);
+	}
+	void Rage(Status target){
+		target.dRage (strength * damagex * 100f / maxHealth);
+	}
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
 		//closest = FindClosestEnemy();
@@ -190,12 +204,11 @@ public class Status : MonoBehaviour {
 				    ) 
 				{
 					Debug.Log ("AutoAttack1");
-						closest.gameObject.GetComponent<Status> ().health -= strength * damagex
-						* closest.gameObject.GetComponent<Status> ().defense;
+					Attack (closest.gameObject.GetComponent<Status> ());
+
 
 					if (!closest.gameObject.GetComponent<Status> ().isRaged) {
-						closest.gameObject.GetComponent<Status> ().rage += strength * damagex 
-						* closest.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+						Rage(closest.gameObject.GetComponent<Status> ());
 					}
 					attackTimer = 1 / attackSpeed;
 				}
@@ -208,14 +221,14 @@ public class Status : MonoBehaviour {
 				var distance2 = heading.magnitude;
 				var direction = heading/distance2;
 				RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, direction, range1, playerWalls);
+				see = false;
 				if (hit != null && hit.collider.tag == "Player"){
+					see = true;
 					//Debug.Log ("AutoAttack2");
-					player.gameObject.GetComponent<Status> ().health -= strength * damagex
-						* player.gameObject.GetComponent<Status> ().defense;
+					Attack (player.gameObject.GetComponent<Status> ());
 				
 					if (!player.gameObject.GetComponent<Status> ().isRaged){
-						player.gameObject.GetComponent<Status> ().rage += strength * damagex
-							* player.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+						Rage(player.gameObject.GetComponent<Status> ());
 					}
 					player.gameObject.GetComponent<Player>().blood.Play();
 					attackTimer = 1/attackSpeed;
