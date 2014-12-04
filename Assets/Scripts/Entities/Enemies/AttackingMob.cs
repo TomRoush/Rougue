@@ -23,6 +23,7 @@ public class AttackingMob : Entities {
 	void Start () {
 
         InitializeEntity();
+		AutoTarget = new AstralProjection (gameObject);
 
 		canAttack = true;
 		if (attackingg == null) 
@@ -102,7 +103,11 @@ public class AttackingMob : Entities {
 
 		}
 
-
+		if (getDistance (attackingg) < 12) {
+			AutoTarget.cast(attackingg);
+			//Debug.Log ("123");
+			//Debug.Log(attackingg.tag);
+		}
 	}
 
 	public void attackEntity()
@@ -117,5 +122,9 @@ public class AttackingMob : Entities {
 		yield return new WaitForSeconds(1);
 		canAttack = true;
 
+	}
+
+	public float getDistance(GameObject go){
+		return (go.transform.position - gameObject.transform.position).sqrMagnitude;
 	}
 }
