@@ -62,6 +62,7 @@ public class Status : MonoBehaviour {
 	public float money2;
 
 	public bool see=false;
+	public GameObject sword;
 	
 	// Use this for initialization
 	void Start () {
@@ -211,6 +212,8 @@ public class Status : MonoBehaviour {
 						Rage(closest.gameObject.GetComponent<Status> ());
 					}
 					attackTimer = 1 / attackSpeed;
+					GameObject swing = Instantiate(sword, transform.position, Quaternion.identity) as GameObject;
+					swing.transform.parent = gameObject.transform;
 				}
 			}
 			if (gameObject.tag=="Enemy" && getDistance(player) < range1 
