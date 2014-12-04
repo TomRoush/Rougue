@@ -7,6 +7,7 @@ public class LockedDoor : items {
 	public items holder;
 	public bool canBeInteractedWith = false;
 	public int floorNum;
+	public string type;
 
 
 	void Start () {

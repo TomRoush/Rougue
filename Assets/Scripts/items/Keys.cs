@@ -7,6 +7,7 @@ public class Keys : items  {
 	private bool canBePickedUp = false;
 	public GameObject itemz;
 	public items holder;
+	public string type;
 
 	public Keys(int num)
 	{
