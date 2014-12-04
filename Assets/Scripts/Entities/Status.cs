@@ -293,6 +293,13 @@ public class Status : MonoBehaviour {
 //
 //	}
 
+	public int getExperienceLeft(){
+		return 100+10*level - (int)exp1;
+	}
+	public float getPercentExp(){
+		return 100f * exp1 / (100f + 10f * (float) level);
+	}
+
 	public float getSpeedx(){//not sure if needed anymore
 		return speedx;
 	}
