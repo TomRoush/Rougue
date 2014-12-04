@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class items : MonoBehaviour {
-	public List<int> numKeysByFloor = new List<int>();
+	public GameObject itemzYo;
+	public items owner;
+	public int bronzeKeys;
+	public int silverKeys;
+	public int goldKeys;
 	public int numHealthPotions = 0;
 
 
 
 	void Start ()
 	{
-		for(int i = 0; i < 10; i++)
+		if (itemzYo == null) 
 		{
-			numKeysByFloor.Add (0);
+			itemzYo = GameObject.FindGameObjectWithTag("Player");
+			owner = itemzYo.GetComponent<items>();
 		}
 
 	}
@@ -26,26 +31,57 @@ public class items : MonoBehaviour {
 
 	public void AddKey(Keys keyToAdd)
 	{
+		if (keyToAdd.type == "bronze")
+		{
+			owner.bronzeKeys++;
+		}
 
-		numKeysByFloor[keyToAdd.floorNumber] = numKeysByFloor[keyToAdd.floorNumber]+1;
+		if (keyToAdd.type == "silver")
+		{
+			owner.silverKeys++;
+		}
+
+		if (keyToAdd.type == "gold")
+		{
+			owner.goldKeys++;
+		}
 
 	}
 	public bool hasKey(LockedDoor doorToCheck)
 	{
-		if (numKeysByFloor.ToArray()[doorToCheck.floorNum] > 0)
+		if(doorToCheck.type == "bronze" && bronzeKeys > 0)
 		{
 			return true;
-		} 
-
-		else
-		{
-			return false;
 		}
+
+		if(doorToCheck.type == "silver" && silverKeys > 0)
+		{
+			return true;
+		}
+
+		if(doorToCheck.type == "gold" && goldKeys > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public void takeKey(LockedDoor doorToDelete)
 	{
-		numKeysByFloor[doorToDelete.floorNum] = numKeysByFloor[doorToDelete.floorNum]-1;
+		if(doorToDelete.type == "bronze")
+		{
+			bronzeKeys--;
+		}
+
+		if(doorToDelete.type == "silver")
+		{
+			silverKeys--;
+		}
+
+		if(doorToDelete.type == "gold")
+		{
+			goldKeys--;
+		}
 	}
 
 }
