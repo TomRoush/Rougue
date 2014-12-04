@@ -22,15 +22,15 @@ public class AudioPlayer : MonoBehaviour {
 		manager = ((VolumeManager)FindObjectOfType(typeof(VolumeManager)));
 		source = gameObject.AddComponent<AudioSource>() as AudioSource;
 		source.clip = clip;
-		if(playOnAwake) { this.play(); Debug.Log("Playing");}
+//		if(playOnAwake) { this.play(); Debug.Log("Playing");}
 		setLoop(loop);
 	}
 	
-	public void play() {
-		source.volume = (manager.getVolume(VolumeManager.TypeOfAudio.MASTER) + Mathf.Max(manager.getVolume(VolumeManager.TypeOfAudio.MASTER), manager.getVolume(type))) / 20.0f;
-		Debug.Log(source.volume);
-		source.Play();
-	}
+//	public void play() {
+//		source.volume = (manager.getVolume(VolumeManager.TypeOfAudio.MASTER) + Mathf.Max(manager.getVolume(VolumeManager.TypeOfAudio.MASTER), manager.getVolume(type))) / 20.0f;
+//		Debug.Log(source.volume);
+//		source.Play();
+//	}
 	
 	public void playOneShot() {
 		
