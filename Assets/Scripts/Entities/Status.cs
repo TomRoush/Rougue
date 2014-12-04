@@ -60,6 +60,8 @@ public class Status : MonoBehaviour {
 	public float exp1;
 	public float money1;
 	public float money2;
+
+	public bool see=false;
 	
 	// Use this for initialization
 	void Start () {
@@ -164,11 +166,13 @@ public class Status : MonoBehaviour {
 
 	public void MagicDamage(int d)
 	{
+	
 		health -= d;
 	}
 
 	public void PhysicalDamage(int d)
 	{
+
 		health -= d;
 	}
 
@@ -176,7 +180,10 @@ public class Status : MonoBehaviour {
 	{
 		health -= d;
 	}
-	
+	void Attack(Status target)
+	{
+		target.PhysicalDamage(strength * damagex * 0.5);
+	}
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
 		//closest = FindClosestEnemy();
@@ -190,8 +197,8 @@ public class Status : MonoBehaviour {
 				    ) 
 				{
 					Debug.Log ("AutoAttack1");
-						closest.gameObject.GetComponent<Status> ().health -= strength * damagex
-						* closest.gameObject.GetComponent<Status> ().defense;
+					Attack (closest.gameObject.GetComponent<Status> ());
+
 
 					if (!closest.gameObject.GetComponent<Status> ().isRaged) {
 						closest.gameObject.GetComponent<Status> ().rage += strength * damagex 
@@ -208,7 +215,9 @@ public class Status : MonoBehaviour {
 				var distance2 = heading.magnitude;
 				var direction = heading/distance2;
 				RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, direction, range1, playerWalls);
+				see = false;
 				if (hit != null && hit.collider.tag == "Player"){
+					see = true;
 					//Debug.Log ("AutoAttack2");
 					player.gameObject.GetComponent<Status> ().health -= strength * damagex
 						* player.gameObject.GetComponent<Status> ().defense;

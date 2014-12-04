@@ -103,7 +103,7 @@ public class AttackingMob : Entities {
 
 		}
 
-		if (getDistance (attackingg) < 12) {
+		if (getDistance (attackingg) < 12 && GetComponent<Status>().see) {
 			AutoTarget.cast(attackingg);
 			//Debug.Log ("123");
 			//Debug.Log(attackingg.tag);

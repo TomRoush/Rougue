@@ -42,7 +42,7 @@ public class PoisonCloud : Spell<GameObject> {
 			GameObject pcloud = GameObject.Instantiate (poisonCloud, player.transform.position, rotation) as GameObject;
 			Physics2D.IgnoreLayerCollision(pcloud.layer, caster.layer);
 			Physics2D.IgnoreLayerCollision(pcloud.layer, LayerMask.NameToLayer("Enemies"));
-			Physics2D.IgnoreLayerCollision(pcloud.layer, LayerMask.NameToLayer("Projectiles"));
+			Physics2D.IgnoreLayerCollision(pcloud.layer, LayerMask.NameToLayer("Projectile"));
 			//Physics2D.IgnoreLayerCollision(pcloud.layer, LayerMask.NameToLayer("Clouds"));
 		}
 	}
