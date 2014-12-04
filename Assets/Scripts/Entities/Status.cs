@@ -170,7 +170,7 @@ public class Status : MonoBehaviour {
 		health -= d;
 	}
 
-	public void PhysicalDamage(int d)
+	public void PhysicalDamage(float d)
 	{
 
 		health -= d;
@@ -180,9 +180,16 @@ public class Status : MonoBehaviour {
 	{
 		health -= d;
 	}
+
+	public void dRage(float r){
+		rage += r;
+	}
 	void Attack(Status target)
 	{
-		target.PhysicalDamage(strength * damagex * 0.5);
+		target.PhysicalDamage(strength * damagex * 0.5f);
+	}
+	void Rage(Status target){
+		target.dRage (strength * damagex * 100f / maxHealth);
 	}
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
@@ -201,8 +208,7 @@ public class Status : MonoBehaviour {
 
 
 					if (!closest.gameObject.GetComponent<Status> ().isRaged) {
-						closest.gameObject.GetComponent<Status> ().rage += strength * damagex 
-						* closest.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+						Rage(closest.gameObject.GetComponent<Status> ());
 					}
 					attackTimer = 1 / attackSpeed;
 				}
@@ -219,12 +225,10 @@ public class Status : MonoBehaviour {
 				if (hit != null && hit.collider.tag == "Player"){
 					see = true;
 					//Debug.Log ("AutoAttack2");
-					player.gameObject.GetComponent<Status> ().health -= strength * damagex
-						* player.gameObject.GetComponent<Status> ().defense;
+					Attack (player.gameObject.GetComponent<Status> ());
 				
 					if (!player.gameObject.GetComponent<Status> ().isRaged){
-						player.gameObject.GetComponent<Status> ().rage += strength * damagex
-							* player.gameObject.GetComponent<Status> ().defense * 2 * 100 / maxHealth;
+						Rage(player.gameObject.GetComponent<Status> ());
 					}
 					player.gameObject.GetComponent<Player>().blood.Play();
 					attackTimer = 1/attackSpeed;
