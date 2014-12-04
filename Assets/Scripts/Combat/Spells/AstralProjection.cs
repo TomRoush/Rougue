@@ -25,15 +25,15 @@ public class AstralProjection : Spell<GameObject> {
 		switch (level)
 		{
 		case 1:
-			manaCost = 40;
+			manaCost = 20;
 			coolDown = 7;
 			break;
 		case 2:
-			manaCost = 40;
+			manaCost = 20;
 			coolDown = 7;
 			break;
 		default:
-			Debug.Log("Mudball level error");
+			Debug.Log("AstralProjection level error");
 			break;
 		}
 		
@@ -48,7 +48,7 @@ public class AstralProjection : Spell<GameObject> {
 			
 			//Vector3 vpp = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 			Debug.Log("234");
-			float bulletspeed = 700f;
+			float bulletspeed = 900f;
 			//float xval = (closest.transform.position.x - player.transform.position.x) ;
 			//float yval = (closest.transform.position.y - player.transform.position.y) ;
 			float xval = (closest.transform.position.x - player.transform.position.x) ;
@@ -59,7 +59,7 @@ public class AstralProjection : Spell<GameObject> {
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
 			GameObject aprojection = GameObject.Instantiate (projection, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			aprojection.GetComponent<DestroyMudball>().Initialize(10);
+			aprojection.GetComponent<DestroyAstralProjection>().Initialize(20);
 			aprojection.GetComponent<Rigidbody2D>().AddForce(toward);
 			
 		}
