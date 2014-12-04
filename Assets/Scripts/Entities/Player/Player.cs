@@ -198,6 +198,7 @@ public class Player : Entities
 	{
 		alive = false;
 		paused = true;
+		playerGUI.alive = false;
 		UpdateGameState ();
 	}
 }
