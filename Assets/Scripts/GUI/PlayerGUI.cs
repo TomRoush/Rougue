@@ -94,7 +94,7 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().health, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentHealth(), size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
@@ -106,7 +106,7 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().mana, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentMana(), size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();

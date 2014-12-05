@@ -12,7 +12,7 @@ public abstract partial class Entities : MonoBehaviour {
         }
 
         protected void Move() {
-            this.rigidbody2D.velocity = direction * cStat.getSpeed();
+            this.rigidbody2D.velocity = direction * cStat.getEffectiveSpeed();
         }
 
 }

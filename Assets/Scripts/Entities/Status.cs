@@ -16,14 +16,15 @@ public class Status : MonoBehaviour {
 	public int upgradePoints;
 	public int floor = 1;
 
-    public int agility;
-    public int strength;
-    public int intelligence;
     public int baseMaxHealth;
     public int baseMaxMana;
     public float baseManaRegen;
     public float baseHealthRegen;
     public float baseSpeed;
+    public int baseAgility;
+    public int baseStrength;
+    public int baseIntelligence;
+    public int baseAttackDamage;
 
 
 
@@ -32,6 +33,12 @@ public class Status : MonoBehaviour {
 	private float speed;
 	private float speedx;//speed-buff or slow-debuff
 	public float agilityx;
+
+	[HideInInspector]
+    public int agility;
+    public int strength;
+    public int intelligence;
+    private int attackDamage;
 
 	[HideInInspector]
     public float maxHealth;
@@ -82,30 +89,42 @@ public class Status : MonoBehaviour {
         speed = baseSpeed;
         speedx = 1;
 
-		maxHealth = 100f*(Mathf.Pow(1.05f, level-1));
+        strength = baseStrength;
+        agility = baseAgility;
+        intelligence = baseIntelligence;
+        attackDamage = baseAttackDamage;
+
+
+
+        refreshStats();
+		//maxHealth = 100f*(Mathf.Pow(1.05f, level-1));
 		
 		health = maxHealth;
 		mana = maxMana;
 
-		strength = 25+level;//type 1
+		//strength = 25+level;//type 1
 		//	damage1 = 25f; 
-		intelligence = 50+level;
+		//intelligence = 50+level;
 
 		//enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 
-    void refreshStats()
+    public void refreshStats() //Terrible, terrible things will happen if this is called while debuffed/buffed.
     {
         maxHealth = baseMaxHealth + 10*strength;
         maxMana = baseMaxMana + 10*intelligence;
+        manaRegen = baseManaRegen + intelligence * 0.1f;
+        healthRegen = baseHealthRegen + strength * 0.1f;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
 		if (health <= 0 && gameObject.tag=="Enemy") {
+        if(player == null)
+            Debug.Log("NUll player???");
 			player.GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
 			player.GetComponent<Status>().exp1+=10+level;
 			Destroy (gameObject);
@@ -203,7 +222,7 @@ public class Status : MonoBehaviour {
 	}
 	void Attack(Status target)
 	{
-		target.PhysicalDamage(strength * damagex * 0.5f);
+		target.PhysicalDamage((strength +attackDamage)* damagex);
 	}
 	void Rage(Status target){
 		target.dRage (strength * damagex * 100f / maxHealth);
@@ -332,7 +351,7 @@ public class Status : MonoBehaviour {
 		return 100f * exp1 / (100f + 10f * (float) level);
 	}
 
-	public float getSpeed(){
+	public float getEffectiveSpeed(){
 		return speedx * speed;
 	}
 
@@ -342,5 +361,13 @@ public class Status : MonoBehaviour {
 
     public void setSpeedx(float p) {
         speedx = p;
+    }
+
+    public int getPercentMana(){
+        return (int) ((mana/maxMana + 0.0001) * 100);
+    }
+
+    public int getPercentHealth() {
+        return (int) ((health/maxHealth + 0.0001) * 100);
     }
 }
