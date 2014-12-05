@@ -16,18 +16,30 @@ public class Status : MonoBehaviour {
 	public int upgradePoints;
 	public int floor = 1;
 
-	public float speed;
-	public float speedx;//speed-buff or slow-debuff
-	public float agility;//turn speed
+    public int agility;
+    public int strength;
+    public int intelligence;
+    public int baseMaxHealth;
+    public int baseMaxMana;
+    public float baseManaRegen;
+    public float baseHealthRegen;
+    public float baseSpeed;
+
+
+
+
+
+	private float speed;
+	private float speedx;//speed-buff or slow-debuff
 	public float agilityx;
 
-	public float maxHealth;
 	[HideInInspector]
+    public float maxHealth;
 	public float health;
 	public float healthRegen;
 	
-	public float maxMana;
 	[HideInInspector]
+    public float maxMana;
 	public float mana;
 	public float manaRegen;
 	
@@ -44,9 +56,7 @@ public class Status : MonoBehaviour {
 	public float attackTimer = 0.0f;
 	
 	public float damagex;
-	public float strength;//type 1
 	public float defense;//type 1 only defends against type1
-	public float intelligence;
 	public float resistence;
 
 	public float range1;
@@ -69,21 +79,28 @@ public class Status : MonoBehaviour {
 		if (gameObject.tag == "Enemy") {
 			level = Random.Range (floor, floor+10);
 		}
+        speed = baseSpeed;
+        speedx = 1;
 
 		maxHealth = 100f*(Mathf.Pow(1.05f, level-1));
 		
 		health = maxHealth;
 		mana = maxMana;
 
-		strength = 25f+level;//type 1
+		strength = 25+level;//type 1
 		//	damage1 = 25f; 
-		intelligence = 50f+level;
+		intelligence = 50+level;
 
 		//enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 
+    void refreshStats()
+    {
+        maxHealth = baseMaxHealth + 10*strength;
+        maxMana = baseMaxMana + 10*intelligence;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -97,10 +114,9 @@ public class Status : MonoBehaviour {
 		if (exp1>100+10*level){
 			exp1-=100+10*level;
 			level++;
-			maxHealth *= 1.05f;
-			maxMana *= 1.05f;
-			strength++;
-			intelligence++;
+			strength += 2;
+			intelligence += 2;
+            agility += 2;
 			upgradePoints++;
 		}
 		
@@ -316,7 +332,15 @@ public class Status : MonoBehaviour {
 		return 100f * exp1 / (100f + 10f * (float) level);
 	}
 
-	public float getSpeedx(){//not sure if needed anymore
-		return speedx;
+	public float getSpeed(){
+		return speedx * speed;
 	}
+
+    public float getSpeedx() {
+        return speedx;
+    }
+
+    public void setSpeedx(float p) {
+        speedx = p;
+    }
 }

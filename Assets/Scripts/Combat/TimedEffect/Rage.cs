@@ -2,22 +2,26 @@
 using System.Collections;
 
 public class Rage : TimedEffect {
+
+    Status tStat;
 	
 	protected override void ApplyEffect (){
+        tStat = target.GetComponent<Status>();
+
 		handleTargetNull ();
-		target.GetComponent<Status> ().speedx+=1f;
-		target.GetComponent<Status> ().damagex+=5f;
-		target.GetComponent<Status> ().attackSpeed+=1f;
-		target.GetComponent<Status> ().isRaged = true;
+        tStat.setSpeedx(tStat.getSpeedx() + 1);
+		tStat.damagex+=5f;
+		tStat.attackSpeed+=1f;
+		tStat.isRaged = true;
 	}
 	
 	protected override void EndEffect (){
 		handleTargetNull ();
-		target.GetComponent<Status> ().speedx-=1f;
-		target.GetComponent<Status> ().damagex-=5f;
-		target.GetComponent<Status> ().attackSpeed-=1f;
-		target.GetComponent<Status> ().rage = 0;
-		target.GetComponent<Status> ().isRaged = false;
+        tStat.setSpeedx(tStat.getSpeedx() - 1);
+		tStat.damagex-=5f;
+		tStat.attackSpeed-=1f;
+		tStat.rage = 0;
+		tStat.isRaged = false;
 		base.EndEffect ();
 	}
 	
