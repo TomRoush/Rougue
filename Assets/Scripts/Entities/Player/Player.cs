@@ -140,8 +140,8 @@ public class Player : Entities
 				playerGUI.paused = true;
 			}
 		}
-
-		if(gameObject.GetComponent<Status> ().getHealth() <= 0)
+		
+		if(gameObject.GetComponent<Status> ().getHealth() <= 0 && Time.time > 1)
 		{
 			Die();		
 		}
