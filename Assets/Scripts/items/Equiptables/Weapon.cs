@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class Weapon : Equipment {
-	public int strength;
 	public equipmentStats equipStats;
-	public string element;
 	public GameObject weaponPlayerReference;
 	public Equipment wielder;
 	public bool canBePickedUp;
@@ -20,7 +18,6 @@ public class Weapon : Equipment {
 	}
 	public Weapon (int strength, int magic, int speed)
 	{
-		//equipmentStats.strMod = weapon.strMod;
 		equipStats.str = strength;
 		equipStats.intelligence = magic;
 		equipStats.agility = speed;

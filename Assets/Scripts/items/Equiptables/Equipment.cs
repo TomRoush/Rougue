@@ -29,6 +29,23 @@ public class Equipment : MonoBehaviour {
 	{
 		equipper.equippedSword  = weaponStats;
 		print (equipper.equippedSword);
+	}
 
+	public void addHelmet(Helmet helmet)
+	{
+		equipper.equippedHelmet  = weaponStats;
+		print (equipper.equippedHelmet);
+	}
+
+	public void addArmor(Armor armor)
+	{
+		equipper.equippedArmor  = weaponStats;
+		print (equipper.equippedArmor);
+	}
+
+	public void addNecklace(Necklace necklace)
+	{
+		equipper.equippedNecklace  = weaponStats;
+		print (equipper.equippedNecklace);
 	}
 }

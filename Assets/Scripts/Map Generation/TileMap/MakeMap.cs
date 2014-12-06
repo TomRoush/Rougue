@@ -13,8 +13,14 @@ public class MakeMap : MonoBehaviour
 	public GameObject Player;
 	public GameObject Goal;
     public GameObject UpStairs;
+<<<<<<< HEAD
 	public GameObject Enemy;
 	public GameObject Sword;
+=======
+	public GameObject eGhost;
+    public GameObject eRat;
+  //  public GameObject eDragon;
+>>>>>>> d6c4b3bc312d17ad2877741aa210c2c6024cf108
 	public int xMax;
 	public int yMax;
 	public int nRooms;
@@ -38,6 +44,18 @@ public class MakeMap : MonoBehaviour
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
+
+    public void EnemySpawningDifficulty(TileMapData map)
+    {
+
+            if(DungeonFloor < 3)
+                Spawning.SpawnEnemies(map, numEnemies, eRat);
+            if(DungeonFloor == 4)
+                Spawning.SpawnEnemies(map, 1, eGhost);
+            if(DungeonFloor > 4)
+                Spawning.SpawnEnemies(map, numEnemies, eGhost);
+
+    }
 
 	TileMapData genTMD()
 	{
@@ -103,8 +121,11 @@ public class MakeMap : MonoBehaviour
 				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
 			}
 		}
-		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
-		Spawning.SpawnWeapon(map, Sword);
+	if(!toPrevFloor) 
+        {
+            EnemySpawningDifficulty(map);
+        }		
+        Spawning.SpawnWeapon(map, Sword);
 		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
 	}
 
@@ -213,7 +234,7 @@ public class MakeMap : MonoBehaviour
         	TileMapData generated = genTMD();
         	MoveMap(generated);
         	dungeon.add(generated);
-        	Spawning.SpawnEnemies(generated, numEnemies, Enemy);
+            EnemySpawningDifficulty(generated);
     	}
         else 
         {
