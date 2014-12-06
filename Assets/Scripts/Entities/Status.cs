@@ -51,7 +51,7 @@ public class Status : MonoBehaviour {
     [HideInInspector] private float effHealthRegen;
     [HideInInspector] private float effSpeed;
     [HideInInspector] private int effAgility;
-    [HideInInspector] private int effStrength;
+ /*   [HideInInspector]*/ public int effStrength;
     [HideInInspector] private int effIntelligence;
     [HideInInspector] private int effAttackDamage;
     [HideInInspector] private float effAttackSpeed;
@@ -135,6 +135,22 @@ public class Status : MonoBehaviour {
 
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
+
+    public void clearEquip()
+    {
+
+     equipMaxHealth = 0;
+     equipMaxMana = 0;
+     equipManaRegen = 0;
+     equipHealthRegen = 0;
+     equipSpeed = 0;
+     equipAgility = 0;
+     equipStrength = 0;
+     equipIntelligence = 0;
+    equipAttackDamage = 0;
+    equipAttackSpeed = 0;
+
+    }
 
 
     public void refreshStats() //Terrible, terrible things will happen if this is called while debuffed/buffed.
