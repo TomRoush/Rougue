@@ -13,7 +13,9 @@ public class MakeMap : MonoBehaviour
 	public GameObject Player;
 	public GameObject Goal;
     public GameObject UpStairs;
-	public GameObject Enemy;
+	public GameObject eGhost;
+    public GameObject eRat;
+  //  public GameObject eDragon;
 	public int xMax;
 	public int yMax;
 	public int nRooms;
@@ -37,6 +39,18 @@ public class MakeMap : MonoBehaviour
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
+
+    public void EnemySpawningDifficulty(TileMapData map)
+    {
+
+            if(DungeonFloor < 3)
+                Spawning.SpawnEnemies(map, numEnemies, eRat);
+            if(DungeonFloor == 4)
+                Spawning.SpawnEnemies(map, 1, eGhost);
+            if(DungeonFloor > 4)
+                Spawning.SpawnEnemies(map, numEnemies, eGhost);
+
+    }
 
 	TileMapData genTMD()
 	{
@@ -102,7 +116,10 @@ public class MakeMap : MonoBehaviour
 				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
 			}
 		}
-		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
+		if(!toPrevFloor) 
+        {
+            EnemySpawningDifficulty(map);
+        }
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -207,7 +224,7 @@ public class MakeMap : MonoBehaviour
         	TileMapData generated = genTMD();
         	MoveMap(generated);
         	dungeon.add(generated);
-        	Spawning.SpawnEnemies(generated, numEnemies, Enemy);
+            EnemySpawningDifficulty(generated);
     	}
         else 
         {
