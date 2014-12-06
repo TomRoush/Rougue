@@ -16,16 +16,16 @@ public class TileSetChanger : MonoBehaviour {
 	void Start () {
 		renderer = gameObject.GetComponent<SpriteRenderer>();
 		if(renderer == null) Debug.Log("null");
-		setTile();
+		setTile(TileSet.Classic);
 	}
 	
 	// Switches the tile based on the tileset received
 	// If the selected one can't be found, it defaults to the first 
-	public void setTile() {
+	public void setTile(TileSet set) {
 		//if(renderer == null) renderer = gameObject.GetComponent<SpriteRenderer>();
 		if(renderer == null) return;
 		foreach(SpriteSet tile in sprites) {
-			if(tile.set == GameObject.FindGameObjectWithTag("MapGen").GetComponent<MakeMap>().set) {
+			if(tile.set == set) {
 				renderer.sprite = tile.tile;
 				return;
 			}

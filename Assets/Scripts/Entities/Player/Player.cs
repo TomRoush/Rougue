@@ -13,6 +13,9 @@ public class Player : Entities
 	public float curHealth;
 	private MakeMap Dungeon;
 	public equipmentStats equippedSword;
+	public equipmentStats equippedArmor;
+	public equipmentStats equippedHelmet;
+	public equipmentStats equippedNecklace;
 	
 	Animator anim;
 
