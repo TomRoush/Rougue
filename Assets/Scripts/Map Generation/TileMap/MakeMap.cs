@@ -13,6 +13,8 @@ public class MakeMap : MonoBehaviour
 	public GameObject Player;
 	public GameObject Goal;
     public GameObject UpStairs;
+	public GameObject Sword;
+
 	public GameObject eGhost;
     public GameObject eRat;
   //  public GameObject eDragon;
