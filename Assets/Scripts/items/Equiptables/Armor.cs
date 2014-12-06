@@ -1,29 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : Equipment {
+public class Armor : Equipment {
 	public equipmentStats equipStats;
-	public GameObject weaponPlayerReference;
-	public Equipment wielder;
+	public GameObject armorPlayerReference;
+	public Equipment donner; // donned his armor
 	public bool canBePickedUp;
 	void Start () {
-
-		if (weaponPlayerReference == null) 
+		
+		if (armorPlayerReference == null) 
 		{
-			weaponPlayerReference = GameObject.FindGameObjectWithTag("Player");
-			wielder = weaponPlayerReference.GetComponent<Equipment>();
+			armorPlayerReference = GameObject.FindGameObjectWithTag("Player");
+			donner = armorPlayerReference.GetComponent<Equipment>();
 		}
-
-
+		
+		
 	}
-	public Weapon (int strength, int magic, int speed)
+	public Armor (int strength, int magic, int speed)
 	{
 		equipStats.str = strength;
 		equipStats.intelligence = magic;
 		equipStats.agility = speed;
 		canBePickedUp = false;
 	}
-
+	
 	void OnTriggerEnter2D(Collider2D person)
 	{
 		if (person.gameObject.tag == "Player")
@@ -42,20 +42,20 @@ public class Weapon : Equipment {
 		
 	}
 	
-
+	
 	void Update ()
 	{
 		if (canBePickedUp) 
 		{
 			if (Input.GetKeyDown (KeyCode.Space))
 			{
-				wielder.addWeapon(this);
+				donner.addArmor(this);
 				Destroy(this.gameObject);
-
+				
 			}
 		}
-
-
-
+		
+		
+		
 	}
 }
