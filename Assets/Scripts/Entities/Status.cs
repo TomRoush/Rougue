@@ -16,6 +16,11 @@ public class Status : MonoBehaviour {
 	public int upgradePoints;
 	public int floor = 1;
 
+    //Different Stat categories, so things don't get messed up when leveling up or when debuffs get whatever'd
+    //base is controlled by levels and the species
+    //mod is controlled by buffs and debuffs
+    //eff is the effective values used in Status, maybe
+    //equip is used by armor and items and whatnot
     public int baseMaxHealth;
     public int baseMaxMana;
     public float baseManaRegen;
@@ -25,30 +30,65 @@ public class Status : MonoBehaviour {
     public int baseStrength;
     public int baseIntelligence;
     public int baseAttackDamage;
+    public int baseAttackSpeed;
 
 
+	[HideInInspector]
+    public int modMaxHealth;
+    public int modMaxMana;
+    public float modManaRegen;
+    public float modHealthRegen;
+    public float modSpeed;
+    public int modAgility;
+    public int modStrength;
+    public int modIntelligence;
+    public int modAttackDamage;
+    public float modAttackSpeed;
 
 
+	[HideInInspector]
+    private int effMaxHealth;
+    private int effMaxMana;
+    private float effManaRegen;
+    private float effHealthRegen;
+    private float effSpeed;
+    private int effAgility;
+    private int effStrength;
+    private int effIntelligence;
+    private int effAttackDamage;
+    private float effAttackSpeed;
+    
 
-	private float speed;
+	[HideInInspector]
+    public int equipMaxHealth;
+    public int equipMaxMana;
+    public float equipManaRegen;
+    public float equipHealthRegen;
+    public float equipSpeed;
+    public int equipAgility;
+    public int equipStrength;
+    public int equipIntelligence;
+    public int equipAttackDamage;
+    public float equipAttackSpeed;
+
+
 	private float speedx;//speed-buff or slow-debuff
 	public float agilityx;
 
-	[HideInInspector]
-    public int agility;
-    public int strength;
-    public int intelligence;
-    private int attackDamage;
+    //public int agility;
+   // public int strength;
+  //  public int intelligence;
+  //  private int attackDamage;
 
 	[HideInInspector]
-    public float maxHealth;
-	public float health;
-	public float healthRegen;
+ //   public float maxHealth;
+	private float health;
+//	public float healthRegen;
 	
 	[HideInInspector]
-    public float maxMana;
-	public float mana;
-	public float manaRegen;
+   // public float maxMana;
+	private float mana;
+//	public float manaRegen;
 	
 	[HideInInspector]
 	public float rage = 0.0f;
@@ -58,7 +98,6 @@ public class Status : MonoBehaviour {
 	[HideInInspector]
 	public bool isRaged = false;
 	
-	public float attackSpeed;
 	[HideInInspector]
 	public float attackTimer = 0.0f;
 	
@@ -86,45 +125,41 @@ public class Status : MonoBehaviour {
 		if (gameObject.tag == "Enemy") {
 			level = Random.Range (floor, floor+10);
 		}
-        speed = baseSpeed;
         speedx = 1;
 
-        strength = baseStrength;
-        agility = baseAgility;
-        intelligence = baseIntelligence;
-        attackDamage = baseAttackDamage;
 
 
 
         refreshStats();
 		//maxHealth = 100f*(Mathf.Pow(1.05f, level-1));
 		
-		health = maxHealth;
-		mana = maxMana;
+		health = effMaxHealth;
+		mana = effMaxMana;
 
-		//strength = 25+level;//type 1
-		//	damage1 = 25f; 
-		//intelligence = 50+level;
-
-		//enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 
 
     public void refreshStats() //Terrible, terrible things will happen if this is called while debuffed/buffed.
     {
-        maxHealth = baseMaxHealth + 10*strength;
-        maxMana = baseMaxMana + 10*intelligence;
-        manaRegen = baseManaRegen + intelligence * 0.1f;
-        healthRegen = baseHealthRegen + strength * 0.1f;
+    effAgility = baseAgility + modAgility + equipAgility;
+    effStrength = baseStrength + modStrength + equipStrength;
+    effIntelligence = baseIntelligence + modIntelligence + equipIntelligence;
+
+    effMaxHealth = baseMaxHealth + modMaxHealth + equipMaxHealth + 10*effStrength;
+    effMaxMana = baseMaxMana + modMaxMana + equipMaxMana + 10*effIntelligence;
+    effManaRegen = baseManaRegen + modManaRegen + equipManaRegen + 0.1f*effIntelligence;
+    effHealthRegen = baseHealthRegen + modHealthRegen + equipHealthRegen + 0.1f*effStrength;
+    effSpeed = baseSpeed + modSpeed + equipSpeed + (effAgility/10); //Should also include + effAgility/10, but I get a really wierd bug.
+    effAttackDamage = baseAttackDamage + modAttackDamage + equipAttackDamage + effStrength;
+    effAttackSpeed = baseAttackSpeed + modAttackSpeed + equipAttackSpeed + (effAgility/10); //Same comment as effSpeed
+
     }
 	
 	// Update is called once per frame
 	void Update () {
 
 		if (health <= 0 && gameObject.tag=="Enemy") {
-        if(player == null)
-            Debug.Log("NUll player???");
 			player.GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
 			player.GetComponent<Status>().exp1+=10+level;
 			Destroy (gameObject);
@@ -133,22 +168,23 @@ public class Status : MonoBehaviour {
 		if (exp1>100+10*level){
 			exp1-=100+10*level;
 			level++;
-			strength += 2;
-			intelligence += 2;
-            agility += 2;
+			baseStrength += 2;
+			baseIntelligence += 2;
+            baseAgility += 2;
 			upgradePoints++;
+            refreshStats();
 		}
 		
-		if (health>maxHealth){
-			health=maxHealth;
-		}else if (health<maxHealth){
-			health += Time.deltaTime * healthRegen*maxHealth/100;
+		if (health>effMaxHealth){
+			health=effMaxHealth;
+		}else if (health<effMaxHealth){
+			health += Time.deltaTime * effHealthRegen;
 		}
 		
-		if(mana > maxMana) {
-			mana = maxMana;
-		} else if(mana < maxMana){
-			mana += Time.deltaTime * manaRegen;
+		if(mana > effMaxMana) {
+			mana = effMaxMana;
+		} else if(mana < effMaxMana){
+			mana += Time.deltaTime * effManaRegen;
 		}
 		
 		if (rage < 0) {
@@ -200,7 +236,7 @@ public class Status : MonoBehaviour {
 		autoAttack ();
 	}
 
-	public void MagicDamage(int d)
+	public void MagicDamage(float d)
 	{
 	
 		health -= d;
@@ -212,7 +248,7 @@ public class Status : MonoBehaviour {
 		health -= d;
 	}
 
-	public void PureDamage(int d)
+	public void PureDamage(float d)
 	{
 		health -= d;
 	}
@@ -222,10 +258,10 @@ public class Status : MonoBehaviour {
 	}
 	void Attack(Status target)
 	{
-		target.PhysicalDamage((strength +attackDamage)* damagex);
+		target.PhysicalDamage((effAttackDamage)* damagex);
 	}
 	void Rage(Status target){
-		target.dRage (strength * damagex * 100f / maxHealth);
+		target.dRage (effStrength * damagex * 100f / effMaxHealth);
 	}
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
@@ -246,7 +282,7 @@ public class Status : MonoBehaviour {
 					if (!closest.gameObject.GetComponent<Status> ().isRaged) {
 						Rage(closest.gameObject.GetComponent<Status> ());
 					}
-					attackTimer = 1 / attackSpeed;
+					attackTimer = 1 / effAttackSpeed;
 					GameObject swing = Instantiate(sword, transform.position, Quaternion.identity) as GameObject;
 					swing.transform.parent = gameObject.transform;
 				}
@@ -269,7 +305,7 @@ public class Status : MonoBehaviour {
 						Rage(player.gameObject.GetComponent<Status> ());
 					}
 					player.gameObject.GetComponent<Player>().blood.Play();
-					attackTimer = 1/attackSpeed;
+					attackTimer = 1/effAttackSpeed;
 				}
 			}
 		}
@@ -352,7 +388,7 @@ public class Status : MonoBehaviour {
 	}
 
 	public float getEffectiveSpeed(){
-		return speedx * speed;
+		return speedx * effSpeed;
 	}
 
     public float getSpeedx() {
@@ -364,10 +400,58 @@ public class Status : MonoBehaviour {
     }
 
     public int getPercentMana(){
-        return (int) ((mana/maxMana + 0.0001) * 100);
+        return (int) ((mana/effMaxMana + 0.0001) * 100);
     }
 
     public int getPercentHealth() {
-        return (int) ((health/maxHealth + 0.0001) * 100);
+        return (int) ((health/effMaxHealth + 0.0001) * 100);
+    }
+
+    public int getIntelligence()
+    {
+        return effIntelligence;
+    }
+
+    public int getStrength()
+    {
+        return effStrength;
+    }
+
+    public int getAgility()
+    {
+        return effAgility;
+    }
+
+    public void useMana(float m)
+    {
+        mana -= m;
+    }
+    
+    public void healHealth(float h)
+    {
+        health += h;
+        
+        if(health > effMaxHealth)
+            health = effMaxHealth;
+    }
+
+    public float getMana()
+    {
+        return mana;
+    }
+
+    public float getHealth()
+    {
+        return health;
+    }
+
+    public float getMaxMana()
+    {
+        return effMaxMana;
+    }
+
+    public float getMaxHealth()
+    {
+        return effMaxHealth;
     }
 }

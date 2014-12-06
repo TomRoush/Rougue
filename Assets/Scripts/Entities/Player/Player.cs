@@ -33,7 +33,7 @@ public class Player : Entities
         PosTarget = new MagicMissle(gameObject);
 
 		anim = GetComponent<Animator> ();
-		curHealth = health;//gameObject.GetComponent<Status> ().health?
+		curHealth = gameObject.GetComponent<Status> ().getHealth();
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
@@ -141,7 +141,7 @@ public class Player : Entities
 			}
 		}
 
-		if(gameObject.GetComponent<Status> ().health <= 0)
+		if(gameObject.GetComponent<Status> ().getHealth() <= 0)
 		{
 			Die();		
 		}
