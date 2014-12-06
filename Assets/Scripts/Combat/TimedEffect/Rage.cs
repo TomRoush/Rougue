@@ -11,17 +11,19 @@ public class Rage : TimedEffect {
 		handleTargetNull ();
         tStat.setSpeedx(tStat.getSpeedx() + 1);
 		tStat.damagex+=5f;
-		tStat.attackSpeed+=1f;
+		tStat.modAttackSpeed+=1f;
 		tStat.isRaged = true;
+        tStat.refreshStats();
 	}
 	
 	protected override void EndEffect (){
 		handleTargetNull ();
         tStat.setSpeedx(tStat.getSpeedx() - 1);
 		tStat.damagex-=5f;
-		tStat.attackSpeed-=1f;
+		tStat.modAttackSpeed-=1f;
 		tStat.rage = 0;
 		tStat.isRaged = false;
+        tStat.refreshStats();
 		base.EndEffect ();
 	}
 	

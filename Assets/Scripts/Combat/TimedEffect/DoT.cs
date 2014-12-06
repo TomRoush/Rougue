@@ -7,6 +7,6 @@ public class DoT : TimedEffect {
 
 	protected override void ApplyEffect() {
 		handleTargetNull ();
-		target.GetComponent<Status> ().health -= damage;
+		target.GetComponent<Status> ().MagicDamage(damage);
 	}
 }

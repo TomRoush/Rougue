@@ -46,7 +46,7 @@ public abstract class Spell <gType>
 
     public bool CanCast()
     {
-        return (casterStat.mana >= manaCost && OffCooldown());
+        return (casterStat.getMana() >= manaCost && OffCooldown());
     }
 
     public void StartCast()
@@ -59,7 +59,7 @@ public abstract class Spell <gType>
     public void EndCast()
     {
         lastCastTime = Time.time;
-        casterStat.mana -= manaCost;
+        casterStat.useMana(manaCost);
     }
 
     public int getCost()

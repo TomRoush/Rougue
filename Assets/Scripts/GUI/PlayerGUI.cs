@@ -85,7 +85,7 @@ public class PlayerGUI : MonoBehaviour {
 		
 		// draw the health bar
 		//draw the background:
-		if(player.gameObject.GetComponent<Status> ().health > 50.0f) {
+		if(player.gameObject.GetComponent<Status> ().getHealth() > 50.0f) {
 			InitStyles (Color.green);
 		} else {
 			InitStyles(Color.red);
@@ -123,7 +123,7 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.EndGroup();
 		GUI.EndGroup();
 		
-		if (player.gameObject.GetComponent<Status> ().health<=0.0f){
+		if (player.gameObject.GetComponent<Status> ().getHealth()<=0.0f){
 
 			alpha = Mathf.Clamp01(.65f);
 			
