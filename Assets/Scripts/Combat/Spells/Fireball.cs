@@ -13,7 +13,7 @@ public class Fireball : Spell<GameObject> {
     {
         name = "Fireball";
         fireball = Resources.Load("Fireball") as GameObject;
-        cooldownIcon = Resources.Load("Artwork/InGame/Ignite") as Texture2D;
+        cooldownIcon = Resources.Load("Artwork/InGame/Fireball") as Texture2D;
 
     }    
 
