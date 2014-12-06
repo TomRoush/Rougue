@@ -12,6 +12,7 @@ public class Player : Entities
 	public bool alive = true;
 	public float curHealth;
 	private MakeMap Dungeon;
+	public equipmentStats equippedSword;
 	
 	Animator anim;
 

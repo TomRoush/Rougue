@@ -4,15 +4,15 @@ using System.Collections;
 public class Potions : items {
 
 	public string type;
-	public GameObject itemz;
+	public GameObject potionPlayerReference;
 	public items holder;
 	public bool puedoBePickedUp = false;
 
 	void Start () {
-		if (itemz == null) 
+		if (potionPlayerReference == null) 
 		{
-			itemz = GameObject.FindGameObjectWithTag("Player");
-			holder = itemz.GetComponent<items>();
+			potionPlayerReference = GameObject.FindGameObjectWithTag("Player");
+			holder = potionPlayerReference.GetComponent<items>();
 		}
 	}
 	
