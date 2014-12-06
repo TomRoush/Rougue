@@ -13,14 +13,12 @@ public class MakeMap : MonoBehaviour
 	public GameObject Player;
 	public GameObject Goal;
     public GameObject UpStairs;
-<<<<<<< HEAD
 	public GameObject Enemy;
 	public GameObject Sword;
-=======
+
 	public GameObject eGhost;
     public GameObject eRat;
   //  public GameObject eDragon;
->>>>>>> d6c4b3bc312d17ad2877741aa210c2c6024cf108
 	public int xMax;
 	public int yMax;
 	public int nRooms;
