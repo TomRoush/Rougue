@@ -27,6 +27,11 @@ public class Weapon : Equipment {
 		canBePickedUp = false;
 	}
 
+	public void setStats(int strength, int magic, int speed)
+	{
+		equipStats = new equipmentStats(strength, magic, speed);
+	}
+
 	void OnTriggerEnter2D(Collider2D person)
 	{
 		if (person.gameObject.tag == "Player")
@@ -50,7 +55,7 @@ public class Weapon : Equipment {
 	{
 		if (canBePickedUp) 
 		{
-			if (Input.GetKeyDown (KeyCode.Space))
+			if (Input.GetButtonDown("Action"))
 			{
 				wielder.addWeapon(this);
 				Destroy(this.gameObject);
