@@ -11,7 +11,7 @@ public class Status : MonoBehaviour {
 	public LayerMask enemiesWalls;
 	public LayerMask playerWalls;
 
-	public int level = 5;
+	public int level = 0;
 	public bool levelUp = false;
 	public int upgradePoints;
 	public int floor = 1;
@@ -110,9 +110,9 @@ public class Status : MonoBehaviour {
 	public bool isSlowed = false;
 	public float slowTimer=0;
 
-	public float exp1;
-	public float money1;
-	public float money2;
+	public int exp;
+	public int expDrop;
+	public float money;
 
 	public bool see=false;
 	public GameObject sword;
@@ -173,13 +173,13 @@ public class Status : MonoBehaviour {
 	void Update () {
 
 		if (health <= 0 && gameObject.tag=="Enemy") {
-			player.GetComponent<Status>().money1+=10+level;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
-			player.GetComponent<Status>().exp1+=10+level;
+			player.GetComponent<Status>().money+=level+expDrop;//don't think the (Clone) part is needed, but I put anyways; could also maybe find by tag "Player"
+			player.GetComponent<Status>().exp+=level+expDrop;
 			Destroy (gameObject);
 		}
 
-		if (exp1>100+10*level){
-			exp1-=100+10*level;
+		if (exp>100+10*level){
+			exp-=100+10*level;
 			level++;
 			baseStrength += 2;
 			baseIntelligence += 2;
@@ -271,10 +271,10 @@ public class Status : MonoBehaviour {
 	}
 	void Attack(Status target)
 	{
-		target.PhysicalDamage((effAttackDamage)* damagex);
+		target.PhysicalDamage(effAttackDamage* damagex);
 	}
 	void Rage(Status target){
-		target.dRage (effStrength * damagex * 100f / effMaxHealth);
+		target.dRage (effAttackDamage * damagex * 100f / effMaxHealth);
 	}
 	//void OnCollisionStay2D (Collision2D collider){
 	void autoAttack(){//not necessarily melee range (uses range1), but this uses strength
@@ -394,10 +394,10 @@ public class Status : MonoBehaviour {
 //	}
 
 	public int getExperienceLeft(){
-		return 100+10*level - (int)exp1;
+		return 100+10*level - (int)exp;
 	}
 	public float getPercentExp(){
-		return 100f * exp1 / (100f + 10f * (float) level);
+		return 100f * exp / (100f + 10f * (float) level);
 	}
 
 	public float getEffectiveSpeed(){
