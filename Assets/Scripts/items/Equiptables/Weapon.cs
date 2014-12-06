@@ -50,7 +50,7 @@ public class Weapon : Equipment {
 	{
 		if (canBePickedUp) 
 		{
-			if (Input.GetKeyDown (KeyCode.Space))
+			if (Input.GetButtonDown("Action"))
 			{
 				wielder.addWeapon(this);
 				Destroy(this.gameObject);

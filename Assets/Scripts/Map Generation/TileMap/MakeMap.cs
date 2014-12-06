@@ -14,6 +14,7 @@ public class MakeMap : MonoBehaviour
 	public GameObject Goal;
     public GameObject UpStairs;
 	public GameObject Enemy;
+	public GameObject Sword;
 	public int xMax;
 	public int yMax;
 	public int nRooms;
@@ -103,6 +104,7 @@ public class MakeMap : MonoBehaviour
 			}
 		}
 		if(!toPrevFloor) Spawning.SpawnEnemies(map, numEnemies, Enemy);
+		Spawning.SpawnItems(map, 1, Sword);
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -192,6 +194,7 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
+		Spawning.SpawnItems(map, 1, Sword);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
