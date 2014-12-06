@@ -110,7 +110,19 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
-		
+	
+		//draw the xp bar
+		//draw the background
+		InitStyles (Color.yellow);
+		GUI.BeginGroup (new Rect (pos.x, pos.y + 3 * size.y, size.x, size.y));
+		GUI.Box (new Rect (0, 0, size.x, (float)(.2 *size.y)), emptyTex);
+
+		//draw the filled-in part:
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentExp(), size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.Box(new Rect(0,0, size.x, (float)(.2 *size.y)), fullTex, currentStyle);
+		GUI.EndGroup();
+		GUI.EndGroup();
+			
 		// draw the stamina (rage) bar
 		//draw the background:
 		InitStyles (Color.magenta);
