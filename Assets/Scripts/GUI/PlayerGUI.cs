@@ -52,36 +52,6 @@ public class PlayerGUI : MonoBehaviour {
 
 	public void onGUI()
 	{
-
-		if (paused) 
-		{
-			alpha = Mathf.Clamp01(.65f);
-			
-			Color temp = GUI.color;
-			temp.a = alpha;
-			GUI.color = temp;
-
-			GUI.DrawTexture (new Rect (0,0, Screen.width, Screen.height), background);
-
-			alpha = Mathf.Clamp01(1f);
-			
-			temp = GUI.color;
-			temp.a = alpha;
-			GUI.color = temp;
-
-			if(alive) {
-				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
-				{
-					this.paused = false;
-					player.paused = false;
-					player.UpdateGameState();
-				}
-				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
-				{
-					Application.LoadLevel("MainMenu");
-				}
-			}
-		}
 		
 		// draw the health bar
 		//draw the background:
@@ -90,6 +60,7 @@ public class PlayerGUI : MonoBehaviour {
 		} else {
 			InitStyles(Color.red);
 		}
+
 		GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
@@ -122,6 +93,35 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
+
+		if (paused) 
+		{
+			alpha = Mathf.Clamp01(.65f);
+			
+			Color temp = GUI.color;
+			temp.a = alpha;
+			GUI.color = temp;
+			
+			GUI.DrawTexture (new Rect (0,0, Screen.width, Screen.height), background);
+			
+			alpha = Mathf.Clamp01(1f);
+			
+			temp = GUI.color;
+			temp.a = alpha;
+			GUI.color = temp;
+			if(alive) {
+				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
+				{
+					this.paused = false;
+					player.paused = false;
+					player.UpdateGameState();
+				}
+				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
+				{
+					Application.LoadLevel("MainMenu");
+				}
+			}
+		}
 		
 		if (player.gameObject.GetComponent<Status> ().health<=0.0f){
 
