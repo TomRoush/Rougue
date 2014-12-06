@@ -12,7 +12,7 @@ public class Mudball : Spell<GameObject> {
 	public Mudball (GameObject pCaster) : base(pCaster) {
 		name = "Mudball";
 		mudball = Resources.Load ("Mudball") as GameObject;
-		cooldownIcon = Resources.Load("Artwork/InGame/Mudball") as Texture2D;
+		cooldownIcon = Resources.Load("Artwork/InGame/Fortify") as Texture2D;
 		//player = GameObject.FindGameObjectWithTag ("Player");
 		//mudballTimer = 0; 
 		//parent = transform.parent;
