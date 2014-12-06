@@ -31,7 +31,7 @@ public class MakeMap : MonoBehaviour
 
     private int maxFloors=0, maxWalls=0;
 
-    public static GameObject[] inactiveEnemies = new GameObject[0], inactiveWeapons = new GameObject[0];
+    public static GameObject[] inactiveEnemies = new GameObject[0];
     
 	public TileSet set;
 	
@@ -118,12 +118,10 @@ public class MakeMap : MonoBehaviour
 				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
 			}
 		}
-	if(!toPrevFloor) 
+		if(!toPrevFloor) 
         {
             EnemySpawningDifficulty(map);
-        }		
-        Spawning.SpawnWeapon(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+        }
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -213,8 +211,6 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
-		Spawning.SpawnWeapon(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -224,7 +220,6 @@ public class MakeMap : MonoBehaviour
         toPrevFloor = false;
         DungeonFloor++;
         ClearEnemies();
-        ClearItems();
 
         if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
         {
@@ -253,7 +248,6 @@ public class MakeMap : MonoBehaviour
 	    	toPrevFloor = true;
 	        DungeonFloor--;
 	        ClearEnemies();
-	        ClearItems();
 	        MoveMap(dungeon.getTMD(DungeonFloor));
 	        PlayerInstance.SetActive(true);
 	        float endTime = Time.realtimeSinceStartup;
@@ -278,22 +272,6 @@ public class MakeMap : MonoBehaviour
         	temp[i+inactiveEnemies.Length] = enemies[i];
         }
         inactiveEnemies = temp;
-    }
-
-    void ClearItems()
-    {
-    	GameObject[] weapons = GameObject.FindGameObjectsWithTag("weapon");
-    	GameObject[] tempWeapons = new GameObject[weapons.Length + inactiveWeapons.Length];
-    	for(int i = 0; i<inactiveWeapons.Length; i++)
-    	{
-    		if(inactiveWeapons[i]!=null) tempWeapons[i] = inactiveWeapons[i];
-    	}
-    	for(int i = 0; i<weapons.Length; i++)
-    	{
-    		weapons[i].SetActive(false);
-    		tempWeapons[i+inactiveWeapons.Length] = weapons[i];
-    	}
-    	inactiveWeapons = tempWeapons;
     }
 
     void RefreshEnemies()
