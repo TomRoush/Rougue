@@ -27,6 +27,19 @@ public class Weapon : Equipment {
 		canBePickedUp = false;
 	}
 
+	public void setStats(int strength, int magic, int speed)
+	{
+		equipStats = new equipmentStats(strength, magic, speed);
+		//equipStats.str = strength;
+		//equipStats.intelligence = magic;
+		//equipStats.agility = speed;
+	}
+
+	public void showStats()
+	{
+		Debug.Log("str = " + this.equipStats.str + "/nintelligence = " + this.equipStats.intelligence + "/nagility = " + this.equipStats.agility);
+	}
+
 	void OnTriggerEnter2D(Collider2D person)
 	{
 		if (person.gameObject.tag == "Player")
