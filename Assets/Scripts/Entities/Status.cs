@@ -33,40 +33,43 @@ public class Status : MonoBehaviour {
     public int baseAttackSpeed;
 
 
-    [HideInInspector] public int modMaxHealth;
-    [HideInInspector] public int modMaxMana;
-    [HideInInspector] public float modManaRegen;
-    [HideInInspector] public float modHealthRegen;
-    [HideInInspector] public float modSpeed;
-    [HideInInspector] public int modAgility;
-    [HideInInspector] public int modStrength;
-    [HideInInspector] public int modIntelligence;
-    [HideInInspector] public int modAttackDamage;
-    [HideInInspector] public float modAttackSpeed;
+	[HideInInspector]
+    public int modMaxHealth;
+    public int modMaxMana;
+    public float modManaRegen;
+    public float modHealthRegen;
+    public float modSpeed;
+    public int modAgility;
+    public int modStrength;
+    public int modIntelligence;
+    public int modAttackDamage;
+    public float modAttackSpeed;
 
 
-    [HideInInspector] private int effMaxHealth;
-    [HideInInspector] private int effMaxMana;
-    [HideInInspector] private float effManaRegen;
-    [HideInInspector] private float effHealthRegen;
-    [HideInInspector] private float effSpeed;
-    [HideInInspector] private int effAgility;
-    [HideInInspector] private int effStrength;
-    [HideInInspector] private int effIntelligence;
-    [HideInInspector] private int effAttackDamage;
-    [HideInInspector] private float effAttackSpeed;
+	[HideInInspector]
+    private int effMaxHealth;
+    private int effMaxMana;
+    private float effManaRegen;
+    private float effHealthRegen;
+    private float effSpeed;
+    private int effAgility;
+    private int effStrength;
+    private int effIntelligence;
+    private int effAttackDamage;
+    private float effAttackSpeed;
     
 
-    [HideInInspector] public int equipMaxHealth;
-    [HideInInspector] public int equipMaxMana;
-    [HideInInspector] public float equipManaRegen;
-    [HideInInspector] public float equipHealthRegen;
-    [HideInInspector] public float equipSpeed;
-    [HideInInspector] public int equipAgility;
-    [HideInInspector] public int equipStrength;
-    [HideInInspector] public int equipIntelligence;
-    [HideInInspector] public int equipAttackDamage;
-    [HideInInspector] public float equipAttackSpeed;
+	[HideInInspector]
+    public int equipMaxHealth;
+    public int equipMaxMana;
+    public float equipManaRegen;
+    public float equipHealthRegen;
+    public float equipSpeed;
+    public int equipAgility;
+    public int equipStrength;
+    public int equipIntelligence;
+    public int equipAttackDamage;
+    public float equipAttackSpeed;
 
 
 	private float speedx;//speed-buff or slow-debuff
