@@ -12,6 +12,7 @@ public class Player : Entities
 	public bool alive = true;
 	public float curHealth;
 	private MakeMap Dungeon;
+	public equipmentStats equippedSword;
 	
 	Animator anim;
 
@@ -33,7 +34,7 @@ public class Player : Entities
         PosTarget = new MagicMissle(gameObject);
 
 		anim = GetComponent<Animator> ();
-		curHealth = health;//gameObject.GetComponent<Status> ().health?
+		curHealth = gameObject.GetComponent<Status> ().getHealth();
 		blood = transform.Find("Blood").GetComponent<ParticleSystem>();
 
         Dungeon = GameObject.Find("MapGenerator").GetComponent<MakeMap>();
@@ -55,14 +56,14 @@ public class Player : Entities
         float dx = 0;
         float dy = 0;
 		if (!gameObject.GetComponent<Status>().isStunned){
-			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) 
+			if (Input.GetAxisRaw("Vertical") > 0) 
 			{
 				anim.SetInteger ("direction", 2);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 2;
                 dy = 1;
 			}
-			if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow)) 
+			if (Input.GetAxisRaw("Horizontal") < 0) 
 			{
 				//anim.SetBool("a", true);
 				//anim.SetBool("d", false);
@@ -72,7 +73,7 @@ public class Player : Entities
 				previousDirection = 1;
                 dx = -1;
 			}
-			if (Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.DownArrow)) 
+			if (Input.GetAxisRaw("Vertical") < 0) 
 			{
 				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
 					anim.SetInteger ("direction", 4);
@@ -80,7 +81,7 @@ public class Player : Entities
 				previousDirection = 4;
                 dy = -1;
 			}
-			if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow)) 
+			if (Input.GetAxisRaw("Horizontal") > 0) 
 			{			
 				Vector3 theScale = transform.localScale;
 				theScale.x = 1;
@@ -92,22 +93,22 @@ public class Player : Entities
                 dx = 1;
 			}
             //
-            if(Input.GetKey (KeyCode.H))
+            if(Input.GetButton("Heal"))
             {
                 SelfCast.cast( gameObject);
             }
 
-			if(Input.GetKey (KeyCode.X) || Input.GetKey (KeyCode.P))
+			if(Input.GetButton("PoisonCloud"))
 			{
 				SelfCast2.cast( gameObject);
 			}
 
-            if(Input.GetKey (KeyCode.F))
+            if(Input.GetButton("Fireball"))
             {
 				AutoTarget.cast( cStat.FindClosestEnemy());
             }
 
-			if(Input.GetKey (KeyCode.C)){
+			if(Input.GetButton("Clayball")){
 				AutoTarget2.cast (cStat.FindClosestEnemy());
 			}
             if(Input.GetMouseButtonDown(0))
@@ -140,8 +141,8 @@ public class Player : Entities
 				playerGUI.paused = true;
 			}
 		}
-
-		if(gameObject.GetComponent<Status> ().health <= 0)
+		
+		if(gameObject.GetComponent<Status> ().getHealth() <= 0 && Time.time > 1)
 		{
 			Die();		
 		}

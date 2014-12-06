@@ -2,30 +2,28 @@
 using System.Collections;
 
 public class Weapon : Equipment {
-
-	public int strMod;
-	public int mgkMod;
-	public int spdMod;
+	public int strength;
+	public equipmentStats equipStats;
 	public string element;
-	public GameObject weaponz;
+	public GameObject weaponPlayerReference;
 	public Equipment wielder;
 	public bool canBePickedUp;
 	void Start () {
 
-		if (weaponz == null) 
+		if (weaponPlayerReference == null) 
 		{
-			weaponz = GameObject.FindGameObjectWithTag("Player");
-			wielder = weaponz.GetComponent<Equipment>();
+			weaponPlayerReference = GameObject.FindGameObjectWithTag("Player");
+			wielder = weaponPlayerReference.GetComponent<Equipment>();
 		}
 
 
 	}
-	public Weapon (Weapon weapon)
+	public Weapon (int strength, int magic, int speed)
 	{
-		this.strMod = weapon.strMod;
-		this.mgkMod = weapon.mgkMod;
-		this.spdMod = weapon.spdMod;
-		this.element = weapon.element;
+		//equipmentStats.strMod = weapon.strMod;
+		equipStats.str = strength;
+		equipStats.intelligence = magic;
+		equipStats.agility = speed;
 		canBePickedUp = false;
 	}
 
@@ -54,8 +52,9 @@ public class Weapon : Equipment {
 		{
 			if (Input.GetKeyDown (KeyCode.Space))
 			{
-				//wielder.addWeapon(this);
-				//Destroy(this.gameObject);
+				wielder.addWeapon(this);
+				Destroy(this.gameObject);
+
 			}
 		}
 

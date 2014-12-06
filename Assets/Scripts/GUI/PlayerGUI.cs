@@ -55,7 +55,7 @@ public class PlayerGUI : MonoBehaviour {
 		
 		// draw the health bar
 		//draw the background:
-		if(player.gameObject.GetComponent<Status> ().health > 50.0f) {
+		if(player.gameObject.GetComponent<Status> ().getHealth() > 50.0f) {
 			InitStyles (Color.green);
 		} else {
 			InitStyles(Color.red);
@@ -65,7 +65,7 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().health, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentHealth(), size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
@@ -77,11 +77,23 @@ public class PlayerGUI : MonoBehaviour {
 		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
 		
 		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().mana, size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentMana(), size.y));//gameObject.GetComponent<Status> ().health?
 		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
 		GUI.EndGroup();
 		GUI.EndGroup();
-		
+	
+		//draw the xp bar
+		//draw the background
+		InitStyles (Color.yellow);
+		GUI.BeginGroup (new Rect (pos.x, pos.y + 3 * size.y, size.x, size.y));
+		GUI.Box (new Rect (0, 0, size.x, (float)(.2 *size.y)), emptyTex);
+
+		//draw the filled-in part:
+		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentExp(), size.y));//gameObject.GetComponent<Status> ().health?
+		GUI.Box(new Rect(0,0, size.x, (float)(.2 *size.y)), fullTex, currentStyle);
+		GUI.EndGroup();
+		GUI.EndGroup();
+			
 		// draw the stamina (rage) bar
 		//draw the background:
 		InitStyles (Color.magenta);
@@ -123,7 +135,7 @@ public class PlayerGUI : MonoBehaviour {
 			}
 		}
 		
-		if (player.gameObject.GetComponent<Status> ().health<=0.0f){
+		if (player.gameObject.GetComponent<Status> ().getHealth()<=0.0f){
 
 			alpha = Mathf.Clamp01(.65f);
 			

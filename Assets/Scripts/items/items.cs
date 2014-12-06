@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class items : MonoBehaviour {
-	public GameObject itemzYo;
+	public GameObject consumablesPlayerReference;
 	public items owner;
 	public int bronzeKeys;
 	public int silverKeys;
@@ -14,10 +14,10 @@ public class items : MonoBehaviour {
 
 	void Start ()
 	{
-		if (itemzYo == null) 
+		if (consumablesPlayerReference == null) 
 		{
-			itemzYo = GameObject.FindGameObjectWithTag("Player");
-			owner = itemzYo.GetComponent<items>();
+			consumablesPlayerReference = GameObject.FindGameObjectWithTag("Player");
+			owner = consumablesPlayerReference.GetComponent<items>();
 		}
 
 	}

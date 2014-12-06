@@ -2,32 +2,33 @@
 using System.Collections;
 
 public class Equipment : MonoBehaviour {
-
-	public Weapon weapon;
-	//public Armor armor;
-	//public Necklace necklace;
-	//public Helmet helmet;
-	public GameObject stuffz;
-	public Equipment equipper;
+	
+	public GameObject equipmentPlayerRefrence;
+	public Player equipper;
+	public equipmentStats weaponStats;
+	public int str;
+	public int agility;
+	public int intelligence;
 	void Start () 
 	{
-		if (stuffz == null) 
+		if (equipmentPlayerRefrence == null) 
 		{
-			stuffz = GameObject.FindGameObjectWithTag("Player");
-			equipper = stuffz.GetComponent<Equipment>();
+			equipmentPlayerRefrence = GameObject.FindGameObjectWithTag("Player");
+			equipper = equipmentPlayerRefrence.GetComponent<Player>();
 		}
 
-
+		weaponStats = new equipmentStats (str,agility,intelligence);
 	}
-	
+
 
 	void Update () {
 	
 	}
 
-	//public void addWeapon(Weapon weapon)
-	//{
-	//	this.weapon = new Weapon(weapon);
+	public void addWeapon(Weapon weapon)
+	{
+		equipper.equippedSword  = weaponStats;
+		print (equipper.equippedSword);
 
-	//}
+	}
 }
