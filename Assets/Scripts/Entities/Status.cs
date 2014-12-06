@@ -308,7 +308,7 @@ public class Status : MonoBehaviour {
 				var distance2 = heading.magnitude;
 				var direction = heading/distance2;
 				RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, direction, range1, playerWalls);
-				see = false;
+				//see = false;
 				if (hit != null && hit.collider.tag == "Player"){
 					see = true;
 					//Debug.Log ("AutoAttack2");
@@ -319,6 +319,9 @@ public class Status : MonoBehaviour {
 					}
 					player.gameObject.GetComponent<Player>().blood.Play();
 					attackTimer = 1/effAttackSpeed;
+					//see=false;
+				}else{
+					see=false;
 				}
 			}
 		}
