@@ -32,8 +32,6 @@ public class MakeMap : MonoBehaviour
     private int maxFloors=0, maxWalls=0;
 
     public static GameObject[] inactiveEnemies = new GameObject[0];
-    
-	public TileSet set;
 	
 	void Start () 
 	{
@@ -60,10 +58,10 @@ public class MakeMap : MonoBehaviour
 
         if(Random.Range(0.0f,2.0f) > 1.0) {
             map.GenCave(xMax,yMax,40);
-			set = TileSet.Cave;
+			map.set = TileSet.Cave;
         } else {
             map.GenClassic(xMax,yMax, nRooms);
-			set = TileSet.Classic;
+			map.set = TileSet.Classic;
 		}
     	 return map;
 	}
@@ -106,7 +104,7 @@ public class MakeMap : MonoBehaviour
 				{
 					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
 					tile = Instantiate(UpStairs, tilePos, Quaternion.identity) as GameObject;
-					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(); //}
+					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(map.set); //}
 					tile = Instantiate(Floor, tilePos, Quaternion.identity) as GameObject;
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
@@ -115,7 +113,7 @@ public class MakeMap : MonoBehaviour
 					tile = Instantiate(Goal, tilePos, Quaternion.identity) as GameObject;
 				}
 				
-				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
+				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(map.set); }
 			}
 		}
 		if(!toPrevFloor) 
@@ -132,10 +130,10 @@ public class MakeMap : MonoBehaviour
 		GameObject[] activeWallTiles = GameObject.FindGameObjectsWithTag("Wall");
 		
 		foreach(GameObject tile in activeFloorTiles) {
-			tile.GetComponent<TileSetChanger>().setTile();
+			tile.GetComponent<TileSetChanger>().setTile(map.set);
 		}
 		foreach(GameObject tile in activeWallTiles) {
-			tile.GetComponent<TileSetChanger>().setTile();
+			tile.GetComponent<TileSetChanger>().setTile(map.set);
 		}
 		
 		if(activeFloorTiles.Length>maxFloors) maxFloors = activeFloorTiles.Length;
@@ -172,7 +170,7 @@ public class MakeMap : MonoBehaviour
 					}
 					else
 					{
-						Instantiate(Floor, tilePos, Quaternion.identity);
+						(Instantiate(Floor, tilePos, Quaternion.identity) as GameObject).GetComponent<TileSetChanger>().setTile(map.set);
 						if(floorIndex<allFloorTiles.Length)
 						{
 							allFloorTiles[floorIndex] = Floor; 
@@ -190,7 +188,7 @@ public class MakeMap : MonoBehaviour
 					}
 					else
 					{
-						Instantiate(Wall, tilePos, Quaternion.identity);
+						(Instantiate(Wall, tilePos, Quaternion.identity) as GameObject).GetComponent<TileSetChanger>().setTile(map.set);
 						if(wallIndex<allWallTiles.Length)
 						{
 							allWallTiles[wallIndex] = Wall; 
