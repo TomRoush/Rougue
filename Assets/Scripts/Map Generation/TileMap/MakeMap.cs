@@ -55,7 +55,7 @@ public class MakeMap : MonoBehaviour
     public void EnemySpawningDifficulty(TileMapData map)
     {
 
-            if(DungeonFloor < 3)
+            if(DungeonFloor <= 4)
                 Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
             if(DungeonFloor == 4)
                 Spawning.SpawnEnemies(map, 1, eGhost, PlayerInstance);
