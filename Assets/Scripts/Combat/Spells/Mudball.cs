@@ -58,7 +58,7 @@ public class Mudball : Spell<GameObject> {
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
 			GameObject mball = GameObject.Instantiate (mudball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			mball.GetComponent<DestroyMudball>().Initialize(10);
+			mball.GetComponent<DestroyMudball>().Initialize(player.GetComponent<Status>().getIntelligence());
 			mball.GetComponent<Rigidbody2D>().AddForce(toward);
 
 		}

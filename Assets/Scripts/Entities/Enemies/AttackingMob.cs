@@ -129,7 +129,8 @@ public class AttackingMob : Entities {
 
 		}
 
-		if (name.Equals("Ghost") && getDistance (attackingg) < 30 && GetComponent<Status>().see) {
+		if (name.Equals("Ghost") && getDistance (attackingg) < 60 && GetComponent<Status>().see) {
+		//if (getDistance (attackingg) < 60 && GetComponent<Status>().see) {
 			AutoTarget.cast(attackingg);
 			//Debug.Log ("123");
 			//Debug.Log(attackingg.tag);
