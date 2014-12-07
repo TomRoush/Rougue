@@ -12,5 +12,7 @@ public class equipmentStats {
 		str = x;
 		agility = y;
 		intelligence = z;
+
+
 	}
 }

@@ -9,18 +9,20 @@ public class Rage : TimedEffect {
         tStat = target.GetComponent<Status>();
 
 		handleTargetNull ();
-        tStat.setSpeedx(tStat.getSpeedx() + 1);
-		tStat.damagex+=5f;
-		tStat.modAttackSpeed+=1f;
+        tStat.setSpeedx(tStat.getSpeedx() + 0.6f);
+		tStat.damagex+=3f;
+		tStat.modAttackSpeed+=1.2f;
+		tStat.modHealthRegen+=1f;
 		tStat.isRaged = true;
         tStat.refreshStats();
 	}
 	
 	protected override void EndEffect (){
 		handleTargetNull ();
-        tStat.setSpeedx(tStat.getSpeedx() - 1);
-		tStat.damagex-=5f;
-		tStat.modAttackSpeed-=1f;
+        tStat.setSpeedx(tStat.getSpeedx() - 0.6f);
+		tStat.damagex-=3f;
+		tStat.modAttackSpeed-=1.2f;
+		tStat.modHealthRegen-=1f;
 		tStat.rage = 0;
 		tStat.isRaged = false;
         tStat.refreshStats();
