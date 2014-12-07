@@ -16,12 +16,13 @@ public class AttackingMob : Entities {
 	private AIPath path;
 	private Vector3 target;
 	private MakeMap mapgen;
+
+	public string name;
 	
 	public int initFloor;
 
 
 	void Start () {
-
         InitializeEntity();
 		AutoTarget = new AstralProjection (gameObject);
 
@@ -103,7 +104,7 @@ public class AttackingMob : Entities {
 
 		}
 
-		if (getDistance (attackingg) < 12 && GetComponent<Status>().see) {
+		if (name.Equals("Ghost") && getDistance (attackingg) < 30 && GetComponent<Status>().see) {
 			AutoTarget.cast(attackingg);
 			//Debug.Log ("123");
 			//Debug.Log(attackingg.tag);

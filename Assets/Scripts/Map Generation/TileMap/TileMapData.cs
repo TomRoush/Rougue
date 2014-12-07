@@ -12,6 +12,8 @@ public partial class TileMapData
 	
 	List<RoomData> rooms;
 	
+	public TileSet set;
+	
 	/*
 	 * 0=unknown
 	 * 1=floor
