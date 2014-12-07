@@ -13,6 +13,8 @@ public class MakeMap : MonoBehaviour
 	public GameObject Player;
 	public GameObject Goal;
     public GameObject UpStairs;
+	public GameObject Sword;
+
 	public GameObject eGhost;
     public GameObject eRat;
   //  public GameObject eDragon;
@@ -20,6 +22,7 @@ public class MakeMap : MonoBehaviour
 	public int yMax;
 	public int nRooms;
 	public int numEnemies;
+ 	private float enemySpawnTimer;
 
 	private TMDList dungeon = new TMDList(0);
 	private bool toPrevFloor = false;
@@ -29,26 +32,35 @@ public class MakeMap : MonoBehaviour
 
     private int maxFloors=0, maxWalls=0;
 
-    public static GameObject[] inactiveEnemies = new GameObject[0];
-    
-	public TileSet set;
+	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveWeapons = new GameObject[0];	
 	
 	void Start () 
 	{
         DungeonFloor = 0;
+        enemySpawnTimer = 900;
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
 
+	private void Update()
+    {
+    	enemySpawnTimer--;
+    	if(enemySpawnTimer<0 && numEnemies<10)
+    	{
+    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, PlayerInstance);
+    		enemySpawnTimer = 900.0f;
+    	}
+    }
+
     public void EnemySpawningDifficulty(TileMapData map)
     {
 
-            if(DungeonFloor < 3)
-                Spawning.SpawnEnemies(map, numEnemies, eRat);
+            if(DungeonFloor <= 4)
+                Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
             if(DungeonFloor == 4)
-                Spawning.SpawnEnemies(map, 1, eGhost);
+                Spawning.SpawnEnemies(map, 1, eGhost, PlayerInstance);
             if(DungeonFloor > 4)
-                Spawning.SpawnEnemies(map, numEnemies, eGhost);
+                Spawning.SpawnEnemies(map, numEnemies, eGhost, PlayerInstance);
 
     }
 
@@ -58,10 +70,10 @@ public class MakeMap : MonoBehaviour
 
         if(Random.Range(0.0f,2.0f) > 1.0) {
             map.GenCave(xMax,yMax,40);
-			set = TileSet.Cave;
+			map.set = TileSet.Cave;
         } else {
             map.GenClassic(xMax,yMax, nRooms);
-			set = TileSet.Classic;
+			map.set = TileSet.Classic;
 		}
     	 return map;
 	}
@@ -104,7 +116,7 @@ public class MakeMap : MonoBehaviour
 				{
 					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
 					tile = Instantiate(UpStairs, tilePos, Quaternion.identity) as GameObject;
-					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(); //}
+					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(map.set); //}
 					tile = Instantiate(Floor, tilePos, Quaternion.identity) as GameObject;
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
@@ -113,13 +125,15 @@ public class MakeMap : MonoBehaviour
 					tile = Instantiate(Goal, tilePos, Quaternion.identity) as GameObject;
 				}
 				
-				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(); }
+				if(tile != null) { tile.GetComponent<TileSetChanger>().setTile(map.set); }
 			}
 		}
 		if(!toPrevFloor) 
         {
             EnemySpawningDifficulty(map);
         }
+        Spawning.SpawnWeapon(map, Sword);
+		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor); 	
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -130,10 +144,10 @@ public class MakeMap : MonoBehaviour
 		GameObject[] activeWallTiles = GameObject.FindGameObjectsWithTag("Wall");
 		
 		foreach(GameObject tile in activeFloorTiles) {
-			tile.GetComponent<TileSetChanger>().setTile();
+			tile.GetComponent<TileSetChanger>().setTile(map.set);
 		}
 		foreach(GameObject tile in activeWallTiles) {
-			tile.GetComponent<TileSetChanger>().setTile();
+			tile.GetComponent<TileSetChanger>().setTile(map.set);
 		}
 		
 		if(activeFloorTiles.Length>maxFloors) maxFloors = activeFloorTiles.Length;
@@ -170,7 +184,7 @@ public class MakeMap : MonoBehaviour
 					}
 					else
 					{
-						Instantiate(Floor, tilePos, Quaternion.identity);
+						(Instantiate(Floor, tilePos, Quaternion.identity) as GameObject).GetComponent<TileSetChanger>().setTile(map.set);
 						if(floorIndex<allFloorTiles.Length)
 						{
 							allFloorTiles[floorIndex] = Floor; 
@@ -188,7 +202,7 @@ public class MakeMap : MonoBehaviour
 					}
 					else
 					{
-						Instantiate(Wall, tilePos, Quaternion.identity);
+						(Instantiate(Wall, tilePos, Quaternion.identity) as GameObject).GetComponent<TileSetChanger>().setTile(map.set);
 						if(wallIndex<allWallTiles.Length)
 						{
 							allWallTiles[wallIndex] = Wall; 
@@ -209,6 +223,8 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
+		Spawning.SpawnWeapon(map, Sword);
+		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -218,6 +234,7 @@ public class MakeMap : MonoBehaviour
         toPrevFloor = false;
         DungeonFloor++;
         ClearEnemies();
+        ClearItems();
 
         if(DungeonFloor>=dungeon.length())//if the player hasn't been here before, generate a new floor
         {
@@ -246,6 +263,7 @@ public class MakeMap : MonoBehaviour
 	    	toPrevFloor = true;
 	        DungeonFloor--;
 	        ClearEnemies();
+	        ClearItems();
 	        MoveMap(dungeon.getTMD(DungeonFloor));
 	        PlayerInstance.SetActive(true);
 	        float endTime = Time.realtimeSinceStartup;
@@ -271,6 +289,22 @@ public class MakeMap : MonoBehaviour
         }
         inactiveEnemies = temp;
     }
+
+	void ClearItems()
+	    {
+	    	GameObject[] weapons = GameObject.FindGameObjectsWithTag("weapon");
+	    	GameObject[] tempWeapons = new GameObject[weapons.Length + inactiveWeapons.Length];
+	    	for(int i = 0; i<inactiveWeapons.Length; i++)
+	    	{
+	    		if(inactiveWeapons[i]!=null) tempWeapons[i] = inactiveWeapons[i];
+	    	}
+	    	for(int i = 0; i<weapons.Length; i++)
+	    	{
+	    		weapons[i].SetActive(false);
+	    		tempWeapons[i+inactiveWeapons.Length] = weapons[i];
+	    	}
+	    	inactiveWeapons = tempWeapons;
+	    }
 
     void RefreshEnemies()
     {

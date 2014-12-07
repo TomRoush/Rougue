@@ -1,34 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : Equipment {
+public class Necklace : Equipment {
 	public equipmentStats equipStats;
-	public GameObject weaponPlayerReference;
-	public Equipment wielder;
+	public GameObject necklacePlayerReference;
+	public Equipment adorner;//necklace adorns his lovely wife
 	public bool canBePickedUp;
 	void Start () {
-
-		if (weaponPlayerReference == null) 
+		
+		if (necklacePlayerReference == null) 
 		{
-			weaponPlayerReference = GameObject.FindGameObjectWithTag("Player");
-			wielder = weaponPlayerReference.GetComponent<Equipment>();
+			necklacePlayerReference = GameObject.FindGameObjectWithTag("Player");
+			adorner = necklacePlayerReference.GetComponent<Equipment>();
 		}
 
-
+		
 	}
-	public Weapon (int strength, int magic, int speed)
+	public Necklace (int strength, int magic, int speed)
 	{
 		equipStats.str = strength;
 		equipStats.intelligence = magic;
 		equipStats.agility = speed;
 		canBePickedUp = false;
 	}
-
-	public void setStats(int strength, int magic, int speed)
-	{
-		equipStats = new equipmentStats(strength, magic, speed);
-	}
-
+	
 	void OnTriggerEnter2D(Collider2D person)
 	{
 		if (person.gameObject.tag == "Player")
@@ -47,20 +42,20 @@ public class Weapon : Equipment {
 		
 	}
 	
-
+	
 	void Update ()
 	{
 		if (canBePickedUp) 
 		{
-			if (Input.GetButtonDown("Action"))
+			if (Input.GetKeyDown (KeyCode.Space))
 			{
-				wielder.addWeapon(this);
+				adorner.addNecklace(this);
 				Destroy(this.gameObject);
-
+				
 			}
 		}
-
-
-
+		
+		
+		
 	}
 }

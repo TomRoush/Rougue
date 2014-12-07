@@ -13,6 +13,9 @@ public class Player : Entities
 	public float curHealth;
 	private MakeMap Dungeon;
 	public equipmentStats equippedSword;
+	public equipmentStats equippedArmor;
+	public equipmentStats equippedHelmet;
+	public equipmentStats equippedNecklace;
 	
 	Animator anim;
 
@@ -202,4 +205,16 @@ public class Player : Entities
 		playerGUI.alive = false;
 		UpdateGameState ();
 	}
+
+    public void refreshEquipStats()
+    {
+        Debug.Log(cStat.getStrength());
+        cStat.clearEquip();
+        cStat.equipStrength += equippedSword.str;
+       cStat.equipAgility += equippedSword.agility;
+      cStat.equipIntelligence += equippedSword.intelligence; 
+      cStat.refreshStats();
+        Debug.Log(equippedSword.str);
+        
+    }
 }
