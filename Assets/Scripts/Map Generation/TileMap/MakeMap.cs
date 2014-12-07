@@ -17,7 +17,7 @@ public class MakeMap : MonoBehaviour
 
 	public GameObject eGhost;
     public GameObject eRat;
-  //  public GameObject eDragon;
+    public GameObject eDragon;
 	public int xMax;
 	public int yMax;
 	public int nRooms;
@@ -61,6 +61,10 @@ public class MakeMap : MonoBehaviour
                 Spawning.SpawnEnemies(map, 1, eGhost, PlayerInstance);
             if(DungeonFloor > 4)
                 Spawning.SpawnEnemies(map, numEnemies, eGhost, PlayerInstance);
+			if(DungeonFloor == 9)
+				Spawning.SpawnEnemies(map, 1, eDragon, PlayerInstance);
+			if(DungeonFloor > 9)
+				Spawning.SpawnEnemies(map, numEnemies, eDragon, PlayerInstance);
 
     }
 
