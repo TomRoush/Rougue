@@ -13,16 +13,13 @@ public class TileSetChanger : MonoBehaviour {
 	public SpriteSet[] sprites;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		renderer = gameObject.GetComponent<SpriteRenderer>();
-		if(renderer == null) Debug.Log("null");
-		setTile(TileSet.Classic);
 	}
 	
 	// Switches the tile based on the tileset received
 	// If the selected one can't be found, it defaults to the first 
 	public void setTile(TileSet set) {
-		//if(renderer == null) renderer = gameObject.GetComponent<SpriteRenderer>();
 		if(renderer == null) return;
 		foreach(SpriteSet tile in sprites) {
 			if(tile.set == set) {
