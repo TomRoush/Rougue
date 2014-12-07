@@ -19,6 +19,21 @@ public class Spawning : MakeMap
 		}
 	}
 
+	public static void SpawnWeapon(TileMapData map, GameObject Item)
+	{
+		int countItems = 0;
+		while(countItems<1)
+		{
+			int x = Random.Range (0,map.mapData.GetLength (0)), y = Random.Range (0,map.mapData.GetLength (1));
+			Vector3 tilePos = new Vector3(x, y, 0);
+			if(map.GetTileAt(x,y).Equals(eTile.Floor))
+			{
+				Instantiate (Item, tilePos, Quaternion.identity);
+				countItems++;
+			}
+		}
+	}
+
 	public static void RespawnEnemies(int floor)
 	{
 		for(int i = 0; i < MakeMap.inactiveEnemies.Length; i++)
