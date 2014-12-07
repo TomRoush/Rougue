@@ -208,13 +208,22 @@ public class Player : Entities
 
     public void refreshEquipStats()
     {
-        Debug.Log(cStat.getStrength());
         cStat.clearEquip();
-        cStat.equipStrength += equippedSword.str;
-       cStat.equipAgility += equippedSword.agility;
-      cStat.equipIntelligence += equippedSword.intelligence; 
+        addStatsFromItem(equippedSword);
+        addStatsFromItem(equippedArmor);
+        addStatsFromItem(equippedHelmet);
+        addStatsFromItem(equippedNecklace);
       cStat.refreshStats();
-        Debug.Log(equippedSword.str);
         
     }
+
+    public void addStatsFromItem(equipmentStats equip)
+    {
+    if(equip != null)
+    {
+        cStat.equipStrength += equip.strength;
+        cStat.equipAgility += equip.agility;
+        cStat.equipIntelligence += equip.intelligence;
+        }
+        }
 }
