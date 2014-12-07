@@ -11,7 +11,7 @@ public class PoisonCloud : Spell<GameObject> {
 	public PoisonCloud(GameObject pCaster) : base(pCaster){
 		name = "PoisonCloud";
 		poisonCloud = Resources.Load ("PoisonCloud") as GameObject;
-		cooldownIcon = Resources.Load("Artwork/InGame/PoisonGas") as Texture2D;
+		cooldownIcon = Resources.Load("Artwork/InGame/PoisonCloud") as Texture2D;
 	}
 
 	protected override void RefreshValues()
