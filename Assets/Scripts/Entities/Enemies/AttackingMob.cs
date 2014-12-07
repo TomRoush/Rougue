@@ -61,7 +61,7 @@ public class AttackingMob : Entities {
 			visible = true;
 		}
 
-		Debug.Log (visible.ToString ());
+		//Debug.Log (visible.ToString ());
 		if (visible && inRange) {
 			this.setDirection (direction);
 			Move ();
