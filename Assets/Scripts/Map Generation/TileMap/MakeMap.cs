@@ -49,7 +49,7 @@ public class MakeMap : MonoBehaviour
     	enemySpawnTimer--;
     	if(enemySpawnTimer<0 && numEnemies<10)
     	{
-    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, Player);
+    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, PlayerInstance);
     		enemySpawnTimer = 900.0f;
     	}
     }
@@ -58,11 +58,11 @@ public class MakeMap : MonoBehaviour
     {
 
             if(DungeonFloor < 3)
-                Spawning.SpawnEnemies(map, numEnemies, eRat, Player);
+                Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
             if(DungeonFloor == 4)
-                Spawning.SpawnEnemies(map, 1, eGhost, Player);
+                Spawning.SpawnEnemies(map, 1, eGhost, PlayerInstance);
             if(DungeonFloor > 4)
-                Spawning.SpawnEnemies(map, numEnemies, eGhost, Player);
+                Spawning.SpawnEnemies(map, numEnemies, eGhost, PlayerInstance);
 
     }
 

@@ -11,7 +11,7 @@ public class Spawning : MakeMap
 		{
 			int x = Random.Range (0,map.mapData.GetLength (0)), y = Random.Range (0,map.mapData.GetLength (1));
 			Vector3 tilePos = new Vector3(x, y, 0);
-			if(map.GetTileAt(x,y).Equals(eTile.Floor) )//&& x<Player.transform.x-buffer && x>Player.transform.x+buffer && y<Player.transform.y-buffer && y>Player.transform.y+buffer)
+			if(map.GetTileAt(x,y).Equals(eTile.Floor) && (x<Player.transform.position.x-buffer || x>Player.transform.position.x+buffer || y<Player.transform.position.y-buffer || y>Player.transform.position.y+buffer))
 			{
 				Instantiate (Enemy, tilePos, Quaternion.identity);
 				countEnemies++;
