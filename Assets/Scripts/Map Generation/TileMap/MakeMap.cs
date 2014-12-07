@@ -22,6 +22,7 @@ public class MakeMap : MonoBehaviour
 	public int yMax;
 	public int nRooms;
 	public int numEnemies;
+ 	private float enemySpawnTimer;
 
 	private TMDList dungeon = new TMDList(0);
 	private bool toPrevFloor = false;
@@ -36,19 +37,30 @@ public class MakeMap : MonoBehaviour
 	void Start () 
 	{
         DungeonFloor = 0;
+        enemySpawnTimer = 900;
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
 
+	private void Update()
+    {
+    	enemySpawnTimer--;
+    	if(enemySpawnTimer<0 && numEnemies<10)
+    	{
+    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, PlayerInstance);
+    		enemySpawnTimer = 900.0f;
+    	}
+    }
+
     public void EnemySpawningDifficulty(TileMapData map)
     {
 
-            if(DungeonFloor < 3)
-                Spawning.SpawnEnemies(map, numEnemies, eRat);
+            if(DungeonFloor <= 4)
+                Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
             if(DungeonFloor == 4)
-                Spawning.SpawnEnemies(map, 1, eGhost);
+                Spawning.SpawnEnemies(map, 1, eGhost, PlayerInstance);
             if(DungeonFloor > 4)
-                Spawning.SpawnEnemies(map, numEnemies, eGhost);
+                Spawning.SpawnEnemies(map, numEnemies, eGhost, PlayerInstance);
 
     }
 
