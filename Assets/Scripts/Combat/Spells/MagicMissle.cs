@@ -44,7 +44,21 @@ public class MagicMissle : Spell<Vector3> {
 
     protected override void CastSpell(Vector3 target)
     {
-			
+		
+    float bulletspeed = 800f;
+    Vector3 toward = (target - Camera.main.WorldToScreenPoint(caster.transform.position)).normalized;
+    float xval = toward.x;
+    float yval = toward.y;
+
+    Debug.Log(toward.x);
+    toward = new Vector3(xval,yval,0);
+    float angle = (Mathf.Atan2(yval,xval) * 180)/(Mathf.PI) - 90;
+    Quaternion rotation = Quaternion.identity;
+    rotation.eulerAngles = new Vector3(0,0,angle);
+    GameObject mbolt = GameObject.Instantiate(bullet, caster.transform.position + 0.25f * toward, rotation) as GameObject;
+    mbolt.GetComponent<DestroyBullet>().Initialize(damage);
+    mbolt.GetComponent<Rigidbody2D>().AddForce(toward*bulletspeed);
+        /*
 				// Get mouse position
 				Vector3 mousepos =  target;
 				// Get mouse position relative to the current camera viewport. Returns value between 0 and 1
@@ -85,6 +99,7 @@ public class MagicMissle : Spell<Vector3> {
 				GameObject bult = GameObject.Instantiate (bullet, parent.position, rotation) as GameObject;
 		bult.GetComponent<DestroyBullet>().Initialize(damage);
 				bult.GetComponent<Rigidbody2D>().AddForce(toward);
+                */
     }
 }
 /*	
