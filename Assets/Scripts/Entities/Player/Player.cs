@@ -71,9 +71,9 @@ public class Player : Entities
 				//anim.SetBool("a", true);
 				//anim.SetBool("d", false);
 
-				anim.SetInteger ("direction", 1);
+				anim.SetInteger ("direction", 3);
 				anim.SetFloat ("velocity", 1.0f);
-				previousDirection = 1;
+				previousDirection = 3;
                 dx = -1;
 			}
 			if (Input.GetAxisRaw("Vertical") < 0) 
@@ -90,9 +90,9 @@ public class Player : Entities
 				theScale.x = 1;
 				transform.localScale = theScale;
 
-				anim.SetInteger ("direction", 3);
+				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
-				previousDirection = 3;
+				previousDirection = 1;
                 dx = 1;
 			}
             //
