@@ -17,6 +17,11 @@ public class PlayerGUI : MonoBehaviour {
 	private Texture2D emptyTex;
 	private Texture2D fullTex;
 	private Texture2D background;
+	private Texture2D healthBarTexture;
+	private Texture2D manaBarTexture;
+	private Texture2D rageBarTexture;
+	private Texture2D outlineBar;
+	float healthFraction;
 
 	// death messages
 	private static Texture2D[] messages;
@@ -52,7 +57,6 @@ public class PlayerGUI : MonoBehaviour {
 
 	public void onGUI()
 	{
-
 		if (paused) 
 		{
 			alpha = Mathf.Clamp01(.65f);
@@ -178,5 +182,6 @@ public class PlayerGUI : MonoBehaviour {
 		result.Apply();
 		return result;
 	}
+
 
 }
