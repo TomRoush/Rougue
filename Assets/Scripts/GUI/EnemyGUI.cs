@@ -28,7 +28,7 @@ public class EnemyGUI : MonoBehaviour {
 		positionOnScreen.y = Screen.height - positionOnScreen.y;
 		//positionOnScreen.x *= Screen.width;
 		//positionOnScreen.y *= Screen.height;
-		var scaleFactor = 1 / 20f;
+		var scaleFactor = 1f;
 		var healthyWidth = healthbarTexture.width * scaleFactor;//pixels.
 		var healthbarHeight = healthbarTexture.height * scaleFactor;
 		var currentWidth = healthFraction * healthyWidth;

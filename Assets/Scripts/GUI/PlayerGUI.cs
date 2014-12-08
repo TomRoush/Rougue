@@ -17,6 +17,11 @@ public class PlayerGUI : MonoBehaviour {
 	private Texture2D emptyTex;
 	private Texture2D fullTex;
 	private Texture2D background;
+	private Texture2D healthBarTexture;
+	private Texture2D manaBarTexture;
+	private Texture2D rageBarTexture;
+	private Texture2D outlineBar;
+	float healthFraction;
 
 	// death messages
 	private static Texture2D[] messages;
@@ -52,7 +57,6 @@ public class PlayerGUI : MonoBehaviour {
 
 	public void onGUI()
 	{
-
 		if (paused) 
 		{
 			alpha = Mathf.Clamp01(.65f);
@@ -81,60 +85,7 @@ public class PlayerGUI : MonoBehaviour {
 					Application.LoadLevel("MainMenu");
 				}
 			}
-		}
-		
-		// draw the health bar
-		//draw the background:
-		if(player.gameObject.GetComponent<Status> ().getHealth() > 50.0f) {
-			InitStyles (Color.green);
-		} else {
-			InitStyles(Color.red);
-		}
-		GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentHealth(), size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-		
-		// draw the mana bar
-		//draw the background:
-		InitStyles (Color.blue);
-		GUI.BeginGroup(new Rect(pos.x, pos.y + size.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentMana(), size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-	
-		//draw the xp bar
-		//draw the background
-		InitStyles (Color.yellow);
-		GUI.BeginGroup (new Rect (pos.x, pos.y + 3 * size.y, size.x, size.y));
-		GUI.Box (new Rect (0, 0, size.x, (float)(.2 *size.y)), emptyTex);
-
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().getPercentExp(), size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, (float)(.2 *size.y)), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-			
-		// draw the stamina (rage) bar
-		//draw the background:
-		InitStyles (Color.magenta);
-		GUI.BeginGroup(new Rect(pos.x, pos.y + 2 * size.y, size.x, size.y));
-		GUI.Box(new Rect(0,0, size.x, size.y), emptyTex);
-		
-		//draw the filled-in part:
-		GUI.BeginGroup(new Rect(0,0, player.gameObject.GetComponent<Status> ().rage, size.y));//gameObject.GetComponent<Status> ().health?
-		GUI.Box(new Rect(0,0, size.x, size.y), fullTex, currentStyle);
-		GUI.EndGroup();
-		GUI.EndGroup();
-		
+		}	
 		if (player.gameObject.GetComponent<Status> ().getHealth()<=0.0f){
 
 			alpha = Mathf.Clamp01(.65f);
@@ -158,25 +109,4 @@ public class PlayerGUI : MonoBehaviour {
 			}
 		}
 	}
-
-	private void InitStyles(Color c)
-	{
-		//if (currentStyle == null) {
-		currentStyle = new GUIStyle (GUI.skin.box);
-		currentStyle.normal.background = MakeTex (2, 2, c);
-		//}
-	}
-	private Texture2D MakeTex( int width, int height, Color col )
-	{
-		Color[] pix = new Color[width * height];
-		for( int i = 0; i < pix.Length; ++i )
-		{
-			pix[ i ] = col;
-		}
-		Texture2D result = new Texture2D( width, height );
-		result.SetPixels( pix );
-		result.Apply();
-		return result;
-	}
-
 }
