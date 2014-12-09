@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
@@ -84,12 +84,12 @@ public class MakeMap : MonoBehaviour
 		TileMapData map = genTMD();
 
         dungeon.add(map);
-		NOEDITPlaceMap(map);
+		PlaceMap(map);
 		float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
 	}
 
-	public void NOEDITPlaceMap(TileMapData tmd)
+	public void PlaceMap(TileMapData tmd)
 	{
 		TileMapData map = tmd;
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
@@ -132,7 +132,7 @@ public class MakeMap : MonoBehaviour
         {
             EnemySpawningDifficulty(map);
         }
-        Spawning.SpawnWeapon(map, Sword);
+        Spawning.SpawnItem(map, Sword);
 		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor); 	
 	}
 
@@ -223,7 +223,7 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
-		Spawning.SpawnWeapon(map, Sword);
+		Spawning.SpawnItem(map, Sword);
 		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
 	}
 
