@@ -19,7 +19,7 @@ public class AttackingMob : Entities {
     private MovementAI ai;
     private AIPath path;
     private Vector3 target;
-    private Vector3 direction;
+    private Vector3 aidirection;
     private Vector3 randomTarget;
     private bool isWandering;
     private bool isBlindlyChasing;
@@ -59,9 +59,9 @@ public class AttackingMob : Entities {
 
     void FixedUpdate () {
         ai.fpscounter++;
-        direction = attackingg.transform.position - gameObject.transform.position;
+        aidirection = attackingg.transform.position - gameObject.transform.position;
 
-        RaycastHit2D hit = Physics2D.Raycast (gameObject.transform.position, direction, 12.0f, Wall);
+        RaycastHit2D hit = Physics2D.Raycast (gameObject.transform.position, aidirection, 12.0f, Wall);
 
         if (hit.collider != null && hit.collider.tag == "Player") {
             visible = true;
@@ -71,7 +71,7 @@ public class AttackingMob : Entities {
 
         if(visible)
         {
-            this.setDirection(direction);
+            this.setDirection(aidirection);
             Move();
             isWandering = false;
             isBlindlyChasing = false;
@@ -143,16 +143,16 @@ public class AttackingMob : Entities {
 
         public void PathFindTowards(Vector3 place)
         {
-            if (ai.fpscounter > 40 && (halfwayPoint < 5 || path.length() < halfwayPoint)) {
+            if ((halfwayPoint < 5 && ai.fpscounter > 40) || (halfwayPoint >= 5 && path.length() < halfwayPoint)) {
                 actuallyRePath(place);
             }
 
-            if (Vector3.SqrMagnitude (this.transform.position - target) < 0.01) {
+            if (Vector3.SqrMagnitude (this.transform.position - target) < 0.01) { //Move on to next node
                 this.rigidbody2D.velocity = new Vector2 (0, 0);
                 ai.currentNode = path.pop ();
             }
 
-            if (ai.currentNode != null) {
+            if (ai.currentNode != null) { // Move to current target node
                 target = new Vector3 (ai.currentNode.loc.x, ai.currentNode.loc.y, 0);
                 this.setDirection (target - this.transform.position);
                 Move ();
