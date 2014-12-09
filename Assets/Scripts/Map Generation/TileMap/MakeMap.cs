@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
@@ -14,6 +14,9 @@ public class MakeMap : MonoBehaviour
 	public GameObject Goal;
     public GameObject UpStairs;
 	public GameObject Sword;
+	public GameObject Necklace;
+	public GameObject Armor;
+	public GameObject Helmet;
 
 	public GameObject eGhost;
     public GameObject eRat;
@@ -32,27 +35,26 @@ public class MakeMap : MonoBehaviour
 
     private int maxFloors=0, maxWalls=0;
 
-	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveWeapons = new GameObject[0];	
+	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveItems = new GameObject[0];	
 	
 	void Start () 
 	{
         DungeonFloor = 0;
-        enemySpawnTimer = 900;
+        enemySpawnTimer = Time.realtimeSinceStartup;
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
 
 	private void Update()
     {
-    	enemySpawnTimer--;
-    	if(enemySpawnTimer<0 && numEnemies<10)
+    	if(Time.realtimeSinceStartup>=enemySpawnTimer+30 && GameObject.FindGameObjectsWithTag("Enemy").Length<10)
     	{
-    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, PlayerInstance);
-    		enemySpawnTimer = 900.0f;
+    		EnemySpawningDifficulty(dungeon.getTMD(DungeonFloor), 1);
+    		enemySpawnTimer = Time.realtimeSinceStartup;
     	}
     }
 
-    public void EnemySpawningDifficulty(TileMapData map)
+    public void EnemySpawningDifficulty(TileMapData map, int numEnemies)
     {
 
             if(DungeonFloor <= 4)
@@ -71,15 +73,19 @@ public class MakeMap : MonoBehaviour
 	TileMapData genTMD()
 	{
 		TileMapData map = new TileMapData();
-
-        if(Random.Range(0.0f,2.0f) > 1.0) {
+		if(DungeonFloor%5==0 && DungeonFloor!=0) 
+		{
+			map.GenArena();
+			map.set = TileSet.Classic;
+		}
+        else if(Random.Range(0.0f,2.0f) > 1.0) {
             map.GenCave(xMax,yMax,40);
 			map.set = TileSet.Cave;
         } else {
             map.GenClassic(xMax,yMax, nRooms);
 			map.set = TileSet.Classic;
 		}
-    	 return map;
+    	return map;
 	}
 
 	void PlaceMap()
@@ -88,12 +94,12 @@ public class MakeMap : MonoBehaviour
 		TileMapData map = genTMD();
 
         dungeon.add(map);
-		NOEDITPlaceMap(map);
+		PlaceMap(map);
 		float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
 	}
 
-	public void NOEDITPlaceMap(TileMapData tmd)
+	public void PlaceMap(TileMapData tmd)
 	{
 		TileMapData map = tmd;
 		int numOldFloors = MapUtilities.getNumTile(map.mapData, eTile.Floor);
@@ -134,10 +140,9 @@ public class MakeMap : MonoBehaviour
 		}
 		if(!toPrevFloor) 
         {
-            EnemySpawningDifficulty(map);
+            EnemySpawningDifficulty(map, numEnemies);
         }
-        Spawning.SpawnWeapon(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor); 	
+        SpawnItem(map);
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -227,8 +232,7 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
-		Spawning.SpawnWeapon(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		SpawnItem(map);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -245,7 +249,7 @@ public class MakeMap : MonoBehaviour
         	TileMapData generated = genTMD();
         	MoveMap(generated);
         	dungeon.add(generated);
-            EnemySpawningDifficulty(generated);
+            EnemySpawningDifficulty(generated, numEnemies);
     	}
         else 
         {
@@ -296,18 +300,18 @@ public class MakeMap : MonoBehaviour
 
 	void ClearItems()
 	    {
-	    	GameObject[] weapons = GameObject.FindGameObjectsWithTag("weapon");
-	    	GameObject[] tempWeapons = new GameObject[weapons.Length + inactiveWeapons.Length];
-	    	for(int i = 0; i<inactiveWeapons.Length; i++)
+	    	GameObject[] items = GameObject.FindGameObjectsWithTag("Equip");
+	    	GameObject[] tempItems = new GameObject[items.Length + inactiveItems.Length];
+	    	for(int i = 0; i<inactiveItems.Length; i++)
 	    	{
-	    		if(inactiveWeapons[i]!=null) tempWeapons[i] = inactiveWeapons[i];
+	    		if(inactiveItems[i]!=null) tempItems[i] = inactiveItems[i];
 	    	}
-	    	for(int i = 0; i<weapons.Length; i++)
+	    	for(int i = 0; i<items.Length; i++)
 	    	{
-	    		weapons[i].SetActive(false);
-	    		tempWeapons[i+inactiveWeapons.Length] = weapons[i];
+	    		items[i].SetActive(false);
+	    		tempItems[i+inactiveItems.Length] = items[i];
 	    	}
-	    	inactiveWeapons = tempWeapons;
+	    	inactiveItems = tempItems;
 	    }
 
     void RefreshEnemies()
@@ -323,5 +327,31 @@ public class MakeMap : MonoBehaviour
     public eTile[,] currentFloor()
     {
     	return dungeon.getTMD(DungeonFloor).copyMapArray();
+    }
+
+    void SpawnItem(TileMapData map)
+    {
+    	int r = (int)Random.Range(0,4);
+		if(r==0)
+		{
+			Spawning.SpawnItem(map, Sword);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==1)
+		{
+			Spawning.SpawnItem(map, Helmet);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Helmet>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==2)
+		{
+			Spawning.SpawnItem(map, Necklace);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Necklace>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==3)
+		{
+			Spawning.SpawnItem(map, Armor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Armor>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+
     }
 }

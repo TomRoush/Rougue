@@ -19,7 +19,7 @@ public class Spawning : MakeMap
 		}
 	}
 
-	public static void SpawnWeapon(TileMapData map, GameObject Item)
+	public static void SpawnItem(TileMapData map, GameObject Item)
 	{
 		int countItems = 0;
 		while(countItems<1)
