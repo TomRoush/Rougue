@@ -51,7 +51,7 @@ public class Status : MonoBehaviour {
     [HideInInspector] private float effHealthRegen;
     [HideInInspector] private float effSpeed;
     [HideInInspector] private int effAgility;
- /*   [HideInInspector]*/ public int effStrength;
+    [HideInInspector] public int effStrength;
     [HideInInspector] private int effIntelligence;
     [HideInInspector] private int effAttackDamage;
     [HideInInspector] private float effAttackSpeed;

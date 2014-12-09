@@ -53,7 +53,7 @@ public class AttackingMob : Entities {
 			inRange = false;
 		}
 
-		RaycastHit2D hit = Physics2D.Raycast (attackingg.transform.position, direction, 8.0f, Wall);
+		RaycastHit2D hit = Physics2D.Raycast (gameObject.transform.position, direction, 8.0f, Wall);
 		
 		if (hit.collider != null) {
 			visible = false;
