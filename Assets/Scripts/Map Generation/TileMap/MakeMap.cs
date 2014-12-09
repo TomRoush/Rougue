@@ -49,7 +49,7 @@ public class MakeMap : MonoBehaviour
     {
     	if(Time.realtimeSinceStartup>=enemySpawnTimer+30 && GameObject.FindGameObjectsWithTag("Enemy").Length<10)
     	{
-    		EnemySpawningDifficulty(dungeon.getTMD(DungeonFloor), 1);
+    		if(dungeon.getTMD(DungeonFloor)!=null && DungeonFloor<dungeon.length()) EnemySpawningDifficulty(dungeon.getTMD(DungeonFloor), 1);
     		enemySpawnTimer = Time.realtimeSinceStartup;
     	}
     }
