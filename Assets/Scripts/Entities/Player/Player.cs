@@ -73,26 +73,26 @@ public class Player : Entities
 
 				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
-				previousDirection = 1;
+				previousDirection = 3;
                 dx = -1;
 			}
 			if (Input.GetAxisRaw("Vertical") < 0) 
 			{
-				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
-					anim.SetInteger ("direction", 4);
+//				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
+				anim.SetInteger ("direction", 4);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 4;
                 dy = -1;
 			}
 			if (Input.GetAxisRaw("Horizontal") > 0) 
 			{			
-				Vector3 theScale = transform.localScale;
-				theScale.x = 1;
-				transform.localScale = theScale;
+//				Vector3 theScale = transform.localScale;
+//				theScale.x = 1;
+//				transform.localScale = theScale;
 
-				anim.SetInteger ("direction", 3);
+				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
-				previousDirection = 3;
+				previousDirection = 1;
                 dx = 1;
 			}
             //
@@ -208,13 +208,22 @@ public class Player : Entities
 
     public void refreshEquipStats()
     {
-        Debug.Log(cStat.getStrength());
         cStat.clearEquip();
-        cStat.equipStrength += equippedSword.str;
-       cStat.equipAgility += equippedSword.agility;
-      cStat.equipIntelligence += equippedSword.intelligence; 
+        addStatsFromItem(equippedSword);
+        addStatsFromItem(equippedArmor);
+        addStatsFromItem(equippedHelmet);
+        addStatsFromItem(equippedNecklace);
       cStat.refreshStats();
-        Debug.Log(equippedSword.str);
         
     }
+
+    public void addStatsFromItem(equipmentStats equip)
+    {
+    if(equip != null)
+    {
+        cStat.equipStrength += equip.strength;
+        cStat.equipAgility += equip.agility;
+        cStat.equipIntelligence += equip.intelligence;
+        }
+        }
 }

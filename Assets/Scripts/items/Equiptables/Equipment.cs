@@ -1,51 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Equipment : MonoBehaviour {
-	
-	public GameObject equipmentPlayerRefrence;
-	public Player equipper;
-	public equipmentStats weaponStats;
-	public int str;
-	public int agility;
-	public int intelligence;
-	void Start () 
-	{
-		if (equipmentPlayerRefrence == null) 
-		{
-			equipmentPlayerRefrence = GameObject.FindGameObjectWithTag("Player");
-			equipper = equipmentPlayerRefrence.GetComponent<Player>();
-		}
+public abstract class Equipment : MonoBehaviour {
 
-		weaponStats = new equipmentStats (str,agility,intelligence);
-	}
+    public Player PlayerReference;
+    public equipmentStats eqStats;
+    public int strength;
+    public int agility;
+    public int intelligence;
+    public bool canBePickedUp;
 
+    void Start(){
+        PlayerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();;
+        canBePickedUp = false;
+        if(eqStats == null)
+        eqStats = new equipmentStats(strength,agility,intelligence);
+    }
 
-	void Update () {
-	
-	}
+    public void setStats(int str, int agi, int intl)
+    {
+        Debug.Log(str);
+        strength = str;
+        agility = agi;
+        intelligence = intl;
+        if(eqStats == null)
+            eqStats = new equipmentStats(str,agi,intl);
+        else
+        {
+        eqStats.strength = str;
+        eqStats.agility = agi;
+        eqStats.intelligence = intl;
 
-	public void addWeapon(Weapon weapon)
-	{
-		equipper.equippedSword  = weaponStats;
-		print (equipper.equippedSword);
-	}
+        }
+    }
 
-	public void addHelmet(Helmet helmet)
-	{
-		equipper.equippedHelmet  = weaponStats;
-		print (equipper.equippedHelmet);
-	}
+    void OnTriggerExit2D(Collider2D person)
+    {
+        if(person.gameObject.tag == "Player")
+            canBePickedUp = false;
+    }
 
-	public void addArmor(Armor armor)
-	{
-		equipper.equippedArmor  = weaponStats;
-		print (equipper.equippedArmor);
-	}
+    void OnTriggerEnter2D(Collider2D person)
+    {
+        if(person.gameObject.tag == "Player")
+            canBePickedUp = true;
+    }
 
-	public void addNecklace(Necklace necklace)
-	{
-		equipper.equippedNecklace  = weaponStats;
-		print (equipper.equippedNecklace);
-	}
+    public void Update()
+    {
+        if(canBePickedUp && Input.GetButtonDown("Action"))
+        {
+            addEquipment();
+            Destroy(gameObject);
+        }
+    }
+
+    public abstract void addEquipment();
+
 }

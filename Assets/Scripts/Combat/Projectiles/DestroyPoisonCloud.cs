@@ -5,7 +5,7 @@ public class DestroyPoisonCloud : MonoBehaviour {
 
 	public GameObject player;
 	public float aoe = 6f;
-	public float duration=5f;
+	public float duration=6f;
 	
 	// Use this for initialization
 	void Start () {
@@ -18,7 +18,7 @@ public class DestroyPoisonCloud : MonoBehaviour {
 		foreach (GameObject go in enemies) {
 			if (getDistance(go)<=aoe){
 				go.GetComponent<Status>().MagicDamage(Time.deltaTime * 
-					player.GetComponent<Status>().getIntelligence());
+					player.GetComponent<Status>().getIntelligence()*3);
 				//Debug.Log ("PCloud");
 				//if (true){
 				//go.GetComponent<Status>().poisonTimer=5f;//can be poisoned by DoT debuff and by poisonCloud at same time
