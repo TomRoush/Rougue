@@ -151,7 +151,7 @@ public class AttackingMob : Entities {
 
         public void PathFindTowards(Vector3 place)
         {
-            if ((halfwayPoint < 5 && ai.fpscounter > 40) || (halfwayPoint >= 5 && path.length() < halfwayPoint)) {
+            if ((halfwayPoint < 5 && ai.fpscounter > ai.fpsreset) || (halfwayPoint >= 5 && path.length() < halfwayPoint)) {
                 actuallyRePath(place);
             }
 

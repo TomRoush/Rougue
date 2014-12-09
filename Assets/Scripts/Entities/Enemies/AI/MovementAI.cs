@@ -12,9 +12,11 @@ public class MovementAI {
 	private Location targetlocation;
 	public AIPath aipath;
 	public int fpscounter = 0;
+    public int fpsreset;
 	public Node currentNode;
 
 	public MovementAI(eTile[,] mapdata) {
+        fpsreset = Random.Range(-2,2)+40;
 		this.mapdata = mapdata;
 	}
 
