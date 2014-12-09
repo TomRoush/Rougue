@@ -71,10 +71,18 @@ public class AttackingMob : Entities {
 
         if(visible)
         {
+            if(getDistance(attackingg) < 5.0f)
+                    {
             this.setDirection(aidirection);
             Move();
+            isBlindlyChasing = false; //name innacurate because of this, but #YOLO
+            }
+            else
+            {
+                isBlindlyChasing = true;
+                }
+  
             isWandering = false;
-            isBlindlyChasing = false;
             lastTimeSeen = Time.time;
         }
         else if(!visible && (Time.time - lastTimeSeen < chaseTimeOut))
