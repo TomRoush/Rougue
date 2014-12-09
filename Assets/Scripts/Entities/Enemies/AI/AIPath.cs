@@ -18,6 +18,8 @@ public class AIPath {
 
 	// Gets the path starting from the given node.
 	public List<Node> getPath() {
+        if(startnode == null)
+            return null; 
 		Node n = startnode.parent;
 		while (n != null) {
 			pathnodes.Add (n);
