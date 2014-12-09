@@ -71,15 +71,19 @@ public class MakeMap : MonoBehaviour
 	TileMapData genTMD()
 	{
 		TileMapData map = new TileMapData();
-
-        if(Random.Range(0.0f,2.0f) > 1.0) {
+		if(DungeonFloor%5==0 && DungeonFloor!=0) 
+		{
+			map.GenArena();
+			map.set = TileSet.Classic;
+		}
+        else if(Random.Range(0.0f,2.0f) > 1.0) {
             map.GenCave(xMax,yMax,40);
 			map.set = TileSet.Cave;
         } else {
             map.GenClassic(xMax,yMax, nRooms);
 			map.set = TileSet.Classic;
 		}
-    	 return map;
+    	return map;
 	}
 
 	void PlaceMap()
