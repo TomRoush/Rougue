@@ -71,24 +71,24 @@ public class Player : Entities
 				//anim.SetBool("a", true);
 				//anim.SetBool("d", false);
 
-				anim.SetInteger ("direction", 3);
+				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 3;
                 dx = -1;
 			}
 			if (Input.GetAxisRaw("Vertical") < 0) 
 			{
-				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
-					anim.SetInteger ("direction", 4);
+//				if (!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.LeftArrow)) 
+				anim.SetInteger ("direction", 4);
 				anim.SetFloat ("velocity", 1.0f);
 				previousDirection = 4;
                 dy = -1;
 			}
 			if (Input.GetAxisRaw("Horizontal") > 0) 
 			{			
-				Vector3 theScale = transform.localScale;
-				theScale.x = 1;
-				transform.localScale = theScale;
+//				Vector3 theScale = transform.localScale;
+//				theScale.x = 1;
+//				transform.localScale = theScale;
 
 				anim.SetInteger ("direction", 1);
 				anim.SetFloat ("velocity", 1.0f);
