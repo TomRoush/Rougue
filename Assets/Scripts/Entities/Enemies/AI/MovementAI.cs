@@ -16,7 +16,7 @@ public class MovementAI {
 	public Node currentNode;
 
 	public MovementAI(eTile[,] mapdata) {
-        fpsreset = Random.Range(-2,2)+40;
+        fpsreset = UnityEngine.Random.Range(-2,2)+40;
 		this.mapdata = mapdata;
 	}
 
