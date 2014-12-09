@@ -14,6 +14,9 @@ public class MakeMap : MonoBehaviour
 	public GameObject Goal;
     public GameObject UpStairs;
 	public GameObject Sword;
+	public GameObject Necklace;
+	public GameObject Armor;
+	public GameObject Helmet;
 
 	public GameObject eGhost;
     public GameObject eRat;
@@ -32,7 +35,7 @@ public class MakeMap : MonoBehaviour
 
     private int maxFloors=0, maxWalls=0;
 
-	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveWeapons = new GameObject[0];	
+	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveItems = new GameObject[0];	
 	
 	void Start () 
 	{
@@ -139,8 +142,7 @@ public class MakeMap : MonoBehaviour
         {
             EnemySpawningDifficulty(map, numEnemies);
         }
-        Spawning.SpawnItem(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor); 	
+        SpawnItem(map);
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -230,8 +232,7 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
-		Spawning.SpawnItem(map, Sword);
-		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		SpawnItem(map);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
@@ -299,18 +300,18 @@ public class MakeMap : MonoBehaviour
 
 	void ClearItems()
 	    {
-	    	GameObject[] weapons = GameObject.FindGameObjectsWithTag("weapon");
-	    	GameObject[] tempWeapons = new GameObject[weapons.Length + inactiveWeapons.Length];
-	    	for(int i = 0; i<inactiveWeapons.Length; i++)
+	    	GameObject[] items = GameObject.FindGameObjectsWithTag("Equip");
+	    	GameObject[] tempItems = new GameObject[items.Length + inactiveItems.Length];
+	    	for(int i = 0; i<inactiveItems.Length; i++)
 	    	{
-	    		if(inactiveWeapons[i]!=null) tempWeapons[i] = inactiveWeapons[i];
+	    		if(inactiveItems[i]!=null) tempItems[i] = inactiveItems[i];
 	    	}
-	    	for(int i = 0; i<weapons.Length; i++)
+	    	for(int i = 0; i<items.Length; i++)
 	    	{
-	    		weapons[i].SetActive(false);
-	    		tempWeapons[i+inactiveWeapons.Length] = weapons[i];
+	    		items[i].SetActive(false);
+	    		tempItems[i+inactiveItems.Length] = items[i];
 	    	}
-	    	inactiveWeapons = tempWeapons;
+	    	inactiveItems = tempItems;
 	    }
 
     void RefreshEnemies()
@@ -326,5 +327,31 @@ public class MakeMap : MonoBehaviour
     public eTile[,] currentFloor()
     {
     	return dungeon.getTMD(DungeonFloor).copyMapArray();
+    }
+
+    void SpawnItem(TileMapData map)
+    {
+    	int r = (int)Random.Range(0,4);
+		if(r==0)
+		{
+			Spawning.SpawnItem(map, Sword);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==1)
+		{
+			Spawning.SpawnItem(map, Helmet);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Helmet>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==2)
+		{
+			Spawning.SpawnItem(map, Necklace);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Necklace>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+		else if(r==3)
+		{
+			Spawning.SpawnItem(map, Armor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Armor>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+		}
+
     }
 }
