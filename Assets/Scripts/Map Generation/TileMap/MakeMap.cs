@@ -56,8 +56,8 @@ public class MakeMap : MonoBehaviour
 
     private GameObject SpawnAppropriateEnemy(int floor)
     {
-        float ratMax = (5-floor)/5f;
-        float ghostMax = ((1/9f) * (5-floor))+1;
+        float ratMax = (6-floor)/6f;
+        float ghostMax = ((1/8f) * (6-floor))+1;
        // float dragonMax;
 
 
@@ -360,22 +360,22 @@ public class MakeMap : MonoBehaviour
 		if(r==0)
 		{
 			Spawning.SpawnItem(map, Sword);
-			GameObject.FindGameObjectWithTag("Equip").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Weapon>().setStats(DungeonFloor+1, DungeonFloor/2, 0);
 		}
 		else if(r==1)
 		{
 			Spawning.SpawnItem(map, Helmet);
-			GameObject.FindGameObjectWithTag("Equip").GetComponent<Helmet>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Helmet>().setStats(DungeonFloor/2, DungeonFloor+1, 0);
 		}
 		else if(r==2)
 		{
 			Spawning.SpawnItem(map, Necklace);
-			GameObject.FindGameObjectWithTag("Equip").GetComponent<Necklace>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Necklace>().setStats(DungeonFloor+1, DungeonFloor+1, DungeonFloor+1);
 		}
 		else if(r==3)
 		{
 			Spawning.SpawnItem(map, Armor);
-			GameObject.FindGameObjectWithTag("Equip").GetComponent<Armor>().setStats(DungeonFloor, DungeonFloor, DungeonFloor);
+			GameObject.FindGameObjectWithTag("Equip").GetComponent<Armor>().setStats(DungeonFloor/2, 0, DungeonFloor+1);
 		}
 
     }
