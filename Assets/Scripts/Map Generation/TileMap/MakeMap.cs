@@ -54,8 +54,33 @@ public class MakeMap : MonoBehaviour
     	}
     }
 
+    private GameObject SpawnAppropriateEnemy(int floor)
+    {
+        float ratMax = (5-floor)/5f;
+        float ghostMax = ((1/9f) * (5-floor))+1;
+       // float dragonMax;
+
+
+        float val = Random.Range(0f,1f);
+        if(val < ratMax)
+            return eRat;
+        else if(val < ghostMax)
+            return eGhost;
+        else 
+            return eDragon;
+            
+    }
+
+
     public void EnemySpawningDifficulty(TileMapData map, int numEnemies)
     {
+        for(int i = 0; i < numEnemies; i++)
+        {
+            Spawning.SpawnEnemies(map,1,SpawnAppropriateEnemy(DungeonFloor),PlayerInstance);
+        }
+    }
+
+        /*
 
             if(DungeonFloor <= 4)
                 Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
@@ -68,7 +93,7 @@ public class MakeMap : MonoBehaviour
 			if(DungeonFloor > 9)
 				Spawning.SpawnEnemies(map, numEnemies, eDragon, PlayerInstance);
 
-    }
+                */
 
 	TileMapData genTMD()
 	{
