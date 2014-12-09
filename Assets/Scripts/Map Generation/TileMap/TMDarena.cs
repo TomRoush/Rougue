@@ -11,35 +11,35 @@ public partial class TileMapData
 
 		mapData = createFilledMapArray(eTile.Filler);
 
-		for(int i = 15; i < 35; i++)
+		for(int i = 12; i < 38; i++)
 		{
 			for(int j = 20; j < 30; j++)
 			mapData[i,j] = eTile.Floor;
 		}
 		for(int i = 20; i < 30; i++) 
 		{
-			for(int j = 15; j < 35; j++)
+			for(int j = 12; j < 38; j++)
 			mapData[i,j] = eTile.Floor;
 		}
-		for(int i = 30; i < 36; i ++)//bottom right 
+		for(int i = 30; i < 39; i ++)//bottom right 
 		{
-			for(int j = 20; j >i-15; j--)
+			for(int j = 20; j >i-18; j--)
 			mapData[i,j] = eTile.Floor;
 		}
-		for(int i = 15; i < 21; i++)//top left
+		for(int i = 12; i < 21; i++)//top left
 		{
-			for(int j = 30; j<i+15; j++)
+			for(int j = 30; j<i+18; j++)
 			mapData[i,j] = eTile.Floor;
 		}
-		for(int i = 30; i < 36; i++)//top right
+		for(int i = 30; i < 38; i++)//top right
 		{
-			for(int j = 30; j<64-i; j++)
+			for(int j = 30; j<67-i; j++)
 			mapData[i,j] = eTile.Floor;
 		}
-		for(int i = 15; i < 21; i++)//bottom left
+		for(int i = 12; i < 21; i++)//bottom left
 		{
-			for(int j = 15; j < 21; j++)
-			if(j+i>34) mapData[i,j] = eTile.Floor;
+			for(int j = 12; j < 21; j++)
+			if(j+i>31) mapData[i,j] = eTile.Floor;
 		}
 
 		for(int i = 21; i < 29; i++)
