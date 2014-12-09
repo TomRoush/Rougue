@@ -37,22 +37,21 @@ public class MakeMap : MonoBehaviour
 	void Start () 
 	{
         DungeonFloor = 0;
-        enemySpawnTimer = 900;
+        enemySpawnTimer = Time.realtimeSinceStartup;
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
 		Invoke ("PlaceMap", 0f);
 	}
 
 	private void Update()
     {
-    	enemySpawnTimer--;
-    	if(enemySpawnTimer<0 && numEnemies<10)
+    	if(Time.realtimeSinceStartup>=enemySpawnTimer+30 && GameObject.FindGameObjectsWithTag("Enemy").Length<10)
     	{
-    		Spawning.SpawnEnemies(dungeon.getTMD(DungeonFloor), 1, eGhost, PlayerInstance);
-    		enemySpawnTimer = 900.0f;
+    		EnemySpawningDifficulty(dungeon.getTMD(DungeonFloor), 1);
+    		enemySpawnTimer = Time.realtimeSinceStartup;
     	}
     }
 
-    public void EnemySpawningDifficulty(TileMapData map)
+    public void EnemySpawningDifficulty(TileMapData map, int numEnemies)
     {
 
             if(DungeonFloor <= 4)
@@ -138,7 +137,7 @@ public class MakeMap : MonoBehaviour
 		}
 		if(!toPrevFloor) 
         {
-            EnemySpawningDifficulty(map);
+            EnemySpawningDifficulty(map, numEnemies);
         }
         Spawning.SpawnItem(map, Sword);
 		GameObject.FindGameObjectWithTag("weapon").GetComponent<Weapon>().setStats(DungeonFloor, DungeonFloor, DungeonFloor); 	
@@ -249,7 +248,7 @@ public class MakeMap : MonoBehaviour
         	TileMapData generated = genTMD();
         	MoveMap(generated);
         	dungeon.add(generated);
-            EnemySpawningDifficulty(generated);
+            EnemySpawningDifficulty(generated, numEnemies);
     	}
         else 
         {
