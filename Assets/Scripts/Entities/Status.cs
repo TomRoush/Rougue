@@ -32,6 +32,10 @@ public class Status : MonoBehaviour {
     public int baseAttackDamage;
     public int baseAttackSpeed;
 
+    public int strengthGain;
+    public int agilityGain;
+    public int intelligenceGain;
+
 
     [HideInInspector] public int modMaxHealth;
     [HideInInspector] public int modMaxMana;
@@ -120,7 +124,8 @@ public class Status : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (gameObject.tag == "Enemy") {
-			level = Random.Range (floor, floor+10);
+			level = Random.Range (floor, floor+5);
+            enemyLevelStats();
 		}
         speedx = 1;
 
@@ -152,6 +157,13 @@ public class Status : MonoBehaviour {
 
     }
 
+    private void enemyLevelStats()
+    {
+        baseStrength += strengthGain * level;
+        baseIntelligence += intelligenceGain * level;
+        baseAgility += agilityGain * level;
+    }
+
 
     public void refreshStats() //Terrible, terrible things will happen if this is called while debuffed/buffed.
     {
@@ -163,9 +175,9 @@ public class Status : MonoBehaviour {
     effMaxMana = baseMaxMana + modMaxMana + equipMaxMana + 10*effIntelligence;
     effManaRegen = baseManaRegen + modManaRegen + equipManaRegen + 0.1f*effIntelligence;
     effHealthRegen = baseHealthRegen + modHealthRegen + equipHealthRegen + 0.1f*effStrength;
-    effSpeed = baseSpeed + modSpeed + equipSpeed + (effAgility/10); //Should also include + effAgility/10, but I get a really wierd bug.
+    effSpeed = baseSpeed + modSpeed + equipSpeed + (effAgility/10); 
     effAttackDamage = baseAttackDamage + modAttackDamage + equipAttackDamage + effStrength;
-    effAttackSpeed = baseAttackSpeed + modAttackSpeed + equipAttackSpeed + (effAgility/10); //Same comment as effSpeed
+    effAttackSpeed = baseAttackSpeed + modAttackSpeed + equipAttackSpeed + (effAgility/10); 
 
     }
 	
@@ -181,9 +193,9 @@ public class Status : MonoBehaviour {
 		if (exp>100+10*level){
 			exp-=100+10*level;
 			level++;
-			baseStrength += 2;
-			baseIntelligence += 2;
-            baseAgility += 2;
+			baseStrength += strengthGain;
+			baseIntelligence += intelligenceGain;
+            baseAgility += agilityGain;
 			upgradePoints++;
             refreshStats();
 		}
