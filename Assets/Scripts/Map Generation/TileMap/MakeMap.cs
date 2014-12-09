@@ -73,7 +73,7 @@ public class MakeMap : MonoBehaviour
 	TileMapData genTMD()
 	{
 		TileMapData map = new TileMapData();
-		if(DungeonFloor%5==0)// && DungeonFloor!=0) 
+		if(DungeonFloor%5==0 && DungeonFloor!=0) 
 		{
 			map.GenArena();
 			map.set = TileSet.Classic;
