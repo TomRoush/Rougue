@@ -51,6 +51,12 @@ public class SpellsManager : MonoBehaviour {
 		for(int i = 0; i < spells.Length; i++) {
 			int size = (int)(32.0 * (Screen.height / 520.0)); // Relative to my 520 base height
 			GUI.DrawTexture(new Rect(10 + (5 + size) * i, Screen.height - 10 - size, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
+			
+			// Clean up texture references
+			Texture2D[] textures = FindObjectsOfType(typeof(Texture2D)) as Texture2D[];
+			foreach (Texture2D t in textures) {
+				Destroy(t);
+			}
 		}
 	}
 	
@@ -79,7 +85,6 @@ public class SpellsManager : MonoBehaviour {
 			}
 		}
 		overlay.Apply();
-		Resources.UnloadUnusedAssets();
 		return overlay;
 	}
 }
