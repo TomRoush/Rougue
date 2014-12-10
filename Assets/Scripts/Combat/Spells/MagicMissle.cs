@@ -26,7 +26,7 @@ public class MagicMissle : Spell<Vector3> {
 		switch (level)
 		{
 		case 1:
-			manaCost = 5;
+			manaCost = 30;
 			coolDown = 0.25f;
 			damage = 10;
 			break;
@@ -56,7 +56,7 @@ public class MagicMissle : Spell<Vector3> {
     Quaternion rotation = Quaternion.identity;
     rotation.eulerAngles = new Vector3(0,0,angle);
     GameObject mbolt = GameObject.Instantiate(bullet, caster.transform.position + 0.25f * toward, rotation) as GameObject;
-    mbolt.GetComponent<DestroyBullet>().Initialize(damage);
+    mbolt.GetComponent<DestroyBullet>().Initialize(damage + 3*casterStat.getIntelligence());
     mbolt.GetComponent<Rigidbody2D>().AddForce(toward*bulletspeed);
         /*
 				// Get mouse position

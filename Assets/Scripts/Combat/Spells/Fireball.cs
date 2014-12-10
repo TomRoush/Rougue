@@ -24,12 +24,12 @@ public class Fireball : Spell<GameObject> {
             case 1:
                 manaCost = 40;
                 coolDown = 5;
-                damage = 40;
+                damage = 10;
 			break;
             case 2:
                 manaCost = 60;
                 coolDown = 5;
-                damage = 60;
+                damage = 30;
 			break;
             default:
                 Debug.Log("Fireball level error");
@@ -53,7 +53,7 @@ public class Fireball : Spell<GameObject> {
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
 			GameObject fball = GameObject.Instantiate (fireball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			fball.GetComponent<DestroyFireball>().Initialize(damage-30+3*player.GetComponent<Status>().getIntelligence());
+			fball.GetComponent<DestroyFireball>().Initialize(damage+3*player.GetComponent<Status>().getIntelligence());
 			fball.GetComponent<Rigidbody2D>().AddForce(toward);
 			
 		}
