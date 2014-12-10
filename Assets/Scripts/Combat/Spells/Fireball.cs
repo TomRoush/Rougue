@@ -53,7 +53,7 @@ public class Fireball : Spell<GameObject> {
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
 			GameObject fball = GameObject.Instantiate (fireball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			fball.GetComponent<DestroyFireball>().Initialize(damage+3*player.GetComponent<Status>().getIntelligence());
+			fball.GetComponent<DestroyFireball>().Initialize(damage+2*player.GetComponent<Status>().getIntelligence());
 			fball.GetComponent<Rigidbody2D>().AddForce(toward);
 			
 		}

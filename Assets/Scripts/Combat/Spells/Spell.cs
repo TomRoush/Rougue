@@ -19,7 +19,6 @@ public abstract class Spell <gType>
     {
         if(CanCast())
         {
-            StartCast();
             CastSpell(target);
             EndCast();
         }
@@ -38,7 +37,7 @@ public abstract class Spell <gType>
     {
 		level = 1;
         caster = pCaster;
-        lastCastTime = 0;
+        lastCastTime = Time.time - coolDown - 1;
         casterStat = caster.GetComponent<Status>();
 		RefreshValues ();
     }
@@ -49,12 +48,6 @@ public abstract class Spell <gType>
         return (casterStat.getMana() >= manaCost && OffCooldown());
     }
 
-    public void StartCast()
-    {
-        lastCastTime++;
-      lastCastTime--;  
-    
-    }
 
     public void EndCast()
     {
