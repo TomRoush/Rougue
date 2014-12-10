@@ -4,7 +4,7 @@ using System.Collections;
 public class DestroyFireball : DestroyProjectile {
 
 
-	public float aoe = 5f;	
+	private float aoe = 15f;	
 	public LayerMask enemiesWalls;
 	public int damage;
 
