@@ -26,11 +26,11 @@ public class AudioPlayer : MonoBehaviour {
 		setLoop(loop);
 	}
 	
-//	public void play() {
-//		source.volume = (manager.getVolume(VolumeManager.TypeOfAudio.MASTER) + Mathf.Max(manager.getVolume(VolumeManager.TypeOfAudio.MASTER), manager.getVolume(type))) / 20.0f;
-//		Debug.Log(source.volume);
-//		source.Play();
-//	}
+	public void play() {
+		source.volume = (manager.getVolume(VolumeManager.TypeOfAudio.MASTER) + Mathf.Max(manager.getVolume(VolumeManager.TypeOfAudio.MASTER), manager.getVolume(type))) / 20.0f;
+		Debug.Log(source.volume);
+		source.Play();
+	}
 	
 	public void playOneShot() {
 		

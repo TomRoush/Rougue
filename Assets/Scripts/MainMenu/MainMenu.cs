@@ -16,6 +16,10 @@ public class MainMenu : MonoBehaviour {
 	private Texture2D settings;
 	private Texture2D quit;
 
+	VolumeManager manager;
+	AudioPlayer music;
+	AudioPlayer sheathPlayer;
+
 	public float volume = 0.0f;
 
 	private float alpha = 1.0f;
@@ -31,12 +35,20 @@ public class MainMenu : MonoBehaviour {
 		load_game = Resources.Load ("Artwork/Main_Menu/load_game") as Texture2D;
 		settings = Resources.Load ("Artwork/Main_Menu/settings") as Texture2D;
 		quit = Resources.Load ("Artwork/Main_Menu/quit") as Texture2D;
+
+		sheath = Resources.Load("Sounds/Sound_Effects/sheath") as AudioClip;
+		manager = ((VolumeManager)FindObjectOfType(typeof(VolumeManager)));
+		music = new AudioPlayer(gameObject, Resources.Load("Sounds/Music/Rougue Theme") as AudioClip, VolumeManager.TypeOfAudio.MUSIC);
+		sheathPlayer = new AudioPlayer(gameObject, sheath, VolumeManager.TypeOfAudio.MASTER);
+
+		music.setLoop(true);
+		music.play();
 	}
 
 	public void Update() {
 		if(Input.GetMouseButtonDown(0)) 
 		{
-			audio.PlayOneShot(sheath);
+//			audio.PlayOneShot(sheath);
 			Debug.Log ("Mouse pressed.");
 		}
 
@@ -52,13 +64,16 @@ public class MainMenu : MonoBehaviour {
 			if (GUI.Button (new Rect ((Screen.width)/17, (Screen.height)/2, 200, 100), new_game, ""))
 			{
 				clicked = true;
+				sheathPlayer.play();
 			}
 			if (GUI.Button (new Rect ((Screen.width)/17, (3*(Screen.height))/4, 200, 100), settings, ""))
 			{
+				sheathPlayer.play();
 				scene = Menu.SETTINGS;
 			}
 			if (GUI.Button (new Rect ((Screen.width)/17, (5*(Screen.height))/8, 200, 100), load_game, ""))
 			{
+				sheathPlayer.play();
 				Application.LoadLevel ("Game");
 			}
 			if (GUI.Button (new Rect (Screen.width-125, Screen.height-Screen.height/8-15, 75, 30), quit, ""))
@@ -70,7 +85,8 @@ public class MainMenu : MonoBehaviour {
 		{
 			volume = GUI.HorizontalSlider (new Rect ((Screen.width)/5+15, (Screen.height)/2+20, 100, 50), volume, 0.0f, 10.0f);
 
-			audio.volume = this.volume;
+//			audio.volume = this.volume;
+			manager.setVolume(VolumeManager.TypeOfAudio.MASTER, volume);
 
 			GUI.Label (new Rect ((Screen.width)/5+10, (Screen.height)/2+45, 200, 100), "MASTER VOLUME");
 
