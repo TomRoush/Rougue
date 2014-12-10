@@ -187,7 +187,7 @@ public class Player : Entities
 			Dungeon.NextFloor();
 			//Application.LoadLevel ("Game");
 		} 
-		if(other.CompareTag("UpStairs") && Input.GetButtonDown("Action"))
+		if(other.CompareTag("UpStairs") && Input.GetButtonDown("Action2"))
 		{
 			Dungeon.PreviousFloor();
 		}
