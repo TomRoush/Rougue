@@ -10,9 +10,10 @@ public class Rage : TimedEffect {
 
 		handleTargetNull ();
         tStat.setSpeedx(tStat.getSpeedx() + 0.6f);
-		tStat.damagex+=3f;
-		tStat.modAttackSpeed+=1.2f;
-		tStat.modHealthRegen+=1f;
+		tStat.damagex+=1.5f;
+		tStat.modAttackSpeed+=1.5f;
+		tStat.modHealthRegen+=1.5f;
+		tStat.modManaRegen += 1.5f;
 		tStat.isRaged = true;
         tStat.refreshStats();
 	}
@@ -20,9 +21,10 @@ public class Rage : TimedEffect {
 	protected override void EndEffect (){
 		handleTargetNull ();
         tStat.setSpeedx(tStat.getSpeedx() - 0.6f);
-		tStat.damagex-=3f;
-		tStat.modAttackSpeed-=1.2f;
-		tStat.modHealthRegen-=1f;
+		tStat.damagex-=1.5f;
+		tStat.modAttackSpeed-=1.5f;
+		tStat.modHealthRegen-=1.5f;
+		tStat.modManaRegen -= 1.5f;
 		tStat.rage = 0;
 		tStat.isRaged = false;
         tStat.refreshStats();

@@ -414,6 +414,10 @@ public class Status : MonoBehaviour {
 	public float getPercentExp(){
 		return 100f * exp / (100f + 10f * (float) level);
 	}
+	
+	public float getPercentRage(){
+		return rage;
+	}
 
 	public float getEffectiveSpeed(){
 		return speedx * effSpeed;
