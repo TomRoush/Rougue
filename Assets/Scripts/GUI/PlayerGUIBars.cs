@@ -18,8 +18,13 @@ public class PlayerGUIBars : MonoBehaviour {
 	private Vector2 size = new Vector2(100,20);
 	private float aboveHeadOffset = 10;
 	private float scaleFactor = .2f;
+    private Status pStat;
+
+    
 
 	void OnGUI(){
+        if(pStat == null)
+            pStat = gameObject.GetComponent<Status>();
 
 		DrawHealthBar ();
 		DrawManaBar ();
@@ -28,7 +33,7 @@ public class PlayerGUIBars : MonoBehaviour {
 		
 	}
 	void DrawHealthBar(){
-		healthFraction = (float)(gameObject.GetComponent<Status>().getPercentHealth()/100f);
+		healthFraction = (float)(pStat.getPercentHealth()/100f);
 		var healthBarWidth = healthBarTexture.width * scaleFactor;
 		var healthBarHeight = healthBarTexture.height * scaleFactor;
 		var currentHealthWidth = healthFraction * healthBarWidth;
@@ -37,7 +42,7 @@ public class PlayerGUIBars : MonoBehaviour {
 	}
 
 	void DrawManaBar(){
-		manaFraction = (float)(gameObject.GetComponent<Status>().getPercentMana()/100f);
+		manaFraction = (float)(pStat.getPercentMana()/100f);
 		var manaBarWidth = manaBarTexture.width * scaleFactor;
 		var manaBarHeight = manaBarTexture.height * scaleFactor;
 		var currentManaWidth = manaFraction * manaBarWidth;
@@ -46,16 +51,16 @@ public class PlayerGUIBars : MonoBehaviour {
 	}
 
 	void DrawRageBar(){
-		rageFraction = 1f;//???
+		rageFraction = (float)(pStat.getPercentRage()/100f);//???
 		var rageBarWidth = rageBarTexture.width * scaleFactor;
 		var rageBarHeight = rageBarTexture.height * scaleFactor;
 		var currentRageWidth = rageFraction * rageBarWidth;
-		GUI.DrawTexture(new Rect(0, aboveHeadOffset + 2*healthBarTexture.height*scaleFactor, currentRageWidth, rageBarHeight), outlineTexture, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(0, aboveHeadOffset + 2*healthBarTexture.height*scaleFactor, rageBarWidth, rageBarHeight), outlineTexture, ScaleMode.StretchToFill);
 		GUI.DrawTexture(new Rect(0, aboveHeadOffset + 2*healthBarTexture.height*scaleFactor, currentRageWidth, rageBarHeight), rageBarTexture, ScaleMode.StretchToFill);
 	}
 
 	void DrawExpBar(){
-		expFraction = (float)(gameObject.GetComponent<Status> ().getPercentExp () / 100f);
+		expFraction = (float)(pStat.getPercentExp () / 100f);
 		var expBarWidth = expBarTexture.width * 3.5f;
 		var expBarHeight = expBarTexture.height ;
 		var currentExpWidth = expFraction * expBarWidth;
