@@ -48,7 +48,7 @@ public abstract class Equipment : MonoBehaviour {
 
     public void Update()
     {
-        if(canBePickedUp && Input.GetButtonDown("Action"))
+        if(canBePickedUp && Input.GetButtonDown("Item"))
         {
             addEquipment();
             Destroy(gameObject);
