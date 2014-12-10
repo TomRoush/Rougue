@@ -36,7 +36,7 @@ public class MakeMap : MonoBehaviour
 
     private int maxFloors=0, maxWalls=0;
 
-	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveItems = new GameObject[0];	
+	public static GameObject[] inactiveEnemies = new GameObject[0], inactiveEquip = new GameObject[0], inactiveItems = new GameObject[0];	
 	
 	void Start () 
 	{
@@ -342,7 +342,20 @@ public class MakeMap : MonoBehaviour
 
 	void ClearItems()
 	    {
-	    	GameObject[] items = GameObject.FindGameObjectsWithTag("Equip");
+	    	GameObject[] equip = GameObject.FindGameObjectsWithTag("Equip");
+	    	GameObject[] tempEquip = new GameObject[equip.Length + inactiveEquip.Length];
+	    	for(int i = 0; i<inactiveEquip.Length; i++)
+	    	{
+	    		if(inactiveEquip[i]!=null) tempEquip[i] = inactiveEquip[i];
+	    	}
+	    	for(int i = 0; i<equip.Length; i++)
+	    	{
+	    		equip[i].SetActive(false);
+	    		tempEquip[i+inactiveEquip.Length] = equip[i];
+	    	}
+	    	inactiveEquip = tempEquip;
+
+	    	GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 	    	GameObject[] tempItems = new GameObject[items.Length + inactiveItems.Length];
 	    	for(int i = 0; i<inactiveItems.Length; i++)
 	    	{
@@ -354,6 +367,7 @@ public class MakeMap : MonoBehaviour
 	    		tempItems[i+inactiveItems.Length] = items[i];
 	    	}
 	    	inactiveItems = tempItems;
+
 	    }
 
     void RefreshEnemies()
