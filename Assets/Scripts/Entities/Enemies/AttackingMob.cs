@@ -71,7 +71,7 @@ public class AttackingMob : Entities {
 
         if(visible)
         {
-            if(getDistance(attackingg) < 5.0f)
+            if(getDistance(attackingg) < 10.0f)
                     {
             this.setDirection(aidirection);
             Move();
@@ -81,7 +81,7 @@ public class AttackingMob : Entities {
             {
                 isBlindlyChasing = true;
             }
-            if(isWandering)
+            if(isWandering && getDistance(attackingg) >= 10.0f)
             {
                 actuallyRePath(attackingg.transform.position);
             }
@@ -145,11 +145,14 @@ public class AttackingMob : Entities {
 
         public void actuallyRePath(Vector3 place)
         {
+                if(MovementAI.lastRepathTime - Time.time < 0.10)
+                {
             ai.fpscounter = 0;
             path = ai.getPath(gameObject.transform.position,place);
             path.pop();
             ai.currentNode = path.pop();
             halfwayPoint = path.length()/2;
+                }
         }
         
 
