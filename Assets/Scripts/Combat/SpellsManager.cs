@@ -79,6 +79,7 @@ public class SpellsManager : MonoBehaviour {
 			}
 		}
 		overlay.Apply();
+		Resources.UnloadUnusedAssets();
 		return overlay;
 	}
 }
