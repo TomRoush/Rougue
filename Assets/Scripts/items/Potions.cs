@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Potions : items {
+public class Potions : MonoBehaviour {
 
 	public string type;
 	public GameObject potionPlayerReference;
-	public items holder;
 	public bool puedoBePickedUp = false;
+    public Status tStat;
 
 	void Start () {
 		if (potionPlayerReference == null) 
 		{
 			potionPlayerReference = GameObject.FindGameObjectWithTag("Player");
-			holder = potionPlayerReference.GetComponent<items>();
+            tStat = potionPlayerReference.GetComponent<Status>();
 		}
 	}
 	
@@ -43,7 +43,11 @@ public class Potions : items {
 		{
 			if (Input.GetKeyDown (KeyCode.Space))
 			{
-				holder.numHealthPotions++;
+                GameObject hot = Resources.Load("BuffRegen") as GameObject;
+                hot.GetComponent<TimedEffect>().target = potionPlayerReference;
+                hot.GetComponent<BuffRegen>().healthBuff = tStat.getMaxHealth()/2;
+                hot.GetComponent<BuffRegen>().manaBuff = tStat.getMaxMana()/2;
+			    GameObject.Instantiate(hot,potionPlayerReference.transform.position, Quaternion.identity);	
 				Destroy(this.gameObject);
 			}
 			
