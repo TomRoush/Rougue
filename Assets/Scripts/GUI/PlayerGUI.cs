@@ -32,6 +32,10 @@ public class PlayerGUI : MonoBehaviour {
 	private int message;
 	// end of death messages
 
+	// pause menu buttons
+	private Texture2D cont;
+	private Texture2D menu;
+
 	private GUIStyle currentStyle = null;
 
 	private float alpha = 1.0f;
@@ -41,6 +45,9 @@ public class PlayerGUI : MonoBehaviour {
 		this.player = player;
 		this.paused = player.paused;
 		this.alive = player.alive;
+
+		menu = Resources.Load ("Artwork/InGame/ingame_mainmenu") as Texture2D;
+		cont = Resources.Load ("Artwork/InGame/ingame_continue") as Texture2D;
 
 		decimated = Resources.Load ("Artwork/InGame/death_messages/decimated") as Texture2D;
 		devoured = Resources.Load ("Artwork/InGame/death_messages/devoured") as Texture2D;
@@ -74,13 +81,13 @@ public class PlayerGUI : MonoBehaviour {
 			GUI.color = temp;
 
 			if(alive) {
-				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)-50, 100, 50), "CONTINUE")) 
+				if(GUI.Button (new Rect(((Screen.width)/2)-90, ((Screen.height)/2)-50, 200, 100), cont, "")) 
 				{
 					this.paused = false;
 					player.paused = false;
 					player.UpdateGameState();
 				}
-				if(GUI.Button (new Rect(((Screen.width)/2)-50, ((Screen.height)/2)+50, 100, 50), "SAVE & QUIT")) 
+				if(GUI.Button (new Rect(((Screen.width)/2)-90, ((Screen.height)/2)+50, 200, 100), menu, "")) 
 				{
 					Application.LoadLevel("MainMenu");
 				}
@@ -103,7 +110,7 @@ public class PlayerGUI : MonoBehaviour {
 			GUI.color = temp;
 
 			GUI.Label (new Rect(Screen.width/2-88, Screen.height/2-60, 175, 60), messages[message]);
-			if(GUI.Button (new Rect(Screen.width/2-50, Screen.height/2 + 50, 100, 50), "MAIN MENU")) 
+			if(GUI.Button (new Rect(Screen.width/2-90, Screen.height/2 + 40, 200, 100), menu, "")) 
 			{
 				Application.LoadLevel("MainMenu");
 			}
