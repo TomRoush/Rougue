@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy};
+public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy, Potion};
 public enum TileSet {Classic, Cave};
 
 public class MakeMap : MonoBehaviour 
@@ -17,6 +17,7 @@ public class MakeMap : MonoBehaviour
 	public GameObject Necklace;
 	public GameObject Armor;
 	public GameObject Helmet;
+    public GameObject Potion;
 
 	public GameObject eGhost;
     public GameObject eRat;
@@ -78,6 +79,16 @@ public class MakeMap : MonoBehaviour
         {
             Spawning.SpawnEnemies(map,1,SpawnAppropriateEnemy(DungeonFloor),PlayerInstance);
         }
+    }
+
+    public void SpawnPotion(TileMapData map, int x, int y, float z) //x and y of tile
+    {
+       if(map.GetTileAt(x-1,y) == eTile.Floor)
+    	Instantiate(Potion, new Vector3( x-1,y ,z ), Quaternion.identity);
+         else if(map.GetTileAt(x+1,y) == eTile.Floor)
+    	Instantiate(Potion, new Vector3( x+1,y ,z ), Quaternion.identity);
+        
+        
     }
 
         /*
@@ -151,12 +162,17 @@ public class MakeMap : MonoBehaviour
 				{
 					if(!toPrevFloor) PlayerInstance.transform.position =  tilePos;
 					tile = Instantiate(UpStairs, tilePos, Quaternion.identity) as GameObject;
-					/*if(tile != null) {*/ tile.GetComponent<TileSetChanger>().setTile(map.set); //}
+					/*if(tile != null) {*/  tile.GetComponent<TileSetChanger>().setTile(map.set); //}
 					tile = Instantiate(Floor, tilePos, Quaternion.identity) as GameObject;
 				}
 				else if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					if(toPrevFloor) PlayerInstance.transform.position =  tilePos;
+                    else {
+
+
+                        SpawnPotion(map,x,y,Floor.transform.position.z);
+                    }
 					tile = Instantiate(Goal, tilePos, Quaternion.identity) as GameObject;
 				}
 				
@@ -201,6 +217,7 @@ public class MakeMap : MonoBehaviour
 				if(map.GetTileAt(x,y) == eTile.Goal)
 				{
 					if(toPrevFloor) PlayerInstance.transform.position =  tilePos;
+                    else SpawnPotion(map,x,y,Floor.transform.position.z);
 					GameObject.FindGameObjectWithTag("goal").transform.position = tilePos;
 				}
 				if(map.GetTileAt(x,y) == eTile.Player)
