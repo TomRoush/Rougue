@@ -182,8 +182,8 @@ public class MakeMap : MonoBehaviour
 		if(!toPrevFloor) 
         {
             EnemySpawningDifficulty(map, numEnemies);
+            SpawnItem(map);
         }
-        SpawnItem(map);
 	}
 
 	public void MoveMap(TileMapData tmd)
@@ -274,7 +274,7 @@ public class MakeMap : MonoBehaviour
 			//Destroy(allWallTiles[i]);
 		}
 		RefreshEnemies();
-		SpawnItem(map);
+		if(!toPrevFloor) SpawnItem(map);
 	}
 
     public void NextFloor()//called when player hits action on downstairs
