@@ -14,6 +14,7 @@ public class MovementAI {
 	public int fpscounter = 0;
     public int fpsreset;
 	public Node currentNode;
+    public static float lastRepathTime;
 
 	public MovementAI(eTile[,] mapdata) {
         fpsreset = UnityEngine.Random.Range(-2,2)+40;
@@ -47,6 +48,8 @@ public class MovementAI {
 		
 		// Get the path and spawn balls to indicate the path
 		aipath = new AIPath (current);
+        if(aipath != null)
+            lastRepathTime = Time.time;
 		return aipath;
 	}
 
