@@ -80,7 +80,11 @@ public class AttackingMob : Entities {
             else
             {
                 isBlindlyChasing = true;
-                }
+            }
+            if(isWandering)
+            {
+                actuallyRePath(attackingg.transform.position);
+            }
   
             isWandering = false;
             lastTimeSeen = Time.time;
