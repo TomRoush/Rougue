@@ -41,7 +41,7 @@ public class Potions : MonoBehaviour {
 		if (puedoBePickedUp) 
 			
 		{
-			if (Input.GetKeyDown (KeyCode.Space))
+			if (Input.GetButtonDown("Item"))
 			{
                 GameObject hot = Resources.Load("BuffRegen") as GameObject;
                 hot.GetComponent<TimedEffect>().target = potionPlayerReference;
