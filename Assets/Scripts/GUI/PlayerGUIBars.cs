@@ -113,10 +113,10 @@ public class PlayerGUIBars : MonoBehaviour {
 		var expBarWidth = getBW();
 		var expBarHeight = TotalH * pXPH;
 		var currentExpWidth = expFraction * expBarWidth;
-        int xpX =  getBX();
-        int xpY = getBY();
-		GUI.DrawTexture(new Rect(xpX, xpY, expBarWidth, expBarHeight), expOutlineTexture, ScaleMode.StretchToFill);
-		GUI.DrawTexture(new Rect(xpX, xpY, currentExpWidth, expBarHeight), expBarTexture, ScaleMode.StretchToFill);
+        float xpX =  getBX();
+        float xpY =  TotalH * pHGap;
+		GUI.DrawTexture(new Rect(xpX , xpY + TotalY, expBarWidth, expBarHeight), expOutlineTexture, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(xpX , xpY + TotalY, currentExpWidth, expBarHeight), expBarTexture, ScaleMode.StretchToFill);
 	}
 
 	void DrawBackground(){
