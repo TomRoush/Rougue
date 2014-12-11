@@ -45,10 +45,10 @@ public class SpellsManager : MonoBehaviour {
 		}
 		spells = infoList.ToArray();
 
-//        Debug.Log("h" + boxH);
-//        Debug.Log("w"+boxW);
-//        Debug.Log("x"+boxX);
-//        Debug.Log("y"+boxY);
+		boxH = playerBars.getBH();
+		boxW = playerBars.getBW();
+		boxX = playerBars.getBX();
+		boxY = playerBars.getBY();
 	}
 	
 	// Update is called once per frame
@@ -60,13 +60,8 @@ public class SpellsManager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-        boxH = playerBars.getBH();
-        boxW = playerBars.getBW();
-        boxX = playerBars.getBX();
-        boxY = playerBars.getBY();
         GUI.depth = -10;
-        int size = (int)(1.5f * Mathf.Min(((boxW) / 4), (boxH)));
-		Debug.Log(size);
+        int size = (int)(Mathf.Min(((boxW) / 4), (boxH)));
 		for(int i = 0; i < spells.Length; i++) {
 			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
 			GUI.DrawTexture(new Rect(boxX + i * size + i * 5 - size / 4, boxY - size / 2, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
