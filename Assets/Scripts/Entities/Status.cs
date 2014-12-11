@@ -123,6 +123,7 @@ public class Status : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		floor = GameObject.FindGameObjectWithTag ("MapGen").GetComponent<MakeMap> ().DungeonFloor;
 		if (gameObject.tag == "Enemy") {
 			level = Random.Range (floor, floor+5);
             enemyLevelStats();
