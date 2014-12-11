@@ -33,6 +33,8 @@ public class PlayerGUIBars : MonoBehaviour {
  public float pHBars; // = 0.9f; // p for percent
  public float pHT;
 
+ public float pXPH;
+ 
  public float pHAction;
 
  public int getBX()
@@ -108,11 +110,11 @@ public class PlayerGUIBars : MonoBehaviour {
 
 	void DrawExpBar(){
 		expFraction = (float)(pStat.getPercentExp () / 100f);
-		var expBarWidth = expBarTexture.width * 5f;
-		var expBarHeight = expBarTexture.height ;
+		var expBarWidth = getBW();
+		var expBarHeight = TotalH * pXPH;
 		var currentExpWidth = expFraction * expBarWidth;
-        int xpX =  Screen.width / 2  - (int) expBarWidth/2;
-        int xpY = Screen.height - 50  - (int) expBarHeight;
+        int xpX =  getBX();
+        int xpY = getBY();
 		GUI.DrawTexture(new Rect(xpX, xpY, expBarWidth, expBarHeight), expOutlineTexture, ScaleMode.StretchToFill);
 		GUI.DrawTexture(new Rect(xpX, xpY, currentExpWidth, expBarHeight), expBarTexture, ScaleMode.StretchToFill);
 	}
