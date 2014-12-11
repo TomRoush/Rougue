@@ -49,10 +49,10 @@ public class SpellsManager : MonoBehaviour {
         boxW = playerBars.getBW();
         boxX = playerBars.getBX();
         boxY = playerBars.getBY();
-        Debug.Log(boxH);
-        Debug.Log(boxW);
-        Debug.Log(boxX);
-        Debug.Log(boxY);
+//        Debug.Log("h" + boxH);
+//        Debug.Log("w"+boxW);
+//        Debug.Log("x"+boxX);
+//        Debug.Log("y"+boxY);
 	}
 	
 	// Update is called once per frame
@@ -65,10 +65,11 @@ public class SpellsManager : MonoBehaviour {
 	
 	void OnGUI() {
         GUI.depth = -10;
-        int size = (int) (boxW - boxGp*4*boxW);
+        int size = (int) (boxH);
+		Debug.Log(size);
 		for(int i = 0; i < spells.Length; i++) {
 			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
-			GUI.DrawTexture(new Rect(boxX + i*boxGp*boxW+ i * size, boxY, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 5.0f);
+			GUI.DrawTexture(new Rect(boxX + i * size + i * 15, boxY, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
 			
 			// Clean up texture references
 			Texture2D[] textures = FindObjectsOfType(typeof(Texture2D)) as Texture2D[];
