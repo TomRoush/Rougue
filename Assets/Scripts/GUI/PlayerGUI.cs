@@ -36,7 +36,7 @@ public class PlayerGUI : MonoBehaviour {
 	private Texture2D cont;
 	private Texture2D menu;
 
-	private GUIStyle currentStyle = null;
+	public GUIStyle currentStyle = null;
 
 	private float alpha = 1.0f;
 
@@ -60,10 +60,13 @@ public class PlayerGUI : MonoBehaviour {
 		message = (int) Random.Range (0f, 2f);
 
 		background = Resources.Load ("Artwork/Main_Menu/black") as Texture2D;
+		currentStyle = (Resources.Load ("GameOver") as GUISkin).label;
 	}
 
 	public void onGUI()
 	{
+		GUI.Label(new Rect(Screen.width - 150, 0, 150, 100), "Floor: " + (1 + GameObject.FindGameObjectWithTag("MapGen").GetComponent<MakeMap>().DungeonFloor), currentStyle);
+
 		if (paused) 
 		{
 			alpha = Mathf.Clamp01(.65f);
