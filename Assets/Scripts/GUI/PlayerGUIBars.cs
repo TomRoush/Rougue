@@ -33,8 +33,26 @@ public class PlayerGUIBars : MonoBehaviour {
  public float pHBars; // = 0.9f; // p for percent
  public float pHT;
 
+ public float pHAction;
 
+ public int getBX()
+ {
+    return (int) (TotalX+TotalW/2 - TotalW*pWAction/2);
+ }
 
+ public int getBY()
+ {
+
+     return (int) (TotalY + (TotalH - pHAction*TotalH - pHGap*TotalH));
+ }
+ public int getBW()
+ {
+    return (int) (TotalW * pWAction);
+ }
+ public int getBH()
+ {
+    return (int) (TotalH*pHAction);
+ }
  void Start() {
      TotalX = Screen.width / 4;
      TotalW = Screen.width/2;

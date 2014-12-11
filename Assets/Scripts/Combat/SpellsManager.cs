@@ -6,6 +6,12 @@ public class SpellsManager : MonoBehaviour {
 	private SpellInfo[] spells;
 	
 	private Color overlayColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+    private PlayerGUIBars playerBars;
+    private int boxH;
+    private int boxW;
+    private int boxX;
+    private int boxY;
+    public float boxGp;
 	
 	public struct SpellInfo {
 		public Spell<GameObject> spell;
@@ -15,6 +21,7 @@ public class SpellsManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+        playerBars = GetComponent<PlayerGUIBars>();
 		List<SpellInfo> infoList = new List<SpellInfo>();
 		if(GetComponent<Player>().AutoTarget != null) {
 			SpellInfo info = new SpellInfo();
@@ -37,6 +44,11 @@ public class SpellsManager : MonoBehaviour {
 			infoList.Add(info);
 		}
 		spells = infoList.ToArray();
+
+        boxH = playerBars.getBH();
+        boxW = playerBars.getBW();
+        boxX = playerBars.getBX();
+        boxY = playerBars.getBY();
 	}
 	
 	// Update is called once per frame
@@ -48,9 +60,10 @@ public class SpellsManager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
+        int size = (int) (boxW - boxGp*4*boxW);
 		for(int i = 0; i < spells.Length; i++) {
-			int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
-			GUI.DrawTexture(new Rect(Screen.width / 2 + (6 + size) * (i - 2), Screen.height - size - 10, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
+			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
+			GUI.DrawTexture(new Rect(boxX + i*boxGp*boxW+ i * size, boxY, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
 			
 			// Clean up texture references
 			Texture2D[] textures = FindObjectsOfType(typeof(Texture2D)) as Texture2D[];
