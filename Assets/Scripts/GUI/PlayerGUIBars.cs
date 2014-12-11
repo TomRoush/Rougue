@@ -55,7 +55,7 @@ public class PlayerGUIBars : MonoBehaviour {
  {
     return (int) (TotalH*pHAction);
  }
- void Start() {
+ void Awake() {
      TotalX = Screen.width / 4;
      TotalW = Screen.width/2;
      TotalH = (int) (Screen.height * pHT);
