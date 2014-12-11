@@ -69,7 +69,7 @@ public class SpellsManager : MonoBehaviour {
 		Debug.Log(size);
 		for(int i = 0; i < spells.Length; i++) {
 			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
-			GUI.DrawTexture(new Rect(boxX + i * size + i * 15, boxY, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
+			GUI.DrawTexture(new Rect(boxX + i * size + i * 15, boxY - size / 2, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
 			
 			// Clean up texture references
 			Texture2D[] textures = FindObjectsOfType(typeof(Texture2D)) as Texture2D[];
