@@ -145,7 +145,7 @@ public class Player : Entities
 			}
 		}
 		
-		if(gameObject.GetComponent<Status> ().getHealth() <= 0 && Time.time > 1)
+		if(gameObject.GetComponent<Status>() != null && gameObject.GetComponent<Status> ().getHealth() <0)
 		{
 			Die();		
 		}
