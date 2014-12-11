@@ -21,7 +21,27 @@ public class PlayerGUIBars : MonoBehaviour {
 	private float scaleFactor = .2f;
     private Status pStat;
 
-    
+    private int TotalX;
+   private int TotalY;
+  private int TotalW;
+ private int TotalH; 
+ public float pWAction;// = 0.5f;
+ public float pWGap; //= 0.05f; //space between bars
+ public float pHGap;
+ public float pWOGap; //= 0.05f; //space between bars and edge of screen
+ public float pHOGap;
+ public float pHBars; // = 0.9f; // p for percent
+ public float pHT;
+
+
+
+ void Start() {
+     TotalX = Screen.width / 4;
+     TotalW = Screen.width/2;
+     TotalH = (int) (Screen.height * pHT);
+     TotalY = Screen.height - TotalH;
+ }
+
 
 	void OnGUI(){
         if(pStat == null)
@@ -37,35 +57,35 @@ public class PlayerGUIBars : MonoBehaviour {
 	}
 	void DrawHealthBar(){
 		healthFraction = (float)(pStat.getPercentHealth()/100f);
-		var healthBarWidth = healthBarTexture.width * scaleFactor;
-		var healthBarHeight = healthBarTexture.height * scaleFactor;
+		var healthBarWidth = TotalW *(1-pWAction - 2*pWGap - 2*pWOGap)/2;
+		var healthBarHeight = TotalH * (1-2*pHOGap);
 		var currentHealthWidth = healthFraction * healthBarWidth;
-        int hpX = Screen.width / 4;
-        int hpY = Screen.height - 10 - (int )healthBarHeight;
-		GUI.DrawTexture(new Rect(hpX, hpY, healthBarWidth, healthBarHeight), outlineTexture, ScaleMode.StretchToFill);
-		GUI.DrawTexture(new Rect(hpX, hpY, currentHealthWidth, healthBarHeight), healthBarTexture, ScaleMode.StretchToFill);
+        float hpX = TotalW * pWOGap;
+        float hpY = TotalH * pHOGap;
+		GUI.DrawTexture(new Rect(hpX+TotalX, hpY+TotalY, healthBarWidth, healthBarHeight), outlineTexture, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(hpX+TotalX, hpY+TotalY, currentHealthWidth, healthBarHeight), healthBarTexture, ScaleMode.StretchToFill);
 	}
 
 	void DrawManaBar(){
 		manaFraction = (float)(pStat.getPercentMana()/100f);
-		var manaBarWidth = manaBarTexture.width * scaleFactor;
-		var manaBarHeight = manaBarTexture.height * scaleFactor *0.75f ;
+		var manaBarWidth = TotalW *(1-pWAction - 2*pWGap - 2*pWOGap)/2;
+		var manaBarHeight = TotalH * (1-2*pHOGap-pHGap)/2;
 		var currentManaWidth = manaFraction * manaBarWidth;
-        int manaX = 3* Screen.width / 4 - (int) manaBarWidth;
-        int manaY = Screen.height - 6 - (int )manaBarHeight * 2;
-		GUI.DrawTexture(new Rect(manaX, manaY, manaBarWidth, manaBarHeight), outlineTexture, ScaleMode.StretchToFill);
-		GUI.DrawTexture(new Rect(manaX, manaY, currentManaWidth, manaBarHeight), manaBarTexture, ScaleMode.StretchToFill);
+        float manaX = TotalW - (TotalW*pWOGap) - manaBarWidth;
+        float manaY = (TotalH * pHOGap);
+		GUI.DrawTexture(new Rect(manaX + TotalX, TotalY+manaY, manaBarWidth, manaBarHeight), outlineTexture, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(TotalX + manaX, TotalY + manaY, currentManaWidth, manaBarHeight), manaBarTexture, ScaleMode.StretchToFill);
 	}
 
 	void DrawRageBar(){
 		rageFraction = (float)(pStat.getPercentRage()/100f);//???
-		var rageBarWidth = rageBarTexture.width * scaleFactor;
-		var rageBarHeight = rageBarTexture.height * scaleFactor * 0.75f;
+		var rageBarWidth = TotalW *(1-pWAction - 2*pWGap - 2*pWOGap)/2;
+		var rageBarHeight = TotalH * (1-2*pHOGap-pHGap)/2;
 		var currentRageWidth = rageFraction * rageBarWidth;
-        int rageX = 3* Screen.width / 4 - (int) rageBarWidth;
-        int rageY = Screen.height - 3 - (int) rageBarHeight;
-		GUI.DrawTexture(new Rect(rageX, rageY, rageBarWidth, rageBarHeight), outlineTexture, ScaleMode.StretchToFill);
-		GUI.DrawTexture(new Rect(rageX, rageY, currentRageWidth, rageBarHeight), rageBarTexture, ScaleMode.StretchToFill);
+        float rageX = TotalW - (TotalW*pWOGap) -  rageBarWidth;
+        float rageY = (TotalH *pHOGap +  pHGap*TotalH + rageBarHeight);
+		GUI.DrawTexture(new Rect(rageX + TotalX, rageY+TotalY, rageBarWidth, rageBarHeight), outlineTexture, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(rageX + TotalX, rageY+TotalY, currentRageWidth, rageBarHeight), rageBarTexture, ScaleMode.StretchToFill);
 	}
 
 	void DrawExpBar(){
@@ -80,11 +100,7 @@ public class PlayerGUIBars : MonoBehaviour {
 	}
 
 	void DrawBackground(){
-        int X =  Screen.width / 4  - 10;
-        int Y = Screen.height - 60;
-		var BarWidth = finalbackground.width * 0.75f ;
-		var BarHeight = 60;
 		
-		GUI.DrawTexture(new Rect(X, Y, BarWidth, BarHeight), finalbackground, ScaleMode.StretchToFill);
+		GUI.DrawTexture(new Rect(TotalX, TotalY, TotalW, TotalH), finalbackground, ScaleMode.StretchToFill);
 	}
 }
