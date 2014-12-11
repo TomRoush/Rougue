@@ -25,11 +25,11 @@ public class Mudball : Spell<GameObject> {
 		switch (level)
 		{
 		case 1:
-			manaCost = 10;
+			manaCost = 9;
 			coolDown = 7;
 			break;
 		case 2:
-			manaCost = 9;
+			manaCost = 8;
 			coolDown = 5;
 			break;
 		default:
@@ -58,7 +58,7 @@ public class Mudball : Spell<GameObject> {
 			Quaternion rotation = Quaternion.identity;
 			rotation.eulerAngles = new Vector3(0, 0, angle);
 			GameObject mball = GameObject.Instantiate (mudball, player.transform.position + 100*toward/toward.sqrMagnitude, rotation) as GameObject;
-			mball.GetComponent<DestroyMudball>().Initialize(player.GetComponent<Status>().getIntelligence());
+			mball.GetComponent<DestroyMudball>().Initialize(5+player.GetComponent<Status>().getIntelligence());
 			mball.GetComponent<Rigidbody2D>().AddForce(toward);
 
 		}
