@@ -65,11 +65,11 @@ public class SpellsManager : MonoBehaviour {
 	
 	void OnGUI() {
         GUI.depth = -10;
-        int size = (int) Mathf.Max(((boxW + 15) / 4) * 0.9f, (boxH - 10) * 0.9f);
+        int size = (int)(1.5f * Mathf.Min(((boxW) / 4), (boxH)));
 		Debug.Log(size);
 		for(int i = 0; i < spells.Length; i++) {
 			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
-			GUI.DrawTexture(new Rect(boxX + i * size + i * 10 - size / 4, boxY - size / 2, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
+			GUI.DrawTexture(new Rect(boxX + i * size + i * 5 - size / 4, boxY - size / 2, size, size), spells[i].appliedTexture, ScaleMode.ScaleToFit, true, 1.0f);
 			
 			// Clean up texture references
 			Texture2D[] textures = FindObjectsOfType(typeof(Texture2D)) as Texture2D[];
