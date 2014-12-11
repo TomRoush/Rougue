@@ -44,7 +44,7 @@ Map randomly generates various rooms and halls.
 The map style includes two sets of terrain. 
 
 User Interface: 
-Game has a main menu. 
+Game has a main menu with volume settings. 
 UI displays the user's health, mana, rage, and experience in bars. 
 Each enemy also has its own mini-healthbar! 
 Shows the player's skills and cooldowns. 
