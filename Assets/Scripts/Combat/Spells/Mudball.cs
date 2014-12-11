@@ -26,7 +26,7 @@ public class Mudball : Spell<GameObject> {
 		{
 		case 1:
 			manaCost = 9;
-			coolDown = 6;
+			coolDown = 7;
 			break;
 		case 2:
 			manaCost = 8;
