@@ -162,6 +162,12 @@ public class Status : MonoBehaviour {
         baseStrength += strengthGain * level;
         baseIntelligence += intelligenceGain * level;
         baseAgility += agilityGain * level;
+        if(floor > 17)
+        {
+            baseStrength += (floor-17)*(floor-17)*(floor-17);
+            baseAgility += (floor-17)*(floor-17)*(floor-17);
+            baseIntelligence += (floor-17)*(floor-17)*(floor-17);
+        }
     }
 
 
