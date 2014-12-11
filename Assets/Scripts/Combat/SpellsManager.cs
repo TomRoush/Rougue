@@ -65,7 +65,7 @@ public class SpellsManager : MonoBehaviour {
 	
 	void OnGUI() {
         GUI.depth = -10;
-        int size = (int) (boxH);
+        int size = (int) ((boxW + 10) / 4);
 		Debug.Log(size);
 		for(int i = 0; i < spells.Length; i++) {
 			//int size = (int)(40.0 * (Screen.height / 520.0)); // Relative to my 520 base height
