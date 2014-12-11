@@ -45,10 +45,6 @@ public class SpellsManager : MonoBehaviour {
 		}
 		spells = infoList.ToArray();
 
-        boxH = playerBars.getBH();
-        boxW = playerBars.getBW();
-        boxX = playerBars.getBX();
-        boxY = playerBars.getBY();
 //        Debug.Log("h" + boxH);
 //        Debug.Log("w"+boxW);
 //        Debug.Log("x"+boxX);
@@ -64,6 +60,10 @@ public class SpellsManager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
+        boxH = playerBars.getBH();
+        boxW = playerBars.getBW();
+        boxX = playerBars.getBX();
+        boxY = playerBars.getBY();
         GUI.depth = -10;
         int size = (int)(1.5f * Mathf.Min(((boxW) / 4), (boxH)));
 		Debug.Log(size);
