@@ -162,11 +162,11 @@ public class Status : MonoBehaviour {
         baseStrength += strengthGain * level;
         baseIntelligence += intelligenceGain * level;
         baseAgility += agilityGain * level;
-        if(floor > 17)
+        if(floor > 15)
         {
-            baseStrength += (floor-17)*(floor-17)*(floor-17);
-            baseAgility += (floor-17)*(floor-17)*(floor-17);
-            baseIntelligence += (floor-17)*(floor-17)*(floor-17);
+            baseStrength += (int) (Mathf.Pow(2,(floor-15));
+            baseAgility += (int) (Mathf.Pow(2,(floor-15));
+            baseIntelligence += (int) (Mathf.Pow(2,(floor-15));
         }
     }
 
