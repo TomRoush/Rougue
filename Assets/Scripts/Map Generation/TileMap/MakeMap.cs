@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public enum eTile {Unknown, dConnectedFloor, dConvertedFiller, Floor, Wall, Filler, Player, Goal, Enemy, Potion};
@@ -31,6 +32,7 @@ public class MakeMap : MonoBehaviour
 	private TMDList dungeon = new TMDList(0);
 	private bool toPrevFloor = false;
 
+	private Text floorText;
     public int DungeonFloor;
     GameObject PlayerInstance;
 
@@ -40,6 +42,7 @@ public class MakeMap : MonoBehaviour
 	
 	void Start () 
 	{
+		floorText = GameObject.Find ("FloorText").GetComponent<Text>();
         DungeonFloor = 0;
         enemySpawnTimer = Time.realtimeSinceStartup;
         PlayerInstance = (GameObject) Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
@@ -92,7 +95,6 @@ public class MakeMap : MonoBehaviour
     }
 
         /*
-
             if(DungeonFloor <= 4)
                 Spawning.SpawnEnemies(map, numEnemies, eRat, PlayerInstance);
             if(DungeonFloor == 4)
@@ -103,7 +105,6 @@ public class MakeMap : MonoBehaviour
 				Spawning.SpawnEnemies(map, 1, eDragon, PlayerInstance);
 			if(DungeonFloor > 9)
 				Spawning.SpawnEnemies(map, numEnemies, eDragon, PlayerInstance);
-
                 */
 
 	TileMapData genTMD()
@@ -301,7 +302,7 @@ public class MakeMap : MonoBehaviour
         PlayerInstance.SetActive(true);
         float endTime = Time.realtimeSinceStartup;
 		Debug.Log(endTime-startTime + "seconds loadtime");
-		Debug.Log("DungeonFloor: " + DungeonFloor);
+		floorText.text = "Floor: " + (1 + DungeonFloor);
     }
 
     public void PreviousFloor()//called when player hits action on upstairs
@@ -319,6 +320,7 @@ public class MakeMap : MonoBehaviour
 	        float endTime = Time.realtimeSinceStartup;
 			Debug.Log(endTime-startTime + "seconds loadtime");
 			Spawning.RespawnEnemies(DungeonFloor);
+			floorText.text = "Floor: " + (1 + DungeonFloor);
 	    }
 	    else Debug.Log("You are on the top floor");
     }
