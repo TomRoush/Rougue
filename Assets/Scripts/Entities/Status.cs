@@ -283,7 +283,9 @@ public class Status : MonoBehaviour {
 
 		autoAttack();
 
-		healthSlider.value = (float)(getPercentHealth() / 100f);
+		if(healthSlider != null) {
+			healthSlider.value = (float)(getPercentHealth() / 100f);
+		}
 	}
 
 	public void MagicDamage(float d) {
